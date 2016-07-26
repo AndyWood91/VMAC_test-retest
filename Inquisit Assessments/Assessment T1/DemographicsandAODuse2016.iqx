@@ -1,0 +1,921 @@
+﻿<radiobuttons gender>
+/caption = "What is your gender?"
+/ options = ("Male", "Female")
+/optionvalues = ("0", "1")
+/orientation =vertical
+/required = true
+</radiobuttons>
+
+<textbox age>
+/ caption = "How old are you?"
+/ mask = positiveinteger
+/ range = (7, 110)
+</textbox>
+
+<radiobuttons ATSI>
+/caption = "Are you of Aboriginal or Torres Strait Islander origin?"
+/ options = ("No", "Yes, Aboriginal", "Yes, Torres Strait Islander", "Yes, Aboriginal & Torres Strait Islander")
+/ optionvalues = ("0", "1", "2", "3")
+/orientation =vertical
+/required = true
+</radiobuttons>
+
+<radiobuttons Aus>
+/caption = "In what country were you born?"
+/ options = ("Australia", "Other")
+/ optionvalues = ("0", "1")
+/orientation =vertical
+/required = true
+</radiobuttons>
+
+
+<checkboxes meds>
+/ caption = "Are you currently taking any of the following medications? (select all that apply)"
+/ options = ("Antipsychotics (e.g., Zyprexa, Seroquel)", "Antidepressants (e.g., Zoloft, Effexor, Aropax)", "Lithium", "Anticonvulsants (e.g., Epilim)", "Ritalin or dexamphetamine (or similar stimulant medication used for the treatment of ADHD)", "No, I am not taking any of the above medications") 
+/orientation =vertical
+/required = true
+</checkboxes>
+
+<checkboxes childhood>
+/caption = "Were you ever diagnosed with any of the following conditions in childhood?"
+/options = ("Attention Deficit Hyperactivity Disorder (ADHD or ADD)", "Conduct disorder", "Learning disability (e.g.,  dyslexia)", "No, I was not diagnosed with any of the above conditions in childhood")
+/orientation =vertical
+/required = true
+</checkboxes>
+
+<radiobuttons other1>
+/caption = "Consider which hand you use for activities such as writing, throwing a ball, brushing your teeth, cutting with a knife and so forth. Do you: (check one alternative)" 
+/ options = ("Use your right hand nearly all of the time?", "Use your right hand more than half of the time?", "Use your right hand and left hand about equally?","Use your left hand more than half of the time?","Use your left hand nearly all of the time?")
+/ optionvalues = ("0", "1", "2", "3", "4")
+/orientation =vertical
+/required = true
+</radiobuttons>
+
+<radiobuttons other2>
+/caption = "Has anyone in your family (i.e., parents, siblings, aunts, uncles, grandparents) ever been diagnosed with schizophrenia or schizoaffective disorder?"
+/ options = ("No / I don't know", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =vertical
+/required = true
+</radiobuttons>
+
+<checkboxes family>
+/caption = "Please specifiy their relation to you (select all that apply):"
+/ options = ("Mother", "Father", "Brother", "Sister", "Uncle", "Aunt", "Grandmother", "Grandfather", "Other")
+/orientation =vertical
+/required = true
+</checkboxes>
+
+<surveypage demographics1>
+/ showquestionnumbers = true
+/ questions = [1=gender; 2=age] 
+</surveypage>
+
+
+<surveypage demographics8>
+/ questions = [1=other1] 
+</surveypage>
+
+<surveypage demographics6>
+/ questions = [1=meds; 2=childhood] 
+</surveypage>
+
+<surveypage demographics5>
+/ questions = [1=other2]
+/ branch = [if (radiobuttons.other2.response=="1")surveypage.demographics7]
+</surveypage>
+
+<surveypage demographics7>
+/skip = [radiobuttons.other2.response=="0"]
+/ questions = [1=family]
+</surveypage>
+
+<surveypage endDEMO>
+/caption = "Press Next to continue to the next section"
+/ fontstyle = ("Arial", 4%)
+</surveypage>
+
+<surveypage introDRUGS>
+/ subcaption = "The following questions will ask you about your use of tobacco, alcohol, and other drugs. 
+Your answers will remain confidential so please be as accurate as possible.
+Click Next to begin."
+/ subcaptionfontstyle = ("Arial", 4%)
+</surveypage>
+
+<radiobuttons q1tob>
+/ caption = "Have you ever smoked a full cigarette?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2tob>
+/ caption = "How old were you when you smoked your first full cigarette?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+<radiobuttons q3tob>
+/ caption = "Have you used tobacco (cigarettes, cigars, pipe tobacco) in the last year?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q3tob7>
+/ caption = "How often have you used tobacco in the last year?"
+/options = ("Daily", "Once a week or more", "About once a month", "Less than once a month")
+/optionvalues = ("4","3","2","1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q4tob>
+/ caption = "Have you used tobacco in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5tob>
+/ caption = "How many days in the last month did you use tobacco?"
+/ mask = positiveinteger
+/ required = true
+/ range = (1, 31)
+</textbox>
+
+<textbox q6tob>
+/ caption = "How many cigarettes, cigars, or pipes, did you have on those days when you did use tobacco?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons q7tob>
+/ caption = "How have you typically smoked tobacco in the last month?"
+/options = ("Cigarettes", "Cigars", "Pipes", "Other")
+/optionvalues = ("1", "2", "3", "4")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timeTOB>
+/caption = "How long has it been since you last smoked tobacco?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1alc>
+/ caption = "Have you ever had a full serve of alcohol? (e.g., a glass of wine, a whole nip of spirits, a glass of beer, etc.)"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2alc>
+/ caption = "How old were you when you had your first full serve of alcohol?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+
+<dropdown qAUDIT1>
+/ caption = "How often do you have a drink containing alcohol?"
+/ options = ("Never","Monthly or less","2 to 4 times a month","2 to 3 times a week","4 or more times a week")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT2>
+/ caption = "How many standard drinks do you have on a typical day when you are drinking?"
+/ options = ("1 or 2 drinks","3 or 4 drinks","5 or 6 drinks","7 to 9 drinks", "10 or more drinks")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT3>
+/ caption = "How often do you have 6 or more standard drinks on one occasion?"
+/ options = ("Never","Less than monthly","Monthly","Weekly", "Daily or almost daily")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT4>
+/ caption = "How often during the last year have you found that you were not able to stop drinking once you had started?"
+/ options = ("Never","Less than monthly","Monthly","Weekly", "Daily or almost daily")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT5>
+/ caption = "How often during the last year have you failed to do what was normally expected of you because of drinking?"
+/ options = ("Never","Less than monthly","Monthly","Weekly", "Daily or almost daily")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT6>
+/ caption = "How often during the last year have you needed a first drink in the morning to get yourself going after a heavy drinking session?"
+/ options = ("Never","Less than monthly","Monthly","Weekly", "Daily or almost daily")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT7>
+/ caption = "How often during the last year have you had a feeling of guilt or remorse after drinking?"
+/ options = ("Never","Less than monthly","Monthly","Weekly", "Daily or almost daily")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<dropdown qAUDIT8>
+/ caption = "How often during the last year have you been unable to remember what happened the night before because you had been drinking?"
+/ options = ("Never","Less than monthly","Monthly","Weekly", "Daily or almost daily")
+/ optionvalues = ("0","1", "2","3","4")
+/ required = true
+</dropdown>
+
+<radiobuttons qAUDIT9>
+/ caption = "Have you or someone else been injured because of your drinking?"
+/ options = ("No","Yes, but not in the past year", "Yes, during the past year")
+/ optionvalues = ("0","2","4")
+/ required = true
+</radiobuttons>
+
+<radiobuttons qAUDIT10>
+/ caption = "Has a relative, friend, doctor, or other health care worker been concerned about your drinking or suggested you cut down?"
+/ options = ("No","Yes, but not in the past year", "Yes, during the past year")
+/ optionvalues = ("0","2","4")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q4alc>
+/ caption = "Have you had an alcoholic drink of any kind in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5alc>
+/ caption = "How many days in the last month did you drink alcohol?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6alc>
+/ caption = "On average, how many standard drinks did you have on those days when you were drinking?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timeALC>
+/caption = "How long has it been since you last had a drink containing alcohol?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+
+<radiobuttons q1can>
+/ caption = "Have you ever used cannabis (marijuana, dope, grass, hash, pot)?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2can>
+/ caption = "How old were you when you first used cannabis?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+<radiobuttons q3can>
+/ caption = "Have you used cannabis in the last year?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+
+<radiobuttons q3can7>
+/ caption = "How often have you used cannabis in the last year?"
+/options = ("Daily", "Once a week or more", "About once a month", "Less than once a month")
+/optionvalues = ("4","3","2","1")
+/ required = true
+</radiobuttons>
+
+
+<radiobuttons q4can>
+/ caption = "Have you used cannabis in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+
+<textbox q5can>
+/ caption = "How many days in the last month did you use cannabis?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6can>
+/ caption = "On average, how many cones, joints, or pipes, did you have on those days when you used cannabis?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<dropdown q7can>
+/ caption = "How have you typically used cannabis in the last month?"
+/options = ("Cones/bongs", "Joints", "Pipes", "Vaporiser", "Other")
+/optionvalues = ("1", "2", "3", "4", "5")
+/ required = true
+</dropdown>
+
+<radiobuttons timeCAN>
+/caption = "How long has it been since you last used cannabis?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<dropdown q1sds>
+/ caption = "Over the last month, did you ever think your use of cannabis was out of control?"
+ /options = ("Never or almost never", "Sometimes", "Often", "Always or nearly always")
+/optionvalues = ("0", "1", "2", "3")
+/ required = true
+</dropdown>
+
+<dropdown q2sds>
+/ caption = "Over the last month, did the prospect of missing a smoke make you very anxious or worried?"
+ /options = ("Never or almost never", "Sometimes", "Often", "Always or nearly always")
+/optionvalues = ("0", "1", "2", "3")
+/ required = true
+</dropdown>
+
+<dropdown q3sds>
+/ caption = "Over the last month, did you worry about your use of cannabis?"
+ /options = ("Not at all", "A little", "Quite a lot", "A great deal")
+/optionvalues = ("0", "1", "2", "3")
+/ required = true
+</dropdown>
+
+<dropdown q4sds>
+/ caption = "Over the last month, did you wish you could stop?"
+ /options = ("Never or almost never", "Sometimes", "Often", "Always or nearly always")
+/optionvalues = ("0", "1", "2", "3")
+/ required = true
+</dropdown>
+
+<dropdown q5sds>
+/ caption = "How difficult would you find it to stop or go without?"
+ /options = ("Not difficult", "Quite difficult", "Very difficult", "Impossible")
+/optionvalues = ("0", "1", "2", "3")
+/ required = true
+</dropdown>
+
+<radiobuttons q1amph>
+/ caption = "Have you ever used amphetamines (speed, wiz, ice)?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2amph>
+/ caption = "How old were you when you first used amphetamines?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+
+<radiobuttons q4amph>
+/ caption = "Have you used amphetamines in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5amph>
+/ caption = "How many days in the last month did you use amphetamines?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6amph>
+/ caption = "On average, how many snorts/pills/hits/pipes did you have on those days when you used amphetamines?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timeAMPH>
+/caption = "How long has it been since you last used amphetamines?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1coca>
+/ caption = "Have you ever used cocaine?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2coca>
+/ caption = "How old were you when you first used cocaine?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+
+
+<radiobuttons q4coca>
+/ caption = "Have you used cocaine in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5coca>
+/ caption = "How many days in the last month did you use cocaine?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6coca>
+/ caption = "On average, how many snorts/hits/pipes did you have on those days when you used cocaine?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timeCOCA>
+/caption = "How long has it been since you last used cocaine?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1opi>
+/ caption = "Have you ever used heroin or another opioid-based drug (e.g., morphine, codeine, etc.) for non-medical purposes?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2opi>
+/ caption = "How old were you when you first used heroin or another opioid-based drug for non-medical purposes?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+
+<radiobuttons q4opi>
+/ caption = "Have you used heroin or another opioid-based drug for non-medical purposes in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5opi>
+/ caption = "How many days in the last month did you use heroin or other opioid-based drug for non-medical purposes?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6opi>
+/ caption = "On average, how many pills/hits/smokes did you have on those days when you used heroin or other opioid-based drug for non-medical purposes?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<checkboxes q7opi>
+/ caption = "Which of the folloing opioid-based products have you used for non-medical purposes in the past month (select all that apply)?"
+/ options = ("Heroin", "Morphine", "Street methadone", "Pethidine", "Codeine", "Oxycodone", "Other")
+/ required = true
+</checkboxes>
+
+<radiobuttons timeOPI>
+/caption = "How long has it been since you last used heroin or other opioid-based product?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+
+<radiobuttons q1tran>
+/ caption = "Have you ever used tranquilisers (e.g., benzos, valium, rohypnol, etc.) for non-medical purposes?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2tran>
+/ caption = "How old were you when you first used tranquilisers for non-medical purposes?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+<radiobuttons q4tran>
+/ caption = "Have you used tranquilisers for non-medical purposes in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5tran>
+/ caption = "How many days in the last month did you use tranquilisers for non-medical purposes?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6tran>
+/ caption = "On average, how many pills did you have on those days?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timeTRAN>
+/caption = "How long has it been since you last used tranquilisers?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1erd>
+/ caption = "Have you ever used ecstasy (or ecstasy-related drugs, e.g., GHB)?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2erd>
+/ caption = "How old were you when you first used ecstasy or related drugs?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+<radiobuttons q4erd>
+/ caption = "Have you used ecstasy or related drugs in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5erd>
+/ caption = "How many days in the last month did you use ecstasy or related drugs?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6erd>
+/ caption = "On average, how many pills did you have on those days when you used ecstasy or related drugs?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timeECST>
+/caption = "How long has it been since you last used ecstasy or related drugs?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1hal>
+/ caption = "Have you ever used hallucinogens (e.g., LSD, trips, magic mushrooms, mushies, angel dust, etc.)?"
+ /options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q2hal>
+/ caption = "How old were you when you first used hallucinogens?"
+/ mask = positiveinteger
+/ range = (2, 110)
+/ required = true
+</textbox>
+
+<radiobuttons q3hal>
+/ caption = "Have you used hallucinogens in the last year?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+
+<radiobuttons q3hal7>
+/ caption = "How often have you used hallucinogens in the last year?"
+/options = ("Daily", "Once a week or more", "About once a month", "Less than once a month")
+/optionvalues = ("4","3","2","1")
+/ required = true
+</radiobuttons>
+
+
+<radiobuttons q4hal>
+/ caption = "Have you used hallucinogens in the last month?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox q5hal>
+/ caption = "How many days in the last month did you use hallucinogens?"
+/ mask = positiveinteger
+/ range = (1, 31)
+/ required = true
+</textbox>
+
+<textbox q6hal>
+/ caption = "On average, how many tabs/pills did you have on those days when you used hallucinogens?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timeHAL>
+/caption = "How long has it been since you last used hallucinogens?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+
+<surveypage tob1>
+/ fontstyle = ("Arial", 4%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1tob]
+/ branch = [if (radiobuttons.q1tob.response=="0")surveypage.alc1; else if (radiobuttons.q1tob.response =="1")surveypage.tob2]
+</surveypage>
+
+<surveypage tob2>
+/ fontstyle = ("Arial", 4%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q2tob; 2=q4tob]
+/ branch = [if (radiobuttons.q4tob.response=="1")surveypage.tob4; else if (radiobuttons.q4tob.response=="0")surveypage.alc1]
+</surveypage>
+
+<surveypage tob4>
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ questions = [1 = q5tob; 2 = q6tob; 3 = q7tob; 4=timeTOB]
+/itemspacing = 3%
+/ branch = [surveypage.alc1]
+</surveypage>
+
+<surveypage alc1>
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 4%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ questions = [1 = q1alc]
+/ branch = [if (radiobuttons.q1alc.response =="1")surveypage.alc2; else if (radiobuttons.q1alc.response =="0")surveypage.can1]
+</surveypage>
+
+<surveypage alc2>
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 4%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ questions = [1 = q2alc]
+/ branch = [surveypage.AUDITa]
+</surveypage>
+
+<surveypage AUDITa>
+/ subcaption = "The following questions are about the past year."
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 3%)
+/ questions = [1 = qAUDIT1;2=qAUDIT2; 3=qAUDIT3; 4=qAUDIT4]
+/ branch = [surveypage.AUDITb]
+</surveypage>
+
+<surveypage AUDITb>
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 3%)
+/ questions = [1 = qAUDIT5;2=qAUDIT6; 3=qAUDIT7; 4=qAUDIT8]
+/ branch = [surveypage.AUDITc]
+</surveypage>
+
+<surveypage AUDITc>
+/ showpagenumbers = false
+/ questions = [1 = qAUDIT9; 2=qAUDIT10]
+/ branch = [surveypage.alc3]
+</surveypage>
+
+<surveypage alc3>
+/ showpagenumbers = false
+/ questions = [1 = q4alc]
+/ branch = [if (radiobuttons.q4alc.response =="1")surveypage.alc4; else if (radiobuttons.q4alc.response =="0")surveypage.can1]
+</surveypage>
+
+<surveypage alc4>
+/ showpagenumbers = false
+/ questions = [1 = q5alc; 2 = q6alc; 3=timeALC]
+/itemspacing = 3%
+/ branch = [surveypage.can1]
+</surveypage>
+
+<surveypage can1>
+/ showpagenumbers = false
+/ questions = [1 = q1can]
+/ branch = [if (radiobuttons.q1can.response =="1")surveypage.can2; else if (radiobuttons.q1can.response =="0")surveypage.amph1]
+</surveypage>
+
+<surveypage can2>
+/ showpagenumbers = false
+/ questions = [1 = q2can; 2=q4can]
+/ branch = [if (radiobuttons.q4can.response =="1")surveypage.can4; else if (radiobuttons.q4can.response =="0")surveypage.amph1]
+</surveypage>
+
+<surveypage can4>
+/ showpagenumbers = false
+/ questions = [1 = q5can; 2 = q6can; 3 = q7can; 4=timeCAN]
+/itemspacing = 3%
+/ branch = [surveypage.sds]
+</surveypage>
+
+<surveypage SDS>
+/ showpagenumbers = false
+/ questions = [1 = q1sds; 2 = q2sds; 3 = q3sds; 4 = q4sds; 5=q5sds]
+/itemspacing = 2%
+/ fontstyle = ("Arial", 3%)
+/responsefontstyle = ("Arial", 3%)
+/ branch = [surveypage.amph1]
+</surveypage>
+
+<surveypage amph1>
+/ showpagenumbers = false
+/ questions = [1 = q1amph]
+/ branch = [if (radiobuttons.q1amph.response=="0")surveypage.coca1; else if (radiobuttons.q1amph.response =="1")surveypage.amph2]
+/itemspacing = 5%
+</surveypage>
+
+<surveypage amph2>
+/ showpagenumbers = false
+/ questions = [1 = q2amph; 2=q4amph]
+/ branch = [if (radiobuttons.q4amph.response=="0")surveypage.coca1; else if (radiobuttons.q4amph.response =="1")surveypage.amph4]
+/itemspacing = 5%
+</surveypage>
+
+
+
+<surveypage amph4>
+/ showpagenumbers = false
+/ questions = [1 = q5amph; 2 = q6amph; 3=timeAMPH]
+/itemspacing = 3%
+/ branch = [surveypage.coca1]
+</surveypage>
+
+<surveypage coca1>
+/ showpagenumbers = false
+/ questions = [1 = q1coca]
+/ branch = [if (radiobuttons.q1coca.response=="0")surveypage.opi1; else if (radiobuttons.q1coca.response =="1")surveypage.coca2]
+/itemspacing = 5%
+</surveypage>
+
+<surveypage coca2>
+/ showpagenumbers = false
+/ questions = [1 = q2coca; 2=q4coca]
+/ branch = [if (radiobuttons.q4coca.response=="0")surveypage.opi1; else if (radiobuttons.q4coca.response =="1")surveypage.coca4]
+</surveypage>
+
+
+<surveypage coca4>
+/ showpagenumbers = false
+/ questions = [1 = q5coca; 2 = q6coca; 3=timeCOCA]
+/ branch = [surveypage.opi1]
+/itemspacing = 3%
+</surveypage>
+
+<surveypage opi1>
+/ subcaption = "For these questions, the term non-medical purposes means not for pain relief but to induce or enhance a drug experience."
+/ subcaptionfontstyle = ("Arial", 2%, true, true)
+/ showpagenumbers = false
+/ questions = [1 = q1opi]
+/ branch = [if (radiobuttons.q1opi.response=="0")surveypage.tran1; else if (radiobuttons.q1opi.response =="1")surveypage.opi2]
+/itemspacing = 5%
+</surveypage>
+
+<surveypage opi2>
+/ subcaption = "For these questions, the term non-medical purposes means not for pain relief but to induce or enhance a drug experience."
+/ subcaptionfontstyle = ("Arial", 2%, true, true)
+/ showpagenumbers = false
+/ questions = [1 = q2opi; 2=q4opi]
+/ branch = [if (radiobuttons.q4opi.response=="0")surveypage.tran1; else if (radiobuttons.q4opi.response =="1")surveypage.opi4]
+</surveypage>
+
+
+<surveypage opi4>
+/ subcaption = "For these questions, the term non-medical purposes means not for pain relief but to induce or enhance a drug experience."
+/ subcaptionfontstyle = ("Arial", 2%, true, true)
+/ showpagenumbers = false
+/ questions = [1 = q5opi; 2 = q6opi; 3=timeOPI]
+/itemspacing = 2%
+/branch = [surveypage.tran1]
+</surveypage>
+
+<surveypage tran1>
+/ subcaption = "For these questions, the term non-medical purposes means not as intended by the prescribing doctor but to induce or enhance a drug experience."
+/ subcaptionfontstyle = ("Arial", 2%, true, true)
+/ showpagenumbers = false
+/ questions = [1 = q1tran]
+/ branch = [if (radiobuttons.q1tran.response=="0")surveypage.erd1; if (radiobuttons.q1tran.response =="1")surveypage.tran2]
+/itemspacing = 5%
+</surveypage>
+
+<surveypage tran2>
+/ subcaption = "For these questions, the term non-medical purposes means not as intended by the prescribing doctor but to induce or enhance a drug experience."
+/ subcaptionfontstyle = ("Arial", 2%, true, true)
+/ showpagenumbers = false
+/ questions = [1 = q2tran; 2=q4tran]
+/ branch = [if (radiobuttons.q4tran.response=="0")surveypage.erd1; if (radiobuttons.q4tran.response =="1")surveypage.tran4]
+</surveypage>
+
+<surveypage tran4>
+/ subcaption = "For these questions, the term non-medical purposes means not as intended by the prescribing doctor but to induce or enhance a drug experience."
+/ subcaptionfontstyle = ("Arial", 2%, true, true)
+/ showpagenumbers = false
+/ questions = [1 = q5tran; 2 = q6tran; 3=timeTRAN]
+/itemspacing = 3%
+/branch = [surveypage.erd1]
+</surveypage>
+
+<surveypage erd1>
+/ showpagenumbers = false
+/ questions = [1 = q1erd]
+/ branch = [if (radiobuttons.q1erd.response=="0")surveypage.hal1; if (radiobuttons.q1erd.response =="1")surveypage.erd2]
+/itemspacing = 5%
+</surveypage>
+
+<surveypage erd2>
+/ showpagenumbers = false
+/ questions = [1 = q2erd; 2= q4erd]
+/ branch = [if (radiobuttons.q4erd.response=="0")surveypage.hal1; if (radiobuttons.q4erd.response =="1")surveypage.erd4]
+</surveypage>
+
+<surveypage erd4>
+/ showpagenumbers = false
+/ questions = [1 = q5erd; 2 = q6erd; 3=timeECST]
+/itemspacing = 3%
+/branch = [surveypage.hal1]
+</surveypage>
+
+<surveypage hal1>
+/ showpagenumbers = false
+/ questions = [1 = q1hal]
+/ branch = [if (radiobuttons.q1hal.response=="0")surveypage.end; if (radiobuttons.q1hal.response =="1")surveypage.hal2]
+/itemspacing = 5%
+</surveypage>
+
+<surveypage hal2>
+/ showpagenumbers = false
+/ questions = [1 = q2hal; 2=q4hal]
+/ branch = [if (radiobuttons.q4hal.response=="0")surveypage.end; if (radiobuttons.q4hal.response =="1")surveypage.hal4]
+</surveypage>
+
+<surveypage hal4>
+/ showpagenumbers = false
+/ questions = [1 = q5hal; 2 = q6hal; 3=timeHAL]
+/ branch = [surveypage.end]
+/itemspacing = 3%
+</surveypage>
+
+
+<surveypage end>
+/caption = "Press Next to continue"
+</surveypage>
+
+<survey AODplus>
+/ pages = [1=demographics1; 2=demographics6; 3=demographics5; 4=demographics8; 5=endDEMO; 6=introDRUGS; 7=tob1]
+/ finishlabel = "Next"
+/ nextlabel = "Next"
+/showbackbutton = false
+/showquestionnumbers = false
+/ nextbuttonposition = (48%, 85%)
+/ backbuttonposition = (38%, 90%)
+/ navigationbuttonfontstyle = ("Arial", 3%, true)
+/ navigationbuttonsize = (8%, 8%)
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 4%)
+/ responsefontstyle = ("Arial", 3%)
+</survey>

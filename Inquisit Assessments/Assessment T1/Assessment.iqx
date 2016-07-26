@@ -1,0 +1,8 @@
+﻿<batch>
+/ file = "DemographicsandAODuse2016.iqx"
+/file = "BIS_BAS.iqx"
+/ file = "OLIFE43a.iqx"
+/file = "BIS.iqx"
+/file = "fetch.iqx"
+/file = "AutomatedOSPAN"
+</batch>

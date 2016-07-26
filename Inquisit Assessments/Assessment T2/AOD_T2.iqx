@@ -1,0 +1,339 @@
+﻿
+<surveypage introDRUGS>
+/ subcaption = "The following questions will ask you about your use of tobacco, alcohol, 
+and other drugs from the time you completed Part 1 of this experiment. 
+Your answers will remain confidential so please be as accurate as possible.
+Click Next to begin."
+/ subcaptionfontstyle = ("Arial", 4%)
+</surveypage>
+
+<textbox days>
+/ caption = "How many days have passed from the time you completed Part 1 of this experiement?"
+/ mask = positiveinteger
+/ range = (1, 50)
+/ required = true
+</textbox>
+
+<radiobuttons q1tob>
+/ caption = "Have you smoked any cigarettes since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<textbox tob2>
+/ caption = "How many cigarettes, in total, have you smoked since then?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timetob>
+/caption = "How long has it been since your last cigarette?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1alc>
+/ caption = "Have you consumed any alcohol since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+
+<textbox alc2>
+/ caption = "How many standard drinks, in total, have you consumed since then?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+<radiobuttons timealc>
+/caption = "How long has it been since your last alcoholic drink?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1cannabis>
+/ caption = "Have you used cannabis since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+
+<textbox cannabis2>
+/ caption = "How many cones/joints, in total, have you smoked since then?"
+/ mask = positiveinteger
+/ range = (1, 200)
+/ required = true
+</textbox>
+
+
+<radiobuttons timecannabis>
+/caption = "How long has it been since you last smoked cannabis?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1amph>
+/ caption = "Have you used amphetamines since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timeamph>
+/caption = "How long has it been since you last used amphetamines?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1coca>
+/ caption = "Have you used cocaine since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timecoca>
+/caption = "How long has it been since you last used cocaine?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1opi>
+/ caption = "Have you used an opioid-based drug (for non-medical reasons) since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timeopi>
+/caption = "How long has it been since you last used an opioid-based drug?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1erd>
+/ caption = "Have you used ecstasy (or an ecstasy-related drug, like GBH) since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timeerd>
+/caption = "How long has it been since you last used ecstasy (or related drug)?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1tran>
+/options = ("No", "Yes")
+/ caption = "Have you used tranquilisers (e.g., valium) since you completed Part 1 of this experiment?"
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timetran>
+/caption = "How long has it been since you last used tranquilisers?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+<radiobuttons q1hal>
+/ caption = "Have you used hallucinogens (e.g., LSD) since you completed Part 1 of this experiment?"
+/options = ("No", "Yes")
+/optionvalues = ("0", "1")
+/ required = true
+</radiobuttons>
+
+<radiobuttons timehal>
+/caption = "How long has it been since you last used hallucinogens?"
+/ options = ("Less than 6 hours", "Around 6 to 24 hours", "Over 24 hours")
+/ optionvalues = ("2", "1", "0")
+/ required = true
+</radiobuttons>
+
+
+<surveypage days>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = days]
+</surveypage>
+
+<surveypage tob1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1tob]
+/ branch = [if (radiobuttons.q1tob.response=="0")surveypage.alc1; else if (radiobuttons.q1tob.response =="1")surveypage.tob2]
+</surveypage>
+
+
+<surveypage tob2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = tob2; 2=timetob]
+/branch = [surveypage.alc1]
+</surveypage>
+
+<surveypage alc1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1alc]
+/ branch = [if (radiobuttons.q1alc.response=="0")surveypage.cannabis1; else if (radiobuttons.q1alc.response =="1")surveypage.alc2]
+</surveypage>
+
+<surveypage alc2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = alc2; 2=timealc]
+/branch = [surveypage.cannabis1]
+</surveypage>
+
+<surveypage cannabis1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1cannabis]
+/ branch = [if (radiobuttons.q1cannabis.response=="0")surveypage.amph1; else if (radiobuttons.q1cannabis.response =="1")surveypage.cannabis2]
+</surveypage>
+
+<surveypage cannabis2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = cannabis2; 2=timecannabis]
+/branch = [surveypage.amph1]
+</surveypage>
+
+
+<surveypage amph1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1amph]
+/ branch = [if (radiobuttons.q1amph.response=="0")surveypage.coca1; else if (radiobuttons.q1amph.response =="1")surveypage.amph2]
+</surveypage>
+
+<surveypage amph2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 =timeamph]
+/branch = [surveypage.coca1]
+</surveypage>
+
+<surveypage coca1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1coca]
+/ branch = [if (radiobuttons.q1coca.response=="0")surveypage.opi1; else if (radiobuttons.q1coca.response =="1")surveypage.coca2]
+</surveypage>
+
+<surveypage coca2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 =timecoca]
+/branch = [surveypage.opi1]
+</surveypage>
+
+<surveypage opi1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1opi]
+/ branch = [if (radiobuttons.q1opi.response=="0")surveypage.tran1; else if (radiobuttons.q1opi.response =="1")surveypage.opi2]
+</surveypage>
+
+<surveypage opi2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 =timeopi]
+/branch = [surveypage.tran1]
+</surveypage>
+
+<surveypage tran1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1tran]
+/ branch = [if (radiobuttons.q1tran.response=="0")surveypage.erd1; else if (radiobuttons.q1tran.response =="1")surveypage.tran2]
+</surveypage>
+
+<surveypage tran2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 =timetran]
+/branch = [surveypage.erd1]
+</surveypage>
+
+<surveypage erd1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1erd]
+/ branch = [if (radiobuttons.q1erd.response=="1")surveypage.erd2; else if (radiobuttons.q1erd.response =="0")surveypage.hal1]
+</surveypage>
+
+<surveypage erd2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = timeerd]
+/branch = [surveypage.hal1]
+</surveypage>
+
+<surveypage hal1>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 = q1hal]
+/ branch = [if (radiobuttons.q1hal.response=="0")surveypage.end; else if (radiobuttons.q1hal.response =="1")surveypage.hal2]
+</surveypage>
+
+<surveypage hal2>
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+/ showpagenumbers = false
+/ questions = [1 =timehal]
+/branch = [surveypage.end]
+</surveypage>
+
+<surveypage end>
+/caption = "The end. Please fetch experimenter"
+</surveypage>
+
+
+<survey AOD_T2>
+/ pages = [1=introDRUGS; 2=days; 3=tob1]
+/ finishlabel = "Next"
+/ nextlabel = "Next"
+/showbackbutton = false
+/showquestionnumbers = true
+/ nextbuttonposition = (48%, 85%)
+/ backbuttonposition = (38%, 90%)
+/ navigationbuttonfontstyle = ("Arial", 3%, true)
+/ navigationbuttonsize = (8%, 8%)
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 4%)
+/ responsefontstyle = ("Arial", 3%)
+</survey>

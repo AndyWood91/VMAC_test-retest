@@ -1,0 +1,459 @@
+﻿
+
+<surveypage introOLIFE>
+/ subcaption = "The following questions will ask about your thoughts, feelings, experiences, and preferences.  There are no right or wrong answers or trick questions so please be as honest as possible. Do not spend too much time on any one question.
+
+Click Next to begin the questionnaire."
+/ subcaptionfontstyle = ("Arial", 4%)
+</surveypage>
+
+<surveypage OLIFE1>
+/ showquestionnumbers = false
+/ questions = [1 = q1; 2 = q2; 3 = q3; 4 = q4; 5 = q5]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE2>
+/ showquestionnumbers = false
+/ questions = [1 = q6; 2 = q7; 3 = q8; 4 = q9; 5 = q10]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE3>
+/ showquestionnumbers = false
+/ questions = [1 = q11; 2 = q12; 3 = q13; 4 = q14; 5 = q15]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE4>
+/ showquestionnumbers = false
+/ questions = [1 = q16; 2 = q17; 3 = q18; 4 = q19; 5 = q20]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE5>
+/ showquestionnumbers = false
+/ questions = [1 = q21; 2 = q22; 3 = q23; 4 = q24; 5 = q25]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE6>
+/ showquestionnumbers = false
+/ questions = [1 = q26; 2 = q27; 3 = q28; 4 = q29; 5 = q30]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE7>
+/ showquestionnumbers = false
+/ questions = [1 = q31; 2 = q32; 3 = q33; 4 = q34; 5 = q35]
+/ itemspacing = 1%
+</surveypage>
+
+<surveypage OLIFE8>
+/ showquestionnumbers = false
+/ questions = [1 = q36; 2 = q37; 3 = q38; 4 = q39]
+/ itemspacing = 1.5%
+</surveypage>
+
+<surveypage OLIFE9>
+/ showquestionnumbers = false
+/ questions = [1 = q40; 2 = q41; 3 = q42; 4 = q43]
+/ itemspacing = 1.5%
+</surveypage>
+
+<radiobuttons q1>
+/caption = "1. Do you often overindulge in alcohol or food?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q2>
+/caption = "2. Do you frequently have difficulty in starting to do things?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q3>
+/caption = "3. Has dancing or the idea of it always seemed dull to you?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q4>
+/caption = "4. Is trying new foods something you have always enjoyed?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q5>
+/caption = "5. Are there very few things that you have ever enjoyed doing?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+
+<radiobuttons q6>
+/caption = "6. Are your thoughts sometimes so strong that you can almost hear them?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+
+<radiobuttons q7>
+/caption = "7. Are you usually in an average sort of mood, not too high and not too low?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q8>
+/caption = "8. Do you think you could learn to read other’s minds if you wanted to?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q9>
+/caption = "9. When in a crowded room, do you often have difficulty in following a conversation?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q10>
+/caption = "10. Do you stop to think things over before doing anything?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q11>
+/caption = "11. Have you ever felt that you have special, almost magical powers?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q12>
+/caption = "12. Are you much too independent to really get involved with other people?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q13>
+/caption = "13. Do ideas and insights sometimes come to you so fast that you cannot express them all?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q14>
+/caption = "14. Can some people make you aware of them just by thinking about you?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q15>
+/caption = "15. Does a passing thought ever seem so real it frightens you?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q16>
+/caption = "16. Are you a person whose mood goes up and down easily?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q17>
+/caption = "17. Do you find it difficult to keep interested in the same thing for a long time?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q18>
+/caption = "18. Do you dread going into a room by yourself where other people have already gathered and are talking?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q19>
+/caption = "19. Do you sometimes feel that your accidents are caused by mysterious forces?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q20>
+/caption = "20. Do you like mixing with people?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q21>
+/caption = "21. Do you often have difficulties in controlling your thoughts?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q22>
+/caption = "22. Have you often felt uncomfortable when your friends touch you?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q23>
+/caption = "23. Do you ever have the urge to break or smash things?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q24>
+/caption = "24. Have you ever felt the urge to injure yourself?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q25>
+/caption = "25. Do you prefer watching television to going out with other people?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q26>
+/caption = "26. Are you easily distracted from work by daydreams?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q27>
+/caption = "27. Are you easily confused if too much happens at the same time?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q28>
+/caption = "28. Do you ever have a sense of vague danger or sudden dread for reasons that you do not understand?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q29>
+/caption = "29. Do you love having your back massaged?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q30>
+/caption = "30. Do you consider yourself to be pretty much an average kind of person?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q31>
+/caption = "31. Would you like other people to be afraid of you?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q32>
+/caption = "32. When you look in the mirror does your face sometimes seem quite different from usual?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q33>
+/caption = "33. When in the dark do you often see shapes and forms even though there’s nothing there?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q34>
+/caption = "34. Have you sometimes sensed an evil presence around you, even though you could not see it?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q35>
+/caption = "35. Is it hard for you to make decisions?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q36>
+/caption = "36. Do you find the bright lights of a city exciting to look at?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q37>
+/caption = "37. Does your sense of smell sometimes become unusually strong?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q38>
+/caption = "38. Do you ever feel that your speech is difficult to understand because the words are all mixed up and don’t make sense?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q39>
+/caption = "39. Do you often feel like doing the opposite of what people suggest, even though you know they are right?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q40>
+/caption = "40. Do you feel very close to your friends?"
+/ options = ("No", "Yes")
+/ optionvalues = ("1", "0")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q41>
+/caption = "41. Do you often feel the impulse to spend money which you know you can’t afford?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q42>
+/caption = "42. Are you easily distracted when you read or talk to someone?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q43>
+/caption = "43. Do you at times have the urge to do something shocking or harmful?"
+/ options = ("No", "Yes")
+/ optionvalues = ("0", "1")
+/orientation =horizontal
+/required = true
+</radiobuttons>
+
+<survey OLIFE>
+/ pages = [1 = introOLIFE; 2 = OLIFE1; 3 = OLIFE2; 4 = OLIFE3; 5 = OLIFE4; 6 =OLIFE5; 
+7=OLIFE6; 8=OLIFE7; 9=OLIFE8; 10=OLIFE9]
+/ finishlabel = "Next"
+/ nextlabel = "Next"
+/showbackbutton = false
+/showquestionnumbers = true
+/ nextbuttonposition = (48%, 86%)
+/ backbuttonposition = (38%, 90%)
+/ navigationbuttonfontstyle = ("Arial", 3.5%, true)
+/ navigationbuttonsize = (5.5%, 5.5%)
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 5%)
+</survey>
+
+<expressions>
+/UnExp = (radiobuttons.q6.selectedvalue + radiobuttons.q8.selectedvalue + radiobuttons.q11.selectedvalue + radiobuttons.q13.selectedvalue + radiobuttons.q14.selectedvalue + radiobuttons.q15.selectedvalue + radiobuttons.q19.selectedvalue + radiobuttons.q28.selectedvalue +
+radiobuttons.q32.selectedvalue + radiobuttons.q33.selectedvalue + radiobuttons.q34.selectedvalue + radiobuttons.q37.selectedvalue)
+/CogDis = (radiobuttons.q2.selectedvalue + radiobuttons.q9.selectedvalue + radiobuttons.q16.selectedvalue + radiobuttons.q17.selectedvalue + radiobuttons.q18.selectedvalue + radiobuttons.q21.selectedvalue + radiobuttons.q26.selectedvalue + radiobuttons.q27.selectedvalue
++ radiobuttons.q35.selectedvalue + radiobuttons.q38.selectedvalue + radiobuttons.q42.selectedvalue)
+/IntAnh = (radiobuttons.q3.selectedvalue + radiobuttons.q4.selectedvalue + radiobuttons.q5.selectedvalue + radiobuttons.q12.selectedvalue + radiobuttons.q20.selectedvalue +
+radiobuttons.q22.selectedvalue + radiobuttons.q25.selectedvalue + radiobuttons.q29.selectedvalue + radiobuttons.q36.selectedvalue + radiobuttons.q40.selectedvalue)
+/ImpNon = (radiobuttons.q1.selectedvalue + radiobuttons.q7.selectedvalue + radiobuttons.q10.selectedvalue + radiobuttons.q23.selectedvalue + radiobuttons.q24.selectedvalue + radiobuttons.q30.selectedvalue +
+radiobuttons.q31.selectedvalue + radiobuttons.q39.selectedvalue + radiobuttons.q41.selectedvalue + radiobuttons.q43.selectedvalue)
+/TotalOLIFE = (expressions.unexp + expressions.cogdis + expressions.intanh + expressions.impnon)
+</expressions>
+
+<block summary>
+/trials = [1 = summary]
+</block>
+
+Note: saves the subscale scores/totalscores to the data file
+<trial summary>
+/recorddata = true
+/trialduration = 0
+</trial>
+
+
+<expt >
+/blocks = [1 = OLIFE; 2 = summary]
+</expt> 
+
+
+
+<data summary>
+/ file = "OLIFE_summary.iqdat"
+/ columns = [date, time, subject, expressions.unexp, expressions.cogdis, expressions.intanh, expressions.impnon, expressions.totalolife]
+</data>
+

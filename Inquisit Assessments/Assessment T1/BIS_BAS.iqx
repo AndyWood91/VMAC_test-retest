@@ -1,0 +1,330 @@
+﻿<dropdown q1>
+/caption = "1. A person's family is the most important thing in life."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q2>
+/caption = "2. Even if something bad is about to happen to me, I rarely experience fear or nervousness."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("1", "2", "3", "4")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q3>
+/caption = "3. I go out of my way to get things I want."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q4>
+/caption = "4. When I'm doing well at something I love to keep at it."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q5>
+/caption = "5. I'm always willing to try something new if I think it will be fun."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q6>
+/caption = "6. How I dress is important to me."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q7>
+/caption = "7. When I get something I want, I feel excited and energised."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q8>
+/caption = "8. Criticism or scolding hurts me quite a bit."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q9>
+/caption = "9. When I want something I usually go all-out to get it."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q10>
+/caption = "10. I will often do things for no other reason than that they might be fun."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q11>
+/caption = "11. It's hard for me to find the time to do things such as get a haircut."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q12>
+/caption = "12. If I see a chance to get something I want I move on it right away."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q13>
+/caption = "13. I feel pretty worried or upset when I think or know somebody is angry at me."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q14>
+/caption = "14. When I see an opportunity for something I like I get excited right away."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q15>
+/caption = "15. I often act on the spur of the moment."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q16>
+/caption = "16. If I think something unpleasant is going to happen I usually get pretty 'worked up'."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+
+<dropdown q17>
+/caption = "17. I often wonder why people act the way they do."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q18>
+/caption = "18. When good things happen to me, it affects me strongly."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.5%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q19>
+/caption = "19. I feel worried when I think I have done poorly at something important."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.4%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q20>
+/caption = "20. I crave excitement and new sensations"
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.4%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q21>
+/caption = "21. When I go after something I use a 'no holds barred' approach."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.4%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q22>
+/caption = "22. I have very few fears compared to my friends."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("1", "2", "3", "4")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.4%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q23>
+/caption = "23. It would excite me to win a contest."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.4%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+<dropdown q24>
+/caption = "24. I worry about making mistakes."
+/options = ("very true for me", "somewhat true for me", "somewhat false for me", "very false for me")
+/ optionvalues = ("4", "3", "2", "1")
+/orientation =vertical
+/required = true
+/ fontstyle = ("Arial", 2.4%)
+/responsefontstyle = ("Arial", 2%)
+</dropdown>
+
+
+
+
+
+<surveypage 1>
+/ subcaption = "For each item, indicate how much you agree or disagree with what the item says. Please be as accurate
+ and honest as you can be. Respond to each item as if it were the only item. That is, don't worry about being consistent in your responses."
+/ subcaptionfontstyle = ("Arial", 3%)
+/ showpagenumbers = false
+/showquestionnumbers = false
+/ questions = [1 = q1; 2 = q2; 3 = q3]
+/itemspacing = 5%
+</surveypage>
+
+
+<surveypage 2>
+/ showpagenumbers = false
+/showquestionnumbers = false
+/ questions = [1 = q4; 2 = q5; 3 = q6; 4=q7; 5=q8]
+/itemspacing = 4%
+</surveypage>
+
+<surveypage 3>
+/ showpagenumbers = false
+/showquestionnumbers = false
+/ questions = [1 = q9; 2 = q10; 3 = q11; 4=q12; 5=q13]
+/itemspacing = 4%
+</surveypage>
+
+<surveypage 4>
+/ showpagenumbers = false
+/showquestionnumbers = false
+/ questions = [1 = q14; 2 = q15; 3 = q16; 4=q17; 5=q18]
+/itemspacing = 4%
+</surveypage>
+
+<surveypage 5>
+/ showpagenumbers = false
+/showquestionnumbers = false
+/ questions = [1 = q19; 2 = q20; 3 = q21; 4 = q22; 5 = q23; 6 = q24]
+/itemspacing = 4%
+</surveypage>
+
+<survey BIS_BAS>
+/ pages = [1 = 1; 2 = 2; 3 = 3; 4 =4; 5 = 5]
+/ finishlabel = "Next"
+/ nextlabel = "Next"
+/showbackbutton = true
+/showquestionnumbers = true
+/ nextbuttonposition = (48%, 90%)
+/ backbuttonposition = (38%, 90%)
+/ navigationbuttonfontstyle = ("Arial", 3.5%, true)
+/ navigationbuttonsize = (5%, 5%)
+/ showpagenumbers = false
+</survey>
+
+
+<expressions>
+/BAS_Drive = (dropdown.q3.selectedvalue + dropdown.q9.selectedvalue + dropdown.q12.selectedvalue 
++ dropdown.q21.selectedvalue)
+/BAS_FunSeeking = (dropdown.q5.selectedvalue + dropdown.q10.selectedvalue + dropdown.q15.selectedvalue 
++ dropdown.q20.selectedvalue)
+/BAS_RewardResp = (dropdown.q4.selectedvalue + dropdown.q7.selectedvalue + dropdown.q14.selectedvalue 
++ dropdown.q18.selectedvalue + dropdown.q23.selectedvalue)
+/BIS = (dropdown.q2.selectedvalue + dropdown.q8.selectedvalue + dropdown.q13.selectedvalue + dropdown.q16.selectedvalue 
++ dropdown.q19.selectedvalue + dropdown.q22.selectedvalue + dropdown.q24.selectedvalue)
+</expressions>
+
+<block summary>
+/trials = [1 = summary]
+</block>
+
+Note: saves the subscale scores/totalscores to the data file
+<trial summary>
+/recorddata = true
+/trialduration = 0
+</trial>
+
+
+<expt >
+/blocks = [1 = BIS_BAS; 2 = summary]
+</expt> 
+
+
+
+<data summary>
+/ file = "BIS_BAS_summary.iqdat"
+/ columns = [date, time, subject, expressions.BAS_Drive, expressions.BAS_FunSeeking, expressions.BAS_RewardResp, expressions.BIS]
+</data>

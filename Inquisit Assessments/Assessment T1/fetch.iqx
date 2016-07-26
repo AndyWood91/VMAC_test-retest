@@ -1,0 +1,18 @@
+﻿<surveypage fetch>
+/caption = "Please see experimenter before continuing to the next section"
+</surveypage>
+
+<survey fetch>
+/ pages = [1=fetch]
+/ finishlabel = "Next"
+/ nextlabel = "Next"
+/showbackbutton = false
+/showquestionnumbers = true
+/ nextbuttonposition = (48%, 90%)
+/ backbuttonposition = (38%, 90%)
+/ navigationbuttonfontstyle = ("Arial", 3%, true)
+/ navigationbuttonsize = (5%, 5%)
+/ showpagenumbers = false
+/ fontstyle = ("Arial", 3%)
+/ responsefontstyle = ("Arial", 2.5%)
+</survey>

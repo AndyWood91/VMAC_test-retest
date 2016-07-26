@@ -1,0 +1,749 @@
+﻿**************************************************************************************************************
+**************************************************************************************************************
+									 BARRATT IMPULSIVENESS SCALE (BIS-11)
+**************************************************************************************************************
+**************************************************************************************************************
+											  SCRIPT INFO
+
+Script Author: Katja Borchert, Ph.D. (katjab@millisecond.com) for Millisecond Software LLC
+Date: 09-17-2012
+
+last updated: 09-18-2012
+
+Copyright © 09-18-2012 Millisecond Software
+**************************************************************************************************************
+**************************************************************************************************************
+SCRIPT DESCRIPTION/BACKGROUND INFO
+**************************************************************************************************************
+**************************************************************************************************************
+This script implements the Barratt Impulsiveness Scale (BIS-11) described in:
+
+Patton, J.H., Standford, M.S., & Barratt, E.S. (1995). Factor Structure of the Barratt Impulsiveness Scale.
+Journal of Clinical Psychology, 51, 768-774.
+
+The questionnaire contains 30 questions. Each question is presented with 4 answer choices
+(-> "Rarely/Never", "Occasionally", "Often", "Almost Always/Always").
+
+Each of the questions belongs to 6 subscales (derived from 6 first order factors and 3 first order factors)
+
+1. Attention-Attention: 5, 9R, 11, 20R, 28
+2. Attention-Cognitive Instability: 6, 24, 26
+3. Motor-Motor: 2, 3, 4, 17, 19, 22, 25
+4. Motor-Perserverance: 16, 21, 23, 30R
+5. Nonplanning-Self Control: 1R, 7R, 8R, 12R, 13R, 14
+6. Nonplanning-Cognitive Complexity: 10R, 15R, 18, 27, 29R
+(R = reversed scoring, depends on wording)
+
+Scoring: on a 4-point scale
+"1" for least impulsive choice to "4" for most impulsive choice
+=> Minimum Score: 30
+=> Maximum Score: 120
+
+!!!!! Note:
+By default, none of the questions in this survey require a response. To change,
+check under "QUESTIONS". In the case that no responses are required, the
+data files saves which questions were skipped if any.
+**************************************************************************************************************
+**************************************************************************************************************
+DEFAULT SCREEN SETTING
+**************************************************************************************************************
+**************************************************************************************************************
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+VALUES
+**************************************************************************************************************
+**************************************************************************************************************
+
+*****************************
+automatically updated at runtime
+*****************************
+q1-q30:									contains the value of the answer choice for question 1 to question 30
+number_misseditems:						counts the number of skipped questions
+misseditems:							a string variable that saves all questions that were skipped
+										(by default, none of the questions are required, to change, go to "Questions")
+missedA_Attention-missedNP_CogComplex:	a string variable that saves all the skipped questions for each subtest
+
+<values>
+/q1 = 0
+/q2 = 0
+/q3 = 0
+/q4 = 0
+/q5 = 0
+/q6 = 0
+/q7 = 0
+/q8 = 0
+/q9 = 0
+/q10 = 0
+/q11 = 0
+/q12 = 0
+/q13 = 0
+/q14 = 0
+/q15 = 0
+/q16 = 0
+/q17 = 0
+/q18 = 0
+/q19 = 0
+/q20 = 0
+/q21 = 0
+/q22 = 0
+/q23 = 0
+/q24 = 0
+/q25 = 0
+/q26 = 0
+/q27 = 0
+/q28 = 0
+/q29 = 0
+/q30 = 0
+
+/number_misseditems = 0
+/misseditems = ""
+/missedA_Attention = ""
+/missedA_CogInstabile = ""
+/missedM_Motor = ""
+/missedM_Perserverance = ""
+/missedNP_SelfControl = ""
+/missedNP_CogComplex = ""
+
+</values>
+
+**************************************************************************************************************
+**************************************************************************************************************
+EXPRESSIONS
+**************************************************************************************************************
+**************************************************************************************************************
+totalscore:								holds the total of all scores 
+A_Attention-NP_CogComplex:				adds up all the scores for each individual subscale
+
+<expressions>
+/totalscore = values.q1+values.q2+values.q3+values.q4+values.q5+values.q6+values.q7+values.q8+
+values.q9 + values.q10+values.q11+values.q12+values.q13+values.q14+values.q15+values.q16+values.q17+
+values.q18+values.q19+values.q20+values.q21+values.q22+values.q23+values.q24+values.q25+values.q26+
+values.q27+values.q28+values.q29+values.q30
+/A_Attention = values.q5+values.q9+values.q11+values.q20+values.q28
+/A_CogInstabile = values.q6+values.q24+values.q26
+/M_Motor = values.q2+values.q3+values.q4+values.q17+values.q19+values.q22+values.q25
+/M_Perserverance = values.q16+values.q21+values.q23+values.q30
+/NP_SelfControl = values.q1+values.q7+values.q8+values.q12+values.q13+values.q14
+/NP_CogComplex = values.q10+values.q15+values.q18+values.q27+values.q29
+/totalscore_debug = expressions.A_Attention + expressions.A_CogInstabile+expressions.M_Motor+
+expressions.M_Perserverance+expressions.NP_SelfControl+expressions.NP_CogComplex
+</expressions>
+
+**************************************************************************************************************
+**************************************************************************************************************
+DATA
+**************************************************************************************************************
+**************************************************************************************************************
+********************
+raw data
+********************
+
+The raw questionnaire data are saved under "BIS.IQDAT"
+
+********************
+summary data
+********************
+Summarydata for each participant: file saves the totalscore (and scores for each subscale) as well as the 
+number of missed items and the individual missed items (also for each subscale)
+
+<data >
+/ file = "BIS_summary.iqdat"
+/ columns = [date, time, subject, expressions.totalscore, 
+expressions.A_Attention, expressions.A_CogInstabile, expressions.M_Motor, expressions.M_Perserverance, expressions.NP_SelfControl, expressions.NP_CogComplex,
+values.number_misseditems, values.misseditems, 
+values.missedA_Attention, values.missedA_CogInstabile, values.missedM_Motor, values.missedM_Perserverance,
+values.missedNP_SelfControl, values.missedNP_CogComplex]
+</data>
+
+**************************************************************************************************************
+**************************************************************************************************************
+QUESTIONS
+**************************************************************************************************************
+**************************************************************************************************************
+NOTE: 
+*by default no question is required, to change: set
+/required = true for each of the 30 questions
+
+*the R indicates reversed scoring
+
+<radiobuttons q1_R>
+/caption = "1. I plan tasks carefully"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q2>
+/caption = "2. I do things without thinking"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q3>
+/caption = "3. I make-up my mind quickly"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q4>
+/caption = "4. I am happy-go-lucky"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q5>
+/caption = "5. I don't 'pay attention'"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q6>
+/caption = "6. I have 'racing thoughts'"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q7_R>
+/caption = "7. I plan trips well ahead of time"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q8_R>
+/caption = "8. I am self-controlled"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q9_R>
+/caption = "9. I concentrate easily"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q10_R>
+/caption = "10. I save regularly"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q11>
+/caption = "11. I 'squirm' at plays and lectures"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q12_R>
+/caption = "12. I am a careful thinker"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q13_R>
+/caption = "13. I plan for job security"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q14>
+/caption = "14. I say things without thinking"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q15_R>
+/caption = "15. I like to think about complext problems"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q16>
+/caption = "16. I change jobs"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q17>
+/caption = "17. I act 'on impulse'"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q18>
+/caption = "18. I get easily bored when solving thought problems"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q19>
+/caption = "19. I act on the spur of the moment"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q20_R>
+/caption = "20. I am a steady thinker"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q21>
+/caption = "21. I change residences"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q22>
+/caption = "22. I buy things on impulse"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q23>
+/caption = "23. I can only think about one thing at a time"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q24>
+/caption = "24. I change hobbies"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q25>
+/caption = "25. I spend or charge more than I earn"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q26>
+/caption = "26. I often have extraneous thoughts when thinking"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q27>
+/caption = "27. I more interested in the present than the future"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q28>
+/caption = "28. I am restless at the theater or lectures"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q29_R>
+/caption = "29. I like puzzles"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+<radiobuttons q30_R>
+/caption = "30. I am future oriented"
+/ options = ("Rarely/Never", "Occasionally", "Often", "Almost Always/Always")
+/orientation = horizontal
+/required = true
+</radiobuttons>
+
+**************************************************************************************************************
+**************************************************************************************************************
+SURVEYPAGES
+**************************************************************************************************************
+**************************************************************************************************************
+<surveypage IMP1>
+/ subcaption = "Directions:
+People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and click the appropriate response button. Do not spend too much time on any statement. Answer quickly and honestly."
+/ subcaptionfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ showquestionnumbers = false
+/ questions = [1 = q1_R, q2, q3, q4, q5]
+
+/ ontrialend = [if (radiobuttons.q1_R.response == "Rarely/Never") values.q1 = 4]
+/ ontrialend = [if (radiobuttons.q1_R.response == "Occasionally") values.q1 = 3]
+/ ontrialend = [if (radiobuttons.q1_R.response == "Often") values.q1 = 2]
+/ ontrialend = [if (radiobuttons.q1_R.response == "Almost Always/Always") values.q1 = 1]
+
+/ ontrialend = [if (radiobuttons.q2.response == "Rarely/Never") values.q2 = 1]
+/ ontrialend = [if (radiobuttons.q2.response == "Occasionally") values.q2 = 2]
+/ ontrialend = [if (radiobuttons.q2.response == "Often") values.q2 = 3]
+/ ontrialend = [if (radiobuttons.q2.response == "Almost Always/Always") values.q2 = 4]
+
+/ ontrialend = [if (radiobuttons.q3.response == "Rarely/Never") values.q3 = 1]
+/ ontrialend = [if (radiobuttons.q3.response == "Occasionally") values.q3 = 2]
+/ ontrialend = [if (radiobuttons.q3.response == "Often") values.q3 = 3]
+/ ontrialend = [if (radiobuttons.q3.response == "Almost Always/Always") values.q3 = 4]
+
+/ ontrialend = [if (radiobuttons.q4.response == "Rarely/Never") values.q4 = 1]
+/ ontrialend = [if (radiobuttons.q4.response == "Occasionally") values.q4 = 2]
+/ ontrialend = [if (radiobuttons.q4.response == "Often") values.q4 = 3]
+/ ontrialend = [if (radiobuttons.q4.response == "Almost Always/Always") values.q4 = 4]
+
+/ ontrialend = [if (radiobuttons.q5.response == "Rarely/Never") values.q5 = 1]
+/ ontrialend = [if (radiobuttons.q5.response == "Occasionally") values.q5 = 2]
+/ ontrialend = [if (radiobuttons.q5.response == "Often") values.q5 = 3]
+/ ontrialend = [if (radiobuttons.q5.response == "Almost Always/Always") values.q5 = 4]
+</surveypage>
+
+
+<surveypage IMP2>
+/ subcaption = "Directions (continued):
+People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and click the appropriate response button. Do not spend too much time on any statement. Answer quickly and honestly."
+/ subcaptionfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ showquestionnumbers = false
+/ questions = [1 = q6, q7_R, q8_R, q9_R, q10_R]
+
+/ ontrialend = [if (radiobuttons.q6.response == "Rarely/Never") values.q6 = 1]
+/ ontrialend = [if (radiobuttons.q6.response == "Occasionally") values.q6 = 2]
+/ ontrialend = [if (radiobuttons.q6.response == "Often") values.q6 = 3]
+/ ontrialend = [if (radiobuttons.q6.response == "Almost Always/Always") values.q6 = 4]
+
+/ ontrialend = [if (radiobuttons.q7_R.response == "Rarely/Never") values.q7 = 4]
+/ ontrialend = [if (radiobuttons.q7_R.response == "Occasionally") values.q7 = 3]
+/ ontrialend = [if (radiobuttons.q7_R.response == "Often") values.q7 = 2]
+/ ontrialend = [if (radiobuttons.q7_R.response == "Almost Always/Always") values.q7 = 1]
+
+/ ontrialend = [if (radiobuttons.q8_R.response == "Rarely/Never") values.q8 = 4]
+/ ontrialend = [if (radiobuttons.q8_R.response == "Occasionally") values.q8 = 3]
+/ ontrialend = [if (radiobuttons.q8_R.response == "Often") values.q8 = 2]
+/ ontrialend = [if (radiobuttons.q8_R.response == "Almost Always/Always") values.q8 = 1]
+
+/ ontrialend = [if (radiobuttons.q9_R.response == "Rarely/Never") values.q9 = 4]
+/ ontrialend = [if (radiobuttons.q9_R.response == "Occasionally") values.q9 = 3]
+/ ontrialend = [if (radiobuttons.q9_R.response == "Often") values.q9 = 2]
+/ ontrialend = [if (radiobuttons.q9_R.response == "Almost Always/Always") values.q9 = 1]
+
+/ ontrialend = [if (radiobuttons.q10_R.response == "Rarely/Never") values.q10 = 4]
+/ ontrialend = [if (radiobuttons.q10_R.response == "Occasionally") values.q10 = 3]
+/ ontrialend = [if (radiobuttons.q10_R.response == "Often") values.q10 = 2]
+/ ontrialend = [if (radiobuttons.q10_R.response == "Almost Always/Always") values.q10 = 1]
+</surveypage>
+
+<surveypage IMP3>
+/ subcaption = "Directions (continued):
+People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and click the appropriate response button. Do not spend too much time on any statement. Answer quickly and honestly."
+/ subcaptionfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ showquestionnumbers = false
+/ questions = [1 = q11, q12_R, q13_R, q14, q15_R]
+
+/ ontrialend = [if (radiobuttons.q11.response == "Rarely/Never") values.q11 = 1]
+/ ontrialend = [if (radiobuttons.q11.response == "Occasionally") values.q11 = 2]
+/ ontrialend = [if (radiobuttons.q11.response == "Often") values.q11 = 3]
+/ ontrialend = [if (radiobuttons.q11.response == "Almost Always/Always") values.q11 = 4]
+
+/ ontrialend = [if (radiobuttons.q12_R.response == "Rarely/Never") values.q12 = 4]
+/ ontrialend = [if (radiobuttons.q12_R.response == "Occasionally") values.q12 = 3]
+/ ontrialend = [if (radiobuttons.q12_R.response == "Often") values.q12 = 2]
+/ ontrialend = [if (radiobuttons.q12_R.response == "Almost Always/Always") values.q12 = 1]
+
+/ ontrialend = [if (radiobuttons.q13_R.response == "Rarely/Never") values.q13 = 4]
+/ ontrialend = [if (radiobuttons.q13_R.response == "Occasionally") values.q13 = 3]
+/ ontrialend = [if (radiobuttons.q13_R.response == "Often") values.q13 = 2]
+/ ontrialend = [if (radiobuttons.q13_R.response == "Almost Always/Always") values.q13 = 1]
+
+/ ontrialend = [if (radiobuttons.q14.response == "Rarely/Never") values.q14 = 1]
+/ ontrialend = [if (radiobuttons.q14.response == "Occasionally") values.q14 = 2]
+/ ontrialend = [if (radiobuttons.q14.response == "Often") values.q14 = 3]
+/ ontrialend = [if (radiobuttons.q14.response == "Almost Always/Always") values.q14 = 4]
+
+/ ontrialend = [if (radiobuttons.q15_R.response == "Rarely/Never") values.q15 = 4]
+/ ontrialend = [if (radiobuttons.q15_R.response == "Occasionally") values.q15 = 3]
+/ ontrialend = [if (radiobuttons.q15_R.response == "Often") values.q15 = 2]
+/ ontrialend = [if (radiobuttons.q15_R.response == "Almost Always/Always") values.q15 = 1]
+</surveypage>
+
+<surveypage IMP4>
+/ subcaption = "Directions (continued):
+People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and click the appropriate response button. Do not spend too much time on any statement. Answer quickly and honestly."
+/ subcaptionfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ showquestionnumbers = false
+/ questions = [1 = q16, q17, q18, q19, q20_R]
+
+/ ontrialend = [if (radiobuttons.q16.response == "Rarely/Never") values.q16 = 1]
+/ ontrialend = [if (radiobuttons.q16.response == "Occasionally") values.q16 = 2]
+/ ontrialend = [if (radiobuttons.q16.response == "Often") values.q16 = 3]
+/ ontrialend = [if (radiobuttons.q16.response == "Almost Always/Always") values.q16 = 4]
+
+/ ontrialend = [if (radiobuttons.q17.response == "Rarely/Never") values.q17 = 1]
+/ ontrialend = [if (radiobuttons.q17.response == "Occasionally") values.q17 = 2]
+/ ontrialend = [if (radiobuttons.q17.response == "Often") values.q17 = 3]
+/ ontrialend = [if (radiobuttons.q17.response == "Almost Always/Always") values.q17 = 4]
+
+/ ontrialend = [if (radiobuttons.q18.response == "Rarely/Never") values.q18 = 1]
+/ ontrialend = [if (radiobuttons.q18.response == "Occasionally") values.q18 = 2]
+/ ontrialend = [if (radiobuttons.q18.response == "Often") values.q18 = 3]
+/ ontrialend = [if (radiobuttons.q18.response == "Almost Always/Always") values.q18 = 4]
+
+/ ontrialend = [if (radiobuttons.q19.response == "Rarely/Never") values.q19 = 1]
+/ ontrialend = [if (radiobuttons.q19.response == "Occasionally") values.q19 = 2]
+/ ontrialend = [if (radiobuttons.q19.response == "Often") values.q19 = 3]
+/ ontrialend = [if (radiobuttons.q19.response == "Almost Always/Always") values.q19 = 4]
+
+/ ontrialend = [if (radiobuttons.q20_R.response == "Rarely/Never") values.q20 = 4]
+/ ontrialend = [if (radiobuttons.q20_R.response == "Occasionally") values.q20 = 3]
+/ ontrialend = [if (radiobuttons.q20_R.response == "Often") values.q20 = 2]
+/ ontrialend = [if (radiobuttons.q20_R.response == "Almost Always/Always") values.q20 = 1]
+
+</surveypage>
+
+<surveypage IMP5>
+/ subcaption = "Directions (continued):
+People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and click the appropriate response button. Do not spend too much time on any statement. Answer quickly and honestly."
+/ subcaptionfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ showquestionnumbers = false
+/ questions = [1 = q21, q22, q23, q24, q25]
+
+/ ontrialend = [if (radiobuttons.q21.response == "Rarely/Never") values.q21 = 1]
+/ ontrialend = [if (radiobuttons.q21.response == "Occasionally") values.q21 = 2]
+/ ontrialend = [if (radiobuttons.q21.response == "Often") values.q21 = 3]
+/ ontrialend = [if (radiobuttons.q21.response == "Almost Always/Always") values.q21 = 4]
+
+/ ontrialend = [if (radiobuttons.q22.response == "Rarely/Never") values.q22 = 1]
+/ ontrialend = [if (radiobuttons.q22.response == "Occasionally") values.q22 = 2]
+/ ontrialend = [if (radiobuttons.q22.response == "Often") values.q22 = 3]
+/ ontrialend = [if (radiobuttons.q22.response == "Almost Always/Always") values.q22 = 4]
+
+/ ontrialend = [if (radiobuttons.q23.response == "Rarely/Never") values.q23 = 1]
+/ ontrialend = [if (radiobuttons.q23.response == "Occasionally") values.q23 = 2]
+/ ontrialend = [if (radiobuttons.q23.response == "Often") values.q23 = 3]
+/ ontrialend = [if (radiobuttons.q23.response == "Almost Always/Always") values.q23 = 4]
+
+/ ontrialend = [if (radiobuttons.q24.response == "Rarely/Never") values.q24 = 1]
+/ ontrialend = [if (radiobuttons.q24.response == "Occasionally") values.q24 = 2]
+/ ontrialend = [if (radiobuttons.q24.response == "Often") values.q24 = 3]
+/ ontrialend = [if (radiobuttons.q24.response == "Almost Always/Always") values.q24 = 4]
+
+/ ontrialend = [if (radiobuttons.q25.response == "Rarely/Never") values.q25 = 1]
+/ ontrialend = [if (radiobuttons.q25.response == "Occasionally") values.q25 = 2]
+/ ontrialend = [if (radiobuttons.q25.response == "Often") values.q25 = 3]
+/ ontrialend = [if (radiobuttons.q25.response == "Almost Always/Always") values.q25 = 4]
+</surveypage>
+
+<surveypage IMP6>
+/ subcaption = "Directions (continued):
+People differ in the ways they act and think in different situations. This is a test to measure some of the ways in which you act and think. Read each statement and click the appropriate response button. Do not spend too much time on any statement. Answer quickly and honestly."
+/ subcaptionfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ showquestionnumbers = false
+/ questions = [1 = q26, q27, q28, q29_R, q30_R]
+
+/ ontrialend = [if (radiobuttons.q26.response == "Rarely/Never") values.q26 = 1]
+/ ontrialend = [if (radiobuttons.q26.response == "Occasionally") values.q26 = 2]
+/ ontrialend = [if (radiobuttons.q26.response == "Often") values.q26 = 3]
+/ ontrialend = [if (radiobuttons.q26.response == "Almost Always/Always") values.q26 = 4]
+
+/ ontrialend = [if (radiobuttons.q27.response == "Rarely/Never") values.q27 = 1]
+/ ontrialend = [if (radiobuttons.q27.response == "Occasionally") values.q27 = 2]
+/ ontrialend = [if (radiobuttons.q27.response == "Often") values.q27 = 3]
+/ ontrialend = [if (radiobuttons.q27.response == "Almost Always/Always") values.q27 = 4]
+
+/ ontrialend = [if (radiobuttons.q28.response == "Rarely/Never") values.q28 = 1]
+/ ontrialend = [if (radiobuttons.q28.response == "Occasionally") values.q28 = 2]
+/ ontrialend = [if (radiobuttons.q28.response == "Often") values.q28 = 3]
+/ ontrialend = [if (radiobuttons.q28.response == "Almost Always/Always") values.q28 = 4]
+
+/ ontrialend = [if (radiobuttons.q29_R.response == "Rarely/Never") values.q29 = 4]
+/ ontrialend = [if (radiobuttons.q29_R.response == "Occasionally") values.q29 = 3]
+/ ontrialend = [if (radiobuttons.q29_R.response == "Often") values.q29 = 2]
+/ ontrialend = [if (radiobuttons.q29_R.response == "Almost Always/Always") values.q29 = 1]
+
+/ ontrialend = [if (radiobuttons.q30_R.response == "Rarely/Never") values.q30 = 4]
+/ ontrialend = [if (radiobuttons.q30_R.response == "Occasionally") values.q30 = 3]
+/ ontrialend = [if (radiobuttons.q30_R.response == "Often") values.q30 = 2]
+/ ontrialend = [if (radiobuttons.q30_R.response == "Almost Always/Always") values.q30 = 1]
+</surveypage>
+
+**************************************************************************************************************
+**************************************************************************************************************
+SURVEY
+**************************************************************************************************************
+**************************************************************************************************************
+
+<survey BIS>
+/ pages = [1 = IMP1; 2 = IMP2; 3 = IMP3;
+			4 = IMP4; 5 = IMP5; 6 = IMP6]
+/showpagenumbers = false
+/ itemfontstyle = ("Arial", 2.33%, true, false, false, false, 5, 0)
+/ itemspacing = 2%
+/ responsefontstyle = ("Arial", 2%, false, false, false, false, 5, 0)
+/ finishlabel = "Finish"
+/ nextlabel = "Next"
+/ backlabel = "Back"
+</survey>
+
+**************************************************************************************************************
+**************************************************************************************************************
+SUMMARY TRIAL/BLOCK 
+**************************************************************************************************************
+**************************************************************************************************************
+Purpose: save summary data to the data file (totalscores etc.)
+
+<trial summarytrial>
+/ ontrialbegin = [if (radiobuttons.q1_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "1,");
+							values.missedNP_SelfControl = concat(values.missedNP_SelfControl, "1,")}]
+/ ontrialbegin = [if (radiobuttons.q2.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "2,");
+							values.missedM_Motor = concat(values.missedM_Motor, "2,")}]
+/ ontrialbegin = [if (radiobuttons.q3.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "3,");
+							values.missedM_Motor = concat(values.missedM_Motor, "3,")}]
+/ ontrialbegin = [if (radiobuttons.q4.response == "") 
+							{values.number_misseditems +=  1;
+							values.misseditems = concat(values.misseditems, "4,");
+							values.missedM_Motor = concat(values.missedM_Motor, "4,")}]
+/ ontrialbegin = [if (radiobuttons.q5.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "5,");
+							values.missedA_Attention = concat(values.missedA_Attention, "5,")}]
+/ ontrialbegin = [if (radiobuttons.q6.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "6,");
+							values.missedA_CogInstabile = concat(values.missedA_CogInstabile, "6,")}]
+/ ontrialbegin = [if (radiobuttons.q7_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "7,");
+							values.missedNP_SelfControl = concat(values.missedNP_SelfControl, "7,")}]
+/ ontrialbegin = [if (radiobuttons.q8_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "8,");
+							values.missedNP_SelfControl = concat(values.missedNP_SelfControl, "8,")}]
+/ ontrialbegin = [if (radiobuttons.q9_R.response == "") 
+							{values.number_misseditems +=  1;
+							values.misseditems = concat(values.misseditems, "9,");
+							values.missedA_Attention = concat(values.missedA_Attention, "9,")}]
+/ ontrialbegin = [if (radiobuttons.q10_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "10,");
+							values.missedNP_CogComplex = concat(values.missedNP_CogComplex, "10,")}]
+/ ontrialbegin = [if (radiobuttons.q11.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "11,");
+							values.missedA_Attention = concat(values.missedA_Attention, "11,")}]
+/ ontrialbegin = [if (radiobuttons.q12_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "12,");
+							values.missedNP_SelfControl = concat(values.missedNP_SelfControl, "12,")}]
+/ ontrialbegin = [if (radiobuttons.q13_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "13,");
+							values.missedNP_SelfControl = concat(values.missedNP_SelfControl, "13,")}]
+/ ontrialbegin = [if (radiobuttons.q14.response == "") 
+							{values.number_misseditems +=  1;
+							values.misseditems = concat(values.misseditems, "14,");
+							values.missedNP_SelfControl = concat(values.missedNP_SelfControl, "14,")}]
+/ ontrialbegin = [if (radiobuttons.q15_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "15,");
+							values.missedNP_CogComplex = concat(values.missedNP_CogComplex, "15,")}]
+/ ontrialbegin = [if (radiobuttons.q16.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "16,");
+							values.missedM_Perserverance = concat(values.missedM_Perserverance, "16,")}]
+/ ontrialbegin = [if (radiobuttons.q17.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "17,");
+							values.missedM_Motor = concat(values.missedM_Motor, "17,")}]
+/ ontrialbegin = [if (radiobuttons.q18.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "18,");
+							values.missedNP_CogComplex = concat(values.missedNP_CogComplex, "18,")}]
+/ ontrialbegin = [if (radiobuttons.q19.response == "") 
+							{values.number_misseditems +=  1;
+							values.misseditems = concat(values.misseditems, "19,");
+							values.missedM_Motor = concat(values.missedM_Motor, "19,")}]
+/ ontrialbegin = [if (radiobuttons.q20_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "20,");
+							values.missedA_Attention = concat(values.missedA_Attention, "20,")}]
+/ ontrialbegin = [if (radiobuttons.q21.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "21,");
+							values.missedM_Perserverance = concat(values.missedM_Perserverance, "21,")}]
+/ ontrialbegin = [if (radiobuttons.q22.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "22,");
+							values.missedM_Motor = concat(values.missedM_Motor, "22,")}]
+/ ontrialbegin = [if (radiobuttons.q23.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "23,");
+							values.missedM_Perserverance = concat(values.missedM_Perserverance, "23,")}]
+/ ontrialbegin = [if (radiobuttons.q24.response == "") 
+							{values.number_misseditems +=  1;
+							values.misseditems = concat(values.misseditems, "24,");
+							values.missedA_CogInstabile = concat(values.missedA_CogInstabile, "24,")}]
+/ ontrialbegin = [if (radiobuttons.q25.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "25,");
+							values.missedM_Motor = concat(values.missedM_Motor, "25,")}]
+/ ontrialbegin = [if (radiobuttons.q26.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "26,");
+							values.missedA_CogInstabile = concat(values.missedA_CogInstabile, "26,")}]
+/ ontrialbegin = [if (radiobuttons.q27.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "27,");
+							values.missedNP_CogComplex = concat(values.missedNP_CogComplex, "27,")}]
+/ ontrialbegin = [if (radiobuttons.q28.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "28,");
+							values.missedA_Attention = concat(values.missedA_Attention, "28,")}]
+/ ontrialbegin = [if (radiobuttons.q29_R.response == "") 
+							{values.number_misseditems +=  1;
+							values.misseditems = concat(values.misseditems, "29,");
+							values.missedNP_CogComplex = concat(values.missedNP_CogComplex, "29,")}]
+/ ontrialbegin = [if (radiobuttons.q30_R.response == "") 
+							{values.number_misseditems += 1;
+							values.misseditems = concat(values.misseditems, "30,");
+							values.missedM_Perserverance = concat(values.missedM_Perserverance, "30,")}]
+/ timeout = (0)
+/ recorddata = true
+</trial>
+
+<block summary>
+/ trials = [1 = summarytrial]
+</block>
+**************************************************************************************************************
+**************************************************************************************************************
+EXPERIMENT 
+**************************************************************************************************************
+**************************************************************************************************************
+<expt>
+/ blocks = [1 = BIS; 2 = summary]
+</expt>
+**************************************************************************************************************
+                                             END OF FILE
+**************************************************************************************************************
