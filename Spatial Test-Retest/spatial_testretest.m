@@ -45,8 +45,9 @@ while inputError == 1
     p_number = input('Participant number  ---> ');
     exptSession = input('Session number (1-2)  ---> ');
     
+    % checks if there is a folder named 'ExptData'
     if exist('ExptData', 'dir') ~= 7
-        mkdir('ExptData');
+        mkdir('ExptData');  % if not, make a folder named 'ExptData'
     end
     
     datafilename = ['ExptData\CirclesMultiDataP', num2str(p_number), 'S'];
