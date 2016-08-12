@@ -3,7 +3,7 @@
 
 
 % Data Validation
-gender_options = ['M', 'm', 'W', 'w', 'O', 'o'];
+gender_options = ['M', 'm', 'O', 'o', 'W', 'w'];
 hand_options = ['L', 'l', 'A', 'a', 'R', 'r'];
 session_options = [1, 2];
 
@@ -38,7 +38,7 @@ end
 
 
 % Session
-while true
+while true  % loops until it encounters a break statement
     
     % storing input as string to avoid issues with named variables
     try
@@ -47,6 +47,7 @@ while true
         % do nothing
     end
     
+    % TODO: work out how to reject floats
     if ismember(str2num(participant_session), session_options)
         break  % exit the while loop
     else
@@ -57,11 +58,20 @@ end
 
 % TODO: check session number. If 1, ask for inputs, if 2, check inputs
 
-
+% In raw_data, file: participant{}_session{}
 data_filename = ['raw_data/participant', participant_number, ...
     '_session', participant_session];
 
 
+% Likely want to embed this at the end of a bigger while loop
+% check for participant data for this session
+if exist([data_filename, '.mat'], 'file') == 2
+    disp('Participant data for this session already exists')
+else
+    disp('No participant data for this session')
+end
+
+% TODO: stop if the data exists, loop back
 
 % Age
 while true % loops until it encounters a break statement
@@ -104,7 +114,7 @@ while true % loops until it encounters a break statement
 end
 
 % Dominant Hand
-while true
+while true  % loops until it encounters a break statement
     
     % storing input as string to avoid issues with named variables
     try
