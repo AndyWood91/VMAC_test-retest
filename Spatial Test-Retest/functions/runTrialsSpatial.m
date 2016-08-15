@@ -155,6 +155,7 @@ trialCounter = 0;
 block = 1;
 trials_since_break = 0;
 
+% build skip here
 RestrictKeysForKbCheck([KbName('c'), KbName('m')]);   % Only accept keypresses from keys C and M
 
 WaitSecs(initialPause);
@@ -279,13 +280,6 @@ for trial = 1 : numTrials
                 totalPay = totalPay + trialPay;
                 fbStr = ['+', char(nf.format(trialPay)), ' points'];
             end
-            
-%             Screen('TextSize', MainWindow, 26);
-%             DrawFormattedText(MainWindow, rtStr, 'center', bonusWindowTop + bonusWindowHeight + 40 , white);
-%             
-%             Screen('Flip', MainWindow, [], 1);
-%             
-%             WaitSecs(duringFBdelay);
             
             Screen('TextSize', MainWindow, 32);
             DrawFormattedText(MainWindow, format_payStr(totalPay + starting_total), 'center', 740, white);

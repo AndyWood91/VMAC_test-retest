@@ -180,6 +180,7 @@ elseif str2num(participant_session) == 2
     % load previous session data
     load([data_filename, '1.mat']);
     
+    disp('Previous session information:')
     disp(['Age:            ', DATA.age])
     disp(['Counterbalance: ', num2str(DATA.counterbalance)])  % remove in final version
     disp(['File:           ', DATA.file])

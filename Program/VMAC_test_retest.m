@@ -4,11 +4,17 @@ clc;
 KbName('UnifyKeyNames');
 
 
+% Stitching a bunch of global variables together feels like a strong recipe
+% for disaster
+global DATA;
+
+
 participant_details;
 
 
-% spatial_test_retest;
+spatial_test_retest;
+% saves data and I think the program will run, not sure what data it saves
+% though
 
-
-% run EIB
+RSVP_test_retest;
 
