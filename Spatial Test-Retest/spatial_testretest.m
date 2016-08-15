@@ -60,15 +60,19 @@ while inputError == 1
     if exptSession > 2
         disp(['Incorrect session number'])
         inputError = 1;
-    elseif exptSession > 1
+    elseif exptSession > 1  % essentially: if session 2
         if exist([datafilename, num2str(exptSession - 1), '.mat'], 'file') == 0
             disp(['No session ', num2str(exptSession - 1), ' data for participant ', num2str(p_number)])
             inputError = 1;
         end
-        if exist([datafilename, num2str(1), '.mat'], 'file') == 0
-            disp(['No session ', num2str(1), ' data for participant ', num2str(p_number)])
-            inputError = 1;
-        end
+        
+        % this check looks unnecessary, it's doing the same as above
+        % num2str(1) == num2str(exptSession - 1) because 2 is the only
+        % valid input for exptSession
+%         if exist([datafilename, num2str(1), '.mat'], 'file') == 0
+%             disp(['No session ', num2str(1), ' data for participant ', num2str(p_number)])
+%             inputError = 1;
+%         end
     end
     
 end

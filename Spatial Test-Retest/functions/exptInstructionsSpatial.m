@@ -86,9 +86,12 @@ if instrTrial == 3
     
     Screen('FrameOval', MainWindow, distract_col(1,1:3), circleRect(1,:), 10, 10);
     Screen('FrameOval', MainWindow, distract_col(2,1:3), circleRect(2,:), 10, 10);
-    for i = 1:2
-        Screen('DrawLine', MainWindow, [255 255 255], lineRect(i,1), lineRect(i,2), lineRect(i,3), lineRect(i,4), 8)
-    end
+    
+    % below is throwing an error, something about line display on my Mac (I
+    % think)
+%     for i = 1:2
+%         Screen('DrawLine', MainWindow, [255 255 255], lineRect(i,1), lineRect(i,2), lineRect(i,3), lineRect(i,4), [8])
+%     end
         [~, ny, highBox] = DrawFormattedText(instrWin, highString, 'left', ny+100, textColour, 35, [], [], 1.5);
     highBox_width = highBox(3) - highBox(1);
     highBox_height = highBox(4) - highBox(2);

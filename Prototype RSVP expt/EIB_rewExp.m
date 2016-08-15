@@ -5,7 +5,7 @@ commandwindow;
 
 global DATA exptName MainWindow
 global bColour white screenWidth screenHeight
-global cueBalance
+global sessionNumber cueBalance
 global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
@@ -33,7 +33,7 @@ InitializePsychSound;
 winSoundArray = [winSoundArrayMono, winSoundArrayMono];
 loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
 
-testVersion = 0;
+testVersion = 1;
 
 if testVersion == 1     % Parameters for development / debugging
 %    Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
@@ -48,6 +48,7 @@ end
 
 
 soundPAhandle = PsychPortAudio('Open', [], 1, soundLatency, sndFreq);
+
 
 keyResponse = 'a';
 while keyResponse ~= 'y' && keyResponse ~= 'Y' && keyResponse ~= 'n' && keyResponse ~= 'N' 
@@ -74,11 +75,15 @@ end
 
 if testVersion == 1
     p_number = 1;
+    sessionNumber = 1;
     cueBalance = 2;
     orderBalance = 2;
     p_sex = 'm';
     p_age = 123;
+    
+    % this needs to change
     datafilename = [datafoldername, '\', exptName, '_dataP', num2str(p_number), '.mat'];
+    
 else
     
     inputError = 1;
@@ -97,11 +102,11 @@ else
         
     end
     
-    cueBalance = 0;
-    while cueBalance < 1 || cueBalance > 2
-        cueBalance = input('Cue counterbalance (1-2) ---> ');      % 1 = birds rewarded, 2 = cars rewarded
-        if isempty(cueBalance); cueBalance = 0; end
-    end
+    cueBalance = mod(p_number, 2) + 1;
+%     while cueBalance < 1 || cueBalance > 4
+%         cueBalance = input('Cue counterbalance (1-4) ---> ');      % 1 = birds rewarded, 2 = cars rewarded
+%         if isempty(cueBalance); cueBalance = 0; end
+%     end
     
     
     p_sex = 'a';
@@ -136,7 +141,7 @@ rng(randSeed);
 
 %% Set up screens
 
-MainWindow = Screen(screenNum, 'OpenWindow', bColour);
+MainWindow = Screen('OpenWindow', 0);
 
 DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
@@ -161,11 +166,34 @@ global neutImages numNeutImages
 global baselineImages numBaselineImages
 global targetImages numTargetImages targetRotation
 
+% session check here
+% if sessionNumber == 1
+%     
+%     if cueBalance == 1
+%         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
+%         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+%     else
+%         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+%         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
+%     end
+% 
+% elseif sessionNumber == 2
+%     
+%     if cueBalance == 1
+%         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+%         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
+%     else
+%         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
+%         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+%     end
+% 
+% end
+
 if cueBalance == 1
     [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-    [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+    [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
 else
-    [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+    [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
 end
 
