@@ -11,7 +11,6 @@ Screen('TextStyle', instrWindow, 0);
 yellow = [255, 255, 0];
 
 
-% change this
 if sessionNumber == 1
     if cueBalance == 1 || cueBalance == 3
         rewardString = 'BIRD';
@@ -31,13 +30,6 @@ elseif sessionNumber == 2
 else
     error('sessionNumber isn''t set properly')
 end
-
-% original c/bal
-% if cueBalance == 1
-%     rewardString = 'BIRD';
-% else
-%     rewardString = 'CAR';
-% end
 
 
 instrString = 'Great job!\n\nFrom now on you can win points for correct responses.\n\nThis is important because you will receive money at the end of the experiment, based on how many points you have earned. Most participants are able to earn between $7 and $12.';
