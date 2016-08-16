@@ -13,8 +13,6 @@ participant_details;
 
 
 spatial_test_retest;
-% saves data and I think the program will run, not sure what data it saves
-% though
+
 
 RSVP_test_retest;
-
