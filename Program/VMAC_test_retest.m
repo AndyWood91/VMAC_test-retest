@@ -4,17 +4,15 @@ clc;
 KbName('UnifyKeyNames');
 
 
-% Stitching a bunch of global variables together feels like a strong recipe
-% for disaster
+% variable declarations
 global DATA;
 
 
-participant_details;
+participant_details({[1:4]}, 2, true);  % locked and loaded
 
 
 spatial_test_retest;
-% saves data and I think the program will run, not sure what data it saves
-% though
+% need to check this saves exp. data
 
 RSVP_test_retest;
-
+% need to check this saves exp. data
