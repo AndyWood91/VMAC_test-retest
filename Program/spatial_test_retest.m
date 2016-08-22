@@ -38,7 +38,7 @@ if test == 1;
     p_age = 25;
     p_sex = 'm';
     p_hand = 'r';
-    datafilename = ['ExptData\CirclesMultiDataP', p_number, 'S'];
+    datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
     bonus_payment = 10;
     
 else 
@@ -54,12 +54,12 @@ else
     while inputError == 1
         inputError = 0;
 
-        % checks if there is a folder named 'ExptData'
-        if exist('ExptData', 'dir') ~= 7
-            mkdir('ExptData');  % if not, make it
+        % checks if there is a folder named 'spatial_data'
+        if exist('spatial_data', 'dir') ~= 7
+            mkdir('spatial_data');  % if not, make it
         end
 
-        datafilename = ['ExptData\CirclesMultiDataP', p_number, 'S'];
+        datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
 
         if exist([datafilename, exptSession, '.mat'], 'file') == 2
             disp(['Session ', exptSession, ' data for participant ', p_number,' already exist'])
@@ -260,7 +260,7 @@ end
 DATA.bonusSessionSpatial = bonus_payment;
 DATA.bonusSoFar = bonus_payment + starting_total;
 
-save(['ExptData\CirclesMultiDataP', participant_number, 'S', participant_session], 'DATA');
+save(['spatial_data\CirclesMultiDataP', participant_number, 'S', participant_session], 'DATA');
 
 DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
