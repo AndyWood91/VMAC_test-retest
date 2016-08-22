@@ -1,28 +1,31 @@
 sca;
 
-commandwindow;
+commandwindow;  % for testing, can type sca to exit
 
+% variable declarations
 global DATA exptName MainWindow
 global bColour white screenWidth screenHeight
 global sessionNumber cueBalance
 global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
-exptName = 'EIB_rewExp';
+% Andy's additions
+global rsvp filename
 
-bColour = [0 0 0]; % black
+exptName = 'RSVP_test_retest';
+
+bColour = [0 0 0];  % black
 white = [255, 255, 255];
 
 KbName('UnifyKeyNames');    % Supposedly important to standardise keyboard input across platforms / OSs.
 
 %% Back to more sensible things
 
-functionFoldername = fullfile(pwd, 'RSVPfunctions');    % Generate file path for "functions" folder in current working directory
-addpath(genpath(functionFoldername));       % Then add path to this folder and all subfolders
+functionFoldername = fullfile(pwd, 'RSVP_functions');  % Generate file path for "functions" folder in current working directory
+addpath(genpath(functionFoldername));  % Then add path to this folder and all subfolders
 
-imageFoldername = fullfile(pwd, 'images');    % Generate file path for "images" folder in current working directory
-addpath(genpath(imageFoldername));       % Then add path to this folder and all subfolders
-
+imageFoldername = fullfile(pwd, 'RSVP_images');  % Generate file path for "images" folder in current working directory
+addpath(genpath(imageFoldername));  % Then add path to this folder and all subfolders
 
 InitializePsychSound;
 
@@ -35,7 +38,7 @@ loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
 testVersion = 1;
 
 if testVersion == 1     % Parameters for development / debugging
-%    Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
+    Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
     Screen('Preference', 'SkipSyncTests', 1);
     screenNum = 0;
     soundLatency = 0;
@@ -49,95 +52,128 @@ end
 soundPAhandle = PsychPortAudio('Open', [], 1, soundLatency, sndFreq);
 
 
-keyResponse = 'a';
-while keyResponse ~= 'y' && keyResponse ~= 'Y' && keyResponse ~= 'n' && keyResponse ~= 'N' 
+% confirm options
+accept_options = 'Yy';
+reject_optins = 'Nn';
+
+% confirm loop
+while true  % loops until a break statement is encountered
+    
+    % check sound volume
     PsychPortAudio('FillBuffer', soundPAhandle, winSoundArray');
     PsychPortAudio('Start', soundPAhandle);
-    keyResponse = input('Is volume OK? (y / n / blank to hear again) ---> ', 's');
-    if isempty(keyResponse); keyResponse = 'a'; end
-end
-
-if keyResponse == 'n' || keyResponse == 'N'
-    fprintf(1, '\nQuitting script. Change volume and then run the script again.\n\n');
-    PsychPortAudio('Close', soundPAhandle);
-    clear all;
-    return
-end
-
-
-% Check to see if subject data folder exists; if not, create it.
-datafoldername = ['SubjData_', exptName];
-if exist(datafoldername, 'dir') == 0
-    mkdir(datafoldername);
-end
-
-
-if testVersion == 1
-    p_number = '1';
-    sessionNumber = '2'; % testing session 2
-    cueBalance = 1;
-    orderBalance = 2;
-    p_sex = 'm';
-    p_age = 123;
     
-    datafilename = [datafoldername, '\', exptName, '_dataP', p_number, 'S', sessionNumber, '.mat'];
-    
-else
-    
-    inputError = 1;
-    
-    while inputError == 1
-        inputError = 0;
-        
-        p_number = input('Participant number  ---> ');
-        
-        datafilename = [datafoldername, '\', exptName, '_dataP', p_number, 'S', sessionNumber, '.mat'];
-        
-        if exist(datafilename, 'file') == 2
-            disp(['Session ', participant_session, ' data for participant ', p_number,' already exists'])
-            inputError = 1;
-        end
-        
+    try
+        confirm = input('Is volume OK? (y/n) --> ', 's');
+    catch
+        % do nothng with errors, confirm loop will repeat
     end
     
-    cueBalance = participant_counterbalance;  % participant_counterbalance is a number, should be fine
-    
-    
-    p_sex = 'a';
-    while p_sex ~= 'm' && p_sex ~= 'f' && p_sex ~= 'M' && p_sex ~= 'F'
-        p_sex = input('Participant gender (M/F) ---> ', 's');
-        if isempty(p_sex); p_sex = 'a'; end
+    if ismember(confirm, accept_options)
+        break  % exit the confirm loop
+    else
+        % do nothing, confirm loop will repeat
     end
-    
-    p_age = input('Participant age ---> ');
     
 end
 
-DATA.subject = p_number;
-DATA.cueBal = cueBalance;
-DATA.age = p_age;
-DATA.sex = p_sex;
-DATA.start_time = datestr(now,0);
+% % original sound check from Mike
+% keyResponse = 'a';
+% while keyResponse ~= 'y' && keyResponse ~= 'Y' && keyResponse ~= 'n' && keyResponse ~= 'N' 
+%     PsychPortAudio('FillBuffer', soundPAhandle, winSoundArray');
+%     PsychPortAudio('Start', soundPAhandle);
+%     keyResponse = input('Is volume OK? (y / n / blank to hear again) ---> ', 's');
+%     if isempty(keyResponse); keyResponse = 'a'; end
+% end
+% 
+% if keyResponse == 'n' || keyResponse == 'N'
+%     fprintf(1, '\nQuitting script. Change volume and then run the script again.\n\n');
+%     PsychPortAudio('Close', soundPAhandle);
+%     clear all;
+%     return
+% end
 
-DATA.session_Bonus = 0;
-DATA.session_Points = 0;
-DATA.actualBonusSession = 0;
-DATA.totalBonus = 0;
+% % original data dir from Mike
+% % Check to see if subject data folder exists; if not, create it.
+% datafoldername = ['SubjData_', exptName];
+% if exist(datafoldername, 'dir') == 0
+%     mkdir(datafoldername);
+% end
 
+  
+p_number = DATA.details('number');
+session = DATA.details('session');
+cueBalance = DATA.details('counterbalance');
+p_age = DATA.details('age');
+p_sex = DATA.details('gender');
+    
+%% original data check from Mike
+%     inputError = 1;
+%     
+%     while inputError == 1
+%         inputError = 0;
+%         
+%         p_number = input('Participant number  ---> ');
+%         
+%         datafilename = [datafoldername, '\', exptName, '_dataP', num2str(p_number), '.mat'];
+%         
+%         if exist(datafilename, 'file') == 2
+%             disp(['Data for participant ', num2str(p_number),' already exist'])
+%             inputError = 1;
+%         end
+%         
+%     end
+%     
+%     cueBalance = 0;
+%     while cueBalance < 1 || cueBalance > 2
+%         cueBalance = input('Cue counterbalance (1-2) ---> ');      % 1 = birds rewarded, 2 = cars rewarded
+%         if isempty(cueBalance); cueBalance = 0; end
+%     end
+%     
+%     
+%     p_sex = 'a';
+%     while p_sex ~= 'm' && p_sex ~= 'f' && p_sex ~= 'M' && p_sex ~= 'F'
+%         p_sex = input('Participant gender (M/F) ---> ', 's');
+%         if isempty(p_sex); p_sex = 'a'; end
+%     end
+%     
+%     p_age = input('Participant age ---> ');
+% 
+% DATA.subject = p_number;
+% DATA.cueBal = cueBalance;
+% DATA.age = p_age;
+% DATA.sex = p_sex;
+% DATA.start_time = datestr(now,0);
+
+
+% storing experimental data here, then saving it to DATA later
+rsvp = containers.Map({'start', 'session_bonus', 'session_points', ...
+    'actualBonusSession', 'totalBonus'}, {datestr(now, 0), 0, 0, 0, 0}, ...
+    'UniformValues', false);
+
+
+% DATA.session_bonus = 0;
+% DATA.session_points = 0;
+% DATA.actualBonusSession = 0;
+% DATA.totalBonus = 0;
+
+    
 % generate a random seed using the clock, then use it to seed the random
 % number generator
 rng('shuffle');
 randSeed = randi(30000);
-DATA.rSeed = randSeed;
+rsvp('random_seed') = randSeed;
+% DATA.rSeed = randSeed;
 rng(randSeed);
 
 
 
 %% Set up screens
 
-MainWindow = Screen('OpenWindow', 0);
+MainWindow = Screen(screenNum, 'OpenWindow', bColour);
 
-DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
+rsvp('frame_rate') = round(Screen(MainWindow, 'FrameRate'));
+% DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
 Screen('TextFont' , MainWindow ,'Segoe UI' );
 Screen('TextSize', MainWindow, 46);
@@ -160,62 +196,56 @@ global neutImages numNeutImages
 global baselineImages numBaselineImages
 global targetImages numTargetImages targetRotation
 
-if str2num(sessionNumber) == 1  % first session, birds & bikes
+% TODO: check the counterbalancing grid here
+if session == 1  % birds and bikes
     
-    if cueBalance == 1
+    if cueBalance == 1 || cueBalance == 3
         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
-    elseif cueBalance == 2
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-    elseif cueBalance == 3
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
-    elseif cueBalance == 4
+    elseif cueBalance == 2 || cueBalance == 4
         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
     else
-        error('cueBalance isn''t set properly')
+        error('cueBalance isn''t set properly');
     end
     
-elseif str2num(sessionNumber) == 2  % second session, cars & chairs
+elseif session == 2  % cars and chairs
     
-    if cueBalance == 1
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
-    elseif cueBalance == 2
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
-    elseif cueBalance == 3
+    if cueBalance == 1 || cueBalance == 2
         [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
         [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
-    elseif cueBalance == 4
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+    elseif cueBalance == 3 || cueBalance == 4
+        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
     else
-        error('cueBalance isn''t set properly')
+        error('cueBalance isn''t set properly');
     end
     
 else
-    error('Session number isn''t set properly')
+    error('session isn''t set properly');
 end
 
-% original c/bal setting
+
+% % original counterbalancing
 % if cueBalance == 1
 %     [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-%     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+%     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
 % else
-%     [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+%     [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
 %     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
 % end
 
 [baselineImages, numBaselineImages, ~] = readInImages([imageFoldername, '\ColourScenes'], 0);
 [targetImages, numTargetImages, targetRotation] = readInImages([imageFoldername, '\EBY_Targets'], 1);
 
-DATA.numRewardImages = numRewardImages;
-DATA.numNeutImages = numNeutImages;
-DATA.numBaselineImages = numBaselineImages;
-DATA.numTargetImages = numTargetImages; 
+% DATA.numRewardImages = numRewardImages;
+% DATA.numNeutImages = numNeutImages;
+% DATA.numBaselineImages = numBaselineImages;
+% DATA.numTargetImages = numTargetImages; 
+rsvp('numRewardImages') = numRewardImages;
+rsvp('numNeutImages') = numNeutImages;
+rsvp('numBaselineImages') = numBaselineImages;
+rsvp('numTargetImages') = numTargetImages;
 
 
 
@@ -224,21 +254,26 @@ DATA.numTargetImages = numTargetImages;
 
 startSecs = GetSecs;
 
+% add a session check
 showInstructions1;
  
 [~, ~] = runTrials(1);    % Practice with no salient distractors
 
+
+% add a session check
 showInstructions2;
 [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts
 
-% Need to change below to track across the whole experiment
+
+% change this across the whole experiment
 amountEarned = rewardPropCorrect * 12;  % Amount earned in dollars (0.5 correct gives $6, 1 correct gives $12)
 
-amountEarned = amountEarned * 100;   % change to cents
-amountEarned = 10 * ceil(amountEarned/10);        % ... round this value UP to nearest 10 cents
-amountEarned = amountEarned / 100;    % ... then convert back to dollars
+amountEarned = amountEarned * 100;  % change to cents
+amountEarned = 10 * ceil(amountEarned/10);  % round this value UP to nearest 10 cents
+amountEarned = amountEarned / 100;  % then convert back to dollars
 
 
+% change this across the whole experiment
 if amountEarned > 12    % This shouldn't be possible, but you never know
     amountEarned = 12;
 elseif amountEarned < 6     % This is here in case there are any very unlucky dolts
@@ -246,13 +281,17 @@ elseif amountEarned < 6     % This is here in case there are any very unlucky do
 end
 
 fid1 = fopen([datafoldername,'\_TotalBonus_summary.csv'], 'a');
-fprintf(fid1,'%d,%d,%f,%f\n', str2num(p_number), runningTotalPoints, rewardPropCorrect, amountEarned);
+fprintf(fid1,'%d,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
 fclose(fid1);
 
 PsychPortAudio('Close', soundPAhandle);
 
-DATA.end_time = datestr(now,0);
-DATA.exptDuration = GetSecs - startSecs;
+rsvp('finish') = datestr(now, 0);
+rsvp('duration') = GetSecs - startSecs;
+
+% DATA.end_time = datestr(now,0);
+% DATA.exptDuration = GetSecs - startSecs;
+DATA.rsvp = rsvp;
 save(datafilename, 'DATA');
 
 Screen('Flip',MainWindow);
@@ -273,3 +312,6 @@ ShowCursor;
 
 % Close all windows.
 Screen('ClearAll');
+Screen('CloseAll');
+
+% clear all;
