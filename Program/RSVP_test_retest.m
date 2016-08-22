@@ -5,7 +5,7 @@ commandwindow;  % for testing, can type sca to exit
 % variable declarations
 global DATA exptName MainWindow
 global bColour white screenWidth screenHeight
-global cueBalance
+global sessionNumber cueBalance
 global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
@@ -34,7 +34,6 @@ InitializePsychSound;
 
 winSoundArray = [winSoundArrayMono, winSoundArrayMono];
 loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
-
 
 testVersion = 1;
 

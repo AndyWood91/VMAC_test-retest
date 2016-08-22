@@ -1,4 +1,3 @@
-
 function exptInstructions
 
 global MainWindow white
