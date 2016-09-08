@@ -288,7 +288,8 @@ function [] = participant_details(conditions, sessions, bonus)
                     disp(['Session:        ', DATA.raw_data('session')])
                     disp(['Start time:     ', DATA.raw_data('start')])
 %                     disp(['Finish time:    ', DATA.raw_data('finish')])
-%                     removed for testing, add back in later
+%                     removed for testing, add back in later (need to save
+%                     it elsewhere before it can load
                     disp(['Session bonus:  ', num2str(DATA.raw_data('bonus_session'))])
                     disp(['Total bonus:    ', num2str(DATA.raw_data('bonus_total'))])
                     
