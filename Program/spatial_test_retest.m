@@ -8,6 +8,8 @@ global white black gray yellow
 global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
 
+global filename 
+
 nf = java.text.DecimalFormat;
 
 
@@ -26,73 +28,55 @@ smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
 starting_total = 0;
 keyCounterbal = 1;
 
+load(filename, 'DATA');
 
-test = 1;
 
-% Testing Session 1 currently
-if test == 1;
-    
-    p_number = 1;
-    exptSession = '2';
-    colBalance = 1;
-    p_age = 25;
-    p_sex = 'm';
-    p_hand = 'r';
-    datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
-    bonus_payment = 10;
-    
-else 
-    
-    % Not going to need these validation checks, set off participant
-    % details
-    
-    p_number = DATA.participant;
-    exptSession = DATA.session;
-    
-    inputError = 1;
+p_number = DATA.details('nmber');
+exptSession = DATA.details('session');
 
-    while inputError == 1
-        inputError = 0;
+inputError = 1;
 
-        % checks if there is a folder named 'spatial_data'
-        if exist('spatial_data', 'dir') ~= 7
-            mkdir('spatial_data');  % if not, make it
-        end
+while inputError == 1
+    inputError = 0;
 
-        datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
-
-        if exist([datafilename, exptSession, '.mat'], 'file') == 2
-            disp(['Session ', exptSession, ' data for participant ', p_number,' already exist'])
-            inputError = 1;
-        end
-
-        if str2num(exptSession) > 2
-            disp(['Incorrect session number'])
-            inputError = 1;
-        elseif str2num(exptSession) > 1
-            if exist([datafilename, '1.mat'], 'file') == 0
-                disp(['No session 1 data for participant ', p_number])
-                inputError = 1;
-            end
-            if exist([datafilename, '1.mat'], 'file') == 0
-                disp(['No session 1 data for participant ', p_number])
-                inputError = 1;
-            end
-        end
-
+    % checks if there is a folder named 'spatial_data'
+    if exist('spatial_data', 'dir') ~= 7
+        mkdir('spatial_data');  % if not, make it
     end
-    
+
+    datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
+
+    if exist([datafilename, exptSession, '.mat'], 'file') == 2
+        disp(['Session ', exptSession, ' data for participant ', p_number,' already exist'])
+        inputError = 1;
+    end
+
+    if str2num(exptSession) > 2
+        disp(['Incorrect session number'])
+        inputError = 1;
+    elseif str2num(exptSession) > 1
+        if exist([datafilename, '1.mat'], 'file') == 0
+            disp(['No session 1 data for participant ', p_number])
+            inputError = 1;
+        end
+        if exist([datafilename, '1.mat'], 'file') == 0
+            disp(['No session 1 data for participant ', p_number])
+            inputError = 1;
+        end
+    end
+
 end
+   
 
 
 if test == 0
     % First Session
     if str2num(exptSession) == 1
         
-        colBalance = DATA.counterbalance;
-        p_age = DATA.age;
-        p_sex = DATA.gender;
-        p_hand = DATA.hand;
+        colBalance = DATA.details('counterbalance');
+        p_age = DATA.details('age');
+        p_sex = DATA.details('gender');
+        p_hand = DATA.details('hand');
       
     % Second Session
     else

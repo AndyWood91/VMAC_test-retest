@@ -13,7 +13,9 @@ yellow = [255, 255, 0];
 instrString = 'In this task you will view streams of images. On each trial, you will see a series of pictures flashed very fast on the screen. Most of the pictures will be upright, but one of them will be rotated to the left or to the right.';
 instrString2 = 'Your task is to use the left or right arrow key to identify the direction in which the rotated picture is rotated. In this example, it is in the LEFT direction.';
 instrString3 = 'You will now have a chance to practise this task. The pictures will start off flashing quite slowly, and will gradually speed up to the speed of the experiment.';
-[imageWidth, imageHeight] = Screen('WindowSize', targetImages(1));
+% [imageWidth, imageHeight] = Screen('WindowSize', targetImages(1));
+[imageWidth, imageHeight] = Screen('WindowSize', 0);  % error here
+
 
 imageTop = 330;
 centredImageRect = [screenWidth/2 - imageWidth/2, imageTop, screenWidth/2 + imageWidth/2, imageTop + imageHeight];

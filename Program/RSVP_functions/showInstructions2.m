@@ -18,7 +18,7 @@ yellow = [255, 255, 0];
 
 
 % double check this with design in main program
-if session == 1
+if session == '1'
     
     if cueBalance == 1 || cueBalance == 3
         rewardString = 'BIRD';
@@ -28,7 +28,7 @@ if session == 1
         error('cueBalance isn''t set properly');
     end
     
-elseif session == 2
+elseif session == '2'
     
     if cueBalance == 1 || cueBalance == 2
         rewardString = 'CHAIR';

@@ -55,15 +55,22 @@ function [] = participant_details(conditions, sessions, bonus)
         mkdir('raw_data')  % make it if it doesn't exist
     end
     
+    % stored separately for anonymity
+    if exist('participant_details', 'dir') ~= 7  % check for participant details directory
+        mkdir('participant_details')  % make it if it doesn't exist
+    end
+    
+    
+    % raw_data Map - experiment details stored here
+    raw_data = containers.Map({'start'}, {datestr(now, 0)}, ... 
+        'UniformValues', false);
     
     % details Map - participant details stored here
-    details = containers.Map({'start'}, {datestr(now, 0)}, ... 
-        'UniformValues', false);
+    details = containers.Map('UniformValues', false);
     
     
     % Data Validation
-    % inputs are compared to options set here using ismember() and
-    % rejected if invalid
+    % inputs are compared to options set here using ismember() and rejected if invalid
     gender_options = 'MmOoWw';
     hand_options = 'AaLlRr';
     accept_options = 'Yy';
@@ -90,6 +97,7 @@ function [] = participant_details(conditions, sessions, bonus)
             % Validation
             if str2double(number) > 0  % only accept positive values
                 details('number') = number;  % add to details Map
+                raw_data('number') = number;  % add to raw_data Map
                 break  % exit the number loop
             else
                 % do nothing, number loop will repeat
@@ -127,16 +135,17 @@ function [] = participant_details(conditions, sessions, bonus)
 
         end
         
-        details('session') = session;  % add to details Map
+        raw_data('session') = session;  % add to raw_data Map
 
         
         % filename doesn't include session number here to make it easier to
         % check for previous session's data
-        filename = ['raw_data/participant', number, 'session'];
+        data_filename = ['raw_data/participant', number, 'session'];
+        details_filename = ['participant_details/participant', number];
 
         
         % check for existing datafile
-        if exist([filename, session, '.mat'], 'file') == 2
+        if exist([data_filename, session, '.mat'], 'file') == 2
             
             disp(['Session ', session, ' data for participant ', ... 
                 number, ' already exists.'])  
@@ -210,6 +219,11 @@ function [] = participant_details(conditions, sessions, bonus)
 
                 end
                 
+                % save participant details
+                DATA.details = details;
+                save(details_filename, 'DATA');
+                clear('DATA');
+                
                 
                 % Counterbalance
                 % TODO: the counterbalancing here should probably
@@ -229,17 +243,17 @@ function [] = participant_details(conditions, sessions, bonus)
                             conditions{a}(end)) + 1;
                     end
                     
-                    details('counterbalance') = counterbalance;
+                    raw_data('counterbalance') = counterbalance;
                     
                 end
                 
                 % Bonus
                 if bonus 
                     
-                    details('bonus_total') = 0;
+                    raw_data('bonus_total') = 0;
                     
                     if sessions > 1
-                        details('bonus_session') = 0;
+                        raw_data('bonus_session') = 0;
                     end
                     
                 end
@@ -249,7 +263,7 @@ function [] = participant_details(conditions, sessions, bonus)
             % check for previous session data
             else
                 
-                if exist([filename, num2str(str2double(session) - 1), ...
+                if exist([data_filename, num2str(str2double(session) - 1), ...
                         '.mat'], 'file') ~= 2
                 
                     disp(['Previous session (', ... 
@@ -260,20 +274,23 @@ function [] = participant_details(conditions, sessions, bonus)
 
                 else
                     
-                    load([filename, num2str(str2double(session) - 1), ...
-                        '.mat'], 'DATA')
                     clc;
+                    load([details_filename, '.mat'], 'DATA');
+
                     disp('Previous session details:')
                     disp(['Participant:    ', DATA.details('number')])
-                    disp(['Session:        ', DATA.details('session')])
-                    disp(['Start time:     ', DATA.details('start')])
-%                     disp(['Finish time:    ', DATA.details('finish')])
-%                     for testing, add back in later
                     disp(['Age:            ', DATA.details('age')])
                     disp(['Gender:         ', DATA.details('gender')])
                     disp(['Hand:           ', DATA.details('hand')])
-                    disp(['Session bonus:  ', num2str(DATA.details('bonus_session'))])
-                    disp(['Total bonus:    ', num2str(DATA.details('bonus_total'))])
+                    
+                    load([data_filename, num2str(str2double(session) - 1), ...
+                        '.mat'], 'DATA');
+                    disp(['Session:        ', DATA.raw_data('session')])
+                    disp(['Start time:     ', DATA.raw_data('start')])
+%                     disp(['Finish time:    ', DATA.raw_data('finish')])
+%                     removed for testing, add back in later
+                    disp(['Session bonus:  ', num2str(DATA.raw_data('bonus_session'))])
+                    disp(['Total bonus:    ', num2str(DATA.raw_data('bonus_total'))])
                     
                     
                     % confirm loop
@@ -298,23 +315,16 @@ function [] = participant_details(conditions, sessions, bonus)
                     
                     if ismember(confirm, accept_options)
                         
-                        % update details Map
-                        details('age') = DATA.details('age');
-                        details('gender') = DATA.details('gender');
-                        details('hand') = DATA.details('hand');
-                        
-                        if isKey(DATA.details, 'counterbalance')
-                            details('counterbalance') = ...
-                                DATA.details('counterbalance');
+                        if isKey(DATA.raw_data, 'counterbalance')
+                            raw_data('counterbalance') = DATA.raw_data('counterbalance');
                         end
                         
-                        if isKey(DATA.details, 'bonus_session')
-                            details('bonus_session') = 0;
+                        if isKey(DATA.raw_data, 'bonus_session')
+                            raw_data('bonus_session') = 0;
                         end
                         
-                        if isKey(DATA.details, 'bonus_total')
-                            details('bonus_total') = ...
-                                DATA.details('bonus_total');
+                        if isKey(DATA.raw_data, 'bonus_total')
+                            raw_data('bonus_total') = DATA.raw_data('bonus_total');
                         end
                         
                         clear DATA;  % get rid of previous data
@@ -334,12 +344,11 @@ function [] = participant_details(conditions, sessions, bonus)
     end
     
     
-    filename = [filename, session];  % include session now
-    details('filename') = filename;  % add to details Map
-    
-    
+    data_filename = [data_filename, session];  % include session now
+    raw_data('filename') = data_filename;  % add to raw_data Map
+   
     % save DATA
-    DATA.details = details;
-    save(filename, 'DATA');
+    DATA.raw_data = raw_data;
+    save(data_filename, 'DATA');
 
 end

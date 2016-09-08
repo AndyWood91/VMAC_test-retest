@@ -1,5 +1,10 @@
 sca;
 
+PVar = 'DYLD_LIBRARY_PATH';
+PVal = getenv(PVar);
+nVal = [ '/opt/X11/lib:', PVal ];
+setenv(PVar, nVal);
+
 commandwindow;  % for testing, can type sca to exit
 
 % variable declarations
@@ -35,7 +40,7 @@ InitializePsychSound;
 winSoundArray = [winSoundArrayMono, winSoundArrayMono];
 loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
 
-testVersion = 1;
+testVersion = 0;
 
 if testVersion == 1     % Parameters for development / debugging
     Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
@@ -197,26 +202,28 @@ global baselineImages numBaselineImages
 global targetImages numTargetImages targetRotation
 
 % TODO: check the counterbalancing grid here
-if session == 1  % birds and bikes
+if session == '1'  % birds and bikes
+    
+%     [imageTexture, numImages, targetRotation] function == readinImages(inputFoldername, readingTargetImages);
     
     if cueBalance == 1 || cueBalance == 3
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\BIRDPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
     elseif cueBalance == 2 || cueBalance == 4
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\BIRDPICS'], 0);
     else
         error('cueBalance isn''t set properly');
     end
     
-elseif session == 2  % cars and chairs
+elseif session == '2'  % cars and chairs
     
     if cueBalance == 1 || cueBalance == 2
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\CARPICS'], 0);
     elseif cueBalance == 3 || cueBalance == 4
-        [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
-        [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\CARPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
     else
         error('cueBalance isn''t set properly');
     end
@@ -235,7 +242,7 @@ end
 %     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
 % end
 
-[baselineImages, numBaselineImages, ~] = readInImages([imageFoldername, '\ColourScenes'], 0);
+[baselineImages, numBaselineImages, targetRotation] = readInImages([imageFoldername, '\ColourScenes'], 0);
 [targetImages, numTargetImages, targetRotation] = readInImages([imageFoldername, '\EBY_Targets'], 1);
 
 % DATA.numRewardImages = numRewardImages;
