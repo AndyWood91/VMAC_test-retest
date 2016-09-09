@@ -362,7 +362,9 @@ for block = 1 : numBlocks
         DATA.rsvp = rsvp;
       
         save(datafilename, 'DATA');
-        save(filename, 'DATA');
+        
+        % Andy's addition
+        save(DATA.raw_data('data_filename'), 'DATA');
 
     end     % trials
     

@@ -4,6 +4,9 @@ global MainWindow
 global bColour white screenWidth
 global cueBalance
 
+% Andy
+global DATA
+
 instrWindow = Screen('OpenOffscreenWindow', MainWindow, bColour);
 Screen('TextFont', instrWindow, 'Segoe UI');
 Screen('TextStyle', instrWindow, 0);
@@ -16,6 +19,7 @@ yellow = [255, 255, 0];
 %     rewardString = 'CAR';
 % end
 
+session = DATA.raw_data('session');
 
 % double check this with design in main program
 if session == '1'
