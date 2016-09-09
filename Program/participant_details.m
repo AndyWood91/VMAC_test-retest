@@ -1,7 +1,5 @@
 %% participant_details
 
-% 
-
 % conditions is an optional argument if you want to set counterbalancing.
 % Needs to be a cell array containing the range of possible values for each
 % condition, e.g. {[1:3] [1:4]} means there are 2 conditions, the first
@@ -16,8 +14,8 @@
 % needs to have global DATA declared in invoking program, that's what it
 % will save the information to.
 
-% bonus_session, bonus_total, finish need to be set at the end of program
-% (maybe write another function for this)
+% bonus_session, bonus_total, & finish are updated by the update_details
+% function, which needs to be run at the end of the experimental program
 
 %% code
 
@@ -266,13 +264,8 @@ function [] = participant_details(conditions, sessions, bonus)
                 
                 % bonus
                 if bonus 
-                    
-                    raw_data('bonus_total') = 0;
-                    
-                    if sessions > 1
-                        raw_data('bonus_session') = 0;
-                    end
-                    
+                    raw_data('bonus_session') = 0;
+                    raw_data('bonus_total') = 0;                
                 end
                 
                 break  % exit the data check loop
@@ -295,7 +288,7 @@ function [] = participant_details(conditions, sessions, bonus)
                     disp('Previous session details:')
                     disp(['Participant:    ', DATA.details('number')])
                     disp(['Age:            ', DATA.details('age')])
-                    disp(['hand:         ', DATA.details('hand')])
+                    disp(['Gender:         ', DATA.details('gender')])
                     disp(['Hand:           ', DATA.details('hand')])
                     
                     load([data_filename, num2str(str2double(session) - 1), '.mat'], 'DATA');
@@ -303,12 +296,17 @@ function [] = participant_details(conditions, sessions, bonus)
                     disp(['Session:        ', DATA.raw_data('session')])
                     disp(['Start time:     ', DATA.raw_data('start')])
                     
-                    if isfield(DATA.raw_data, 'finish')  % for testing, finish won't exist until it's saved at the end of the program
+                    if isKey(DATA.raw_data, 'finish')  % for testing, finish won't exist until it's saved at the end of the program
                         disp(['Finish time:    ', DATA.raw_data('finish')])
                     end
                     
-                    disp(['Session bonus:  ', num2str(DATA.raw_data('bonus_session'))])
-                    disp(['Total bonus:    ', num2str(DATA.raw_data('bonus_total'))])
+                    if isKey(DATA.raw_data, 'bonus_session')
+                        disp(['Session bonus:  ', num2str(DATA.raw_data('bonus_session'))])
+                    end
+                    
+                    if isKey(DATA.raw_data, 'bonus_total')
+                        disp(['Total bonus:    ', num2str(DATA.raw_data('bonus_total'))])
+                    end
                     
                     
                     % confirm loop
@@ -330,6 +328,7 @@ function [] = participant_details(conditions, sessions, bonus)
                     
                     if ismember(confirm, accept_options)
                         
+                        % get these values from last session's data
                         if isKey(DATA.raw_data, 'counterbalance')
                             raw_data('counterbalance') = DATA.raw_data('counterbalance');
                         end
@@ -363,7 +362,7 @@ function [] = participant_details(conditions, sessions, bonus)
     
     
     data_filename = [data_filename, session];  % include session now
-    raw_data('filename') = data_filename;  % add to raw_data Map
+    raw_data('data_filename') = data_filename;  % add to raw_data Map
    
     % save DATA
     DATA.raw_data = raw_data;

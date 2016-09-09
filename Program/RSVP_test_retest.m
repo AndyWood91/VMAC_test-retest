@@ -15,7 +15,7 @@ global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
 % Andy's additions
-global rsvp filename
+global rsvp bonus_session  % bonus_session should be 0 here
 
 exptName = 'RSVP_test_retest';
 
@@ -106,11 +106,11 @@ end
 % end
 
   
-p_number = DATA.details('number');
-session = DATA.details('session');
-cueBalance = DATA.details('counterbalance');
-p_age = DATA.details('age');
-p_sex = DATA.details('gender');
+p_number = DATA.raw_data('number');
+session = DATA.raw_data('session');
+cueBalance = DATA.raw_data('counterbalance');
+p_age = DATA.raw_data('age');
+p_sex = DATA.raw_data('gender');
     
 %% original data check from Mike
 %     inputError = 1;
@@ -273,7 +273,7 @@ showInstructions2;
 
 
 % change this across the whole experiment
-amountEarned = rewardPropCorrect * 12;  % Amount earned in dollars (0.5 correct gives $6, 1 correct gives $12)
+amountEarned = rewardPropCorrect * 6;  % Amount earned in dollars (0.5 correct gives $3, 1 correct gives $6)
 
 amountEarned = amountEarned * 100;  % change to cents
 amountEarned = 10 * ceil(amountEarned/10);  % round this value UP to nearest 10 cents
@@ -281,11 +281,15 @@ amountEarned = amountEarned / 100;  % then convert back to dollars
 
 
 % change this across the whole experiment
-if amountEarned > 12    % This shouldn't be possible, but you never know
-    amountEarned = 12;
-elseif amountEarned < 6     % This is here in case there are any very unlucky dolts
+if amountEarned > 6    % This shouldn't be possible, but you never know
     amountEarned = 6;
+elseif amountEarned < 3     % This is here in case there are any very unlucky dolts
+    amountEarned = 3;
 end
+
+% Andy's addition
+amountEarned = bonus_session;
+update_details;
 
 fid1 = fopen([datafoldername,'\_TotalBonus_summary.csv'], 'a');
 fprintf(fid1,'%d,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
@@ -296,10 +300,13 @@ PsychPortAudio('Close', soundPAhandle);
 rsvp('finish') = datestr(now, 0);
 rsvp('duration') = GetSecs - startSecs;
 
-% DATA.end_time = datestr(now,0);
-% DATA.exptDuration = GetSecs - startSecs;
+% Mike data
+DATA.end_time = datestr(now,0);
+DATA.exptDuration = GetSecs - startSecs;
+
+% Andy data
 DATA.rsvp = rsvp;
-save(datafilename, 'DATA');
+save(DATA.raw_data('data_filename'), 'DATA');
 
 Screen('Flip',MainWindow);
 [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned in this task = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);

@@ -8,9 +8,12 @@ global white black gray yellow
 global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
 
-global filename 
+% global filename 
 
-nf = java.text.DecimalFormat;
+% Andy;s additions
+global bonus_session
+
+nf = java.text.DecimalFormat;  % what does this do?
 
 
 screenNum = 0;
@@ -28,14 +31,16 @@ smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
 starting_total = 0;
 keyCounterbal = 1;
 
-load(filename, 'DATA');
+% load(filename, 'DATA');
 
 
-p_number = DATA.details('nmber');
-exptSession = DATA.details('session');
+p_number = DATA.raw_data('number');
+exptSession = DATA.raw_data('session');
 
 inputError = 1;
 
+
+% DATA will be saved twice - once where Daniel put it and again where I did
 while inputError == 1
     inputError = 0;
 
@@ -67,16 +72,16 @@ while inputError == 1
 
 end
    
-
+test = 0;
 
 if test == 0
     % First Session
     if str2num(exptSession) == 1
         
-        colBalance = DATA.details('counterbalance');
-        p_age = DATA.details('age');
-        p_sex = DATA.details('gender');
-        p_hand = DATA.details('hand');
+        colBalance = DATA.raw_data('counterbalance');
+        p_age = DATA.raw_data('age');
+        p_sex = DATA.raw_data('gender');
+        p_hand = DATA.raw_data('hand');
       
     % Second Session
     else
@@ -234,17 +239,26 @@ end
 %% THIS NEEDS TO CHANGE
 
 bonus_payment = bonus_payment/100;    % 10 000 points = $1
-bonus_payment = 10 * ceil(bonus_payment/10);        % ... round this value UP to nearest 10 cents
+bonus_payment = 6 * ceil(bonus_payment/10);        % ... round this value UP to nearest 10 cents
 bonus_payment = bonus_payment / 100;    % ... then convert back to dollars
 
 if test == 1
-    bonus_payment = 10;
+    bonus_payment = 6;
 end
 
 DATA.bonusSessionSpatial = bonus_payment;
 DATA.bonusSoFar = bonus_payment + starting_total;
 
+% Andy's addition
+bonus_payment = bonus_session;
+update_details;
+
 save(['spatial_data\CirclesMultiDataP', participant_number, 'S', participant_session], 'DATA');
+
+% Andy's addition
+DATA.spatial = DATA;  % going to duplicate a lot of things, but saves everything from this program to DATA.spatial
+save(DATA.raw_data('data_filename'), 'DATA');  % save Andy's data file
+
 
 DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
