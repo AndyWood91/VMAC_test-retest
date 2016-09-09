@@ -31,7 +31,6 @@ smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
 starting_total = 0;
 keyCounterbal = 1;
 
-% load(filename, 'DATA');
 
 
 p_number = DATA.raw_data('number');
@@ -78,10 +77,12 @@ if test == 0
     % First Session
     if str2num(exptSession) == 1
         
+        load(['participant_details/participant', p_number], 'details')
+        
         colBalance = DATA.raw_data('counterbalance');
-        p_age = DATA.raw_data('age');
-        p_sex = DATA.raw_data('gender');
-        p_hand = DATA.raw_data('hand');
+        p_age = details('age');
+        p_sex = details('gender');
+        p_hand = details('hand');
       
     % Second Session
     else

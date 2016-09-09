@@ -19,7 +19,7 @@
 
 %% code
 
-function [] = participant_details(conditions, sessions, bonus)
+function [raw_data] = participant_details(conditions, sessions, bonus)
    
     % variable declarations
     global DATA  % needs to be in invoking program/function too
@@ -235,11 +235,11 @@ function [] = participant_details(conditions, sessions, bonus)
 
                 end
                 
-                % save participant details and clear data
-                DATA.details = details;
-                save(details_filename, 'DATA');
-                clear('DATA');
-                
+                % save participant details
+                save(details_filename, 'details');
+%                 clear('DATA');
+%                 clear('details');
+                % debugging: no DATA at this point
                 
                 % Counterbalance
                 % TODO: the counterbalancing here should probably
@@ -368,4 +368,4 @@ function [] = participant_details(conditions, sessions, bonus)
     DATA.raw_data = raw_data;
     save(data_filename, 'DATA');
 
-end
+end  % debugging - DATA contains raw_data here 
