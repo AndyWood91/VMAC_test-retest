@@ -10,7 +10,7 @@ commandwindow;  % for testing, can type sca to exit
 % variable declarations
 global DATA exptName MainWindow
 global bColour white screenWidth screenHeight
-global sessionNumber cueBalance
+global cueBalance
 global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
@@ -99,18 +99,19 @@ end
 % end
 
 % % original data dir from Mike
-% % Check to see if subject data folder exists; if not, create it.
-% datafoldername = ['SubjData_', exptName];
-% if exist(datafoldername, 'dir') == 0
-%     mkdir(datafoldername);
-% end
+% Check to see if subject data folder exists; if not, create it.
+datafoldername = ['SubjData_', exptName];
+if exist(datafoldername, 'dir') == 0
+    mkdir(datafoldername);
+end
 
+load(['participant_details/participant', DATA.raw_data('number')], 'details');
   
 p_number = DATA.raw_data('number');
 session = DATA.raw_data('session');
 cueBalance = DATA.raw_data('counterbalance');
-p_age = DATA.raw_data('age');
-p_sex = DATA.raw_data('gender');
+p_age = details('age');
+p_sex = details('gender');
     
 %% original data check from Mike
 %     inputError = 1;
@@ -120,7 +121,7 @@ p_sex = DATA.raw_data('gender');
 %         
 %         p_number = input('Participant number  ---> ');
 %         
-%         datafilename = [datafoldername, '\', exptName, '_dataP', num2str(p_number), '.mat'];
+        datafilename = [datafoldername, '\', exptName, '_dataP', num2str(p_number), '.mat'];
 %         
 %         if exist(datafilename, 'file') == 2
 %             disp(['Data for participant ', num2str(p_number),' already exist'])
