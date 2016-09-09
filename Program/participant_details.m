@@ -283,13 +283,13 @@ function [raw_data] = participant_details(conditions, sessions, bonus)
                 else
                     
                     clc;
-                    load([details_filename, '.mat'], 'DATA');
+                    load([details_filename, '.mat'], 'details');
 
                     disp('Previous session details:')
-                    disp(['Participant:    ', DATA.details('number')])
-                    disp(['Age:            ', DATA.details('age')])
-                    disp(['Gender:         ', DATA.details('gender')])
-                    disp(['Hand:           ', DATA.details('hand')])
+                    disp(['Participant:    ', details('number')])
+                    disp(['Age:            ', details('age')])
+                    disp(['Gender:         ', details('gender')])
+                    disp(['Hand:           ', details('hand')])
                     
                     load([data_filename, num2str(str2double(session) - 1), '.mat'], 'DATA');
                     
