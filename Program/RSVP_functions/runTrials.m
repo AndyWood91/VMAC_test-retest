@@ -65,7 +65,7 @@ numRewardTrialsCorrect = 0;
 answerscreen = Screen(MainWindow, 'OpenOffscreenWindow', bColour);   % This is currently left blank...
 
 scaleFactor = 0.6;
-arrowImgMatrix=imread('images\leftArrow.jpg', 'jpg');
+arrowImgMatrix=imread('RSVP_images\leftArrow.jpg', 'jpg');
 arrowHeight = scaleFactor * size(arrowImgMatrix,1);
 arrowWidth = scaleFactor * size(arrowImgMatrix,2);
 arrowImageTexture = Screen('MakeTexture', MainWindow, arrowImgMatrix);
