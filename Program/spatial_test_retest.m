@@ -255,7 +255,7 @@ DATA.bonusSoFar = bonus_payment + starting_total;
 bonus_payment = bonus_session;
 update_details;
 
-save(['spatial_data\CirclesMultiDataP', participant_number, 'S', participant_session], 'DATA');
+save(['spatial_data\CirclesMultiDataP', p_number, 'S', exptSession], 'DATA');
 
 % Andy's addition
 DATA.spatial = DATA;  % going to duplicate a lot of things, but saves everything from this program to DATA.spatial
