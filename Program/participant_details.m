@@ -1,3 +1,7 @@
+%% participant_details
+
+% 
+
 % conditions is an optional argument if you want to set counterbalancing.
 % Needs to be a cell array containing the range of possible values for each
 % condition, e.g. {[1:3] [1:4]} means there are 2 conditions, the first
@@ -15,11 +19,12 @@
 % bonus_session, bonus_total, finish need to be set at the end of program
 % (maybe write another function for this)
 
+%% code
 
 function [] = participant_details(conditions, sessions, bonus)
    
     % variable declarations
-    global DATA
+    global DATA  % needs to be in invoking program/function too
 
 
     % set any missing inputs
@@ -36,7 +41,7 @@ function [] = participant_details(conditions, sessions, bonus)
     end
     
     
-    % check input types
+    % check inputs
     if ~isa(conditions, 'cell')
         error('conditions must be a cell')
     end
@@ -50,26 +55,24 @@ function [] = participant_details(conditions, sessions, bonus)
     end
     
     
-    % data storage
-    if exist('raw_data', 'dir') ~= 7  % check for raw_data directory
-        mkdir('raw_data')  % make it if it doesn't exist
-    end
-    
-    % stored separately for anonymity
+    % data storage    
+    % identifying information stored separately for anonymity
     if exist('participant_details', 'dir') ~= 7  % check for participant details directory
         mkdir('participant_details')  % make it if it doesn't exist
     end
     
-    
-    % raw_data Map - experiment details stored here
-    raw_data = containers.Map({'start'}, {datestr(now, 0)}, ... 
-        'UniformValues', false);
-    
+    if exist('raw_data', 'dir') ~= 7  % check for raw_data directory
+        mkdir('raw_data')  % make it if it doesn't exist
+    end
+        
     % details Map - participant details stored here
     details = containers.Map('UniformValues', false);
     
+    % raw_data Map - experiment data stored here
+    raw_data = containers.Map({'start'}, {datestr(now, 0)}, 'UniformValues', false);
     
-    % Data Validation
+    
+    % data validation
     % inputs are compared to options set here using ismember() and rejected if invalid
     gender_options = 'MmOoWw';
     hand_options = 'AaLlRr';
@@ -81,20 +84,19 @@ function [] = participant_details(conditions, sessions, bonus)
     
     
     % data check loop
+    % these loops will repeat until a valid input is given
     while true
 
-        % Number Loop
+        % number loop
         while true
 
             try
-                % storing this as a string to stop Matlab accepting expressions
-                % or named variables as inputs
-                number = input('Participant number --> ', 's');
+                number = input('Participant number --> ', 's');  % storing this as a string to stop Matlab accepting expressions or named variables as inputs
             catch
                 % do nothing with errors, number loop will repeat
             end
 
-            % Validation
+            % validation
             if str2double(number) > 0  % only accept positive values
                 details('number') = number;  % add to details Map
                 raw_data('number') = number;  % add to raw_data Map
@@ -106,23 +108,21 @@ function [] = participant_details(conditions, sessions, bonus)
         end
 
 
-        % Session
-        if sessions > 1
+        % sessions
+        if sessions > 1  % number of experimental sessions, not the current session
 
-            % Session loop
+            % session loop
             while true
 
                 try
-                    % storing this as a string to stop Matlab accepting expressions
-                    % or named variables as inputs
-                    session = input('Session number --> ', 's');
+                    session = input('Session number --> ', 's');  % stored as a string to stop Matlab accepting expressions or named variables as inputs
                 catch
-                    % do nothing with erros, session loop will repeat
+                    % do nothing with errors, session loop will repeat
                 end
 
                 % validation
                 if str2double(session) <= sessions
-                    break  % exit the sessions loop
+                    break  % exit the session loop
                 else
                     % do nothing, session loop will repeat
                 end
@@ -138,35 +138,33 @@ function [] = participant_details(conditions, sessions, bonus)
         raw_data('session') = session;  % add to raw_data Map
 
         
-        % filename doesn't include session number here to make it easier to
-        % check for previous session's data
-        data_filename = ['raw_data/participant', number, 'session'];
+        % filenames
+        data_filename = ['raw_data/participant', number, 'session'];  % data_filename doesn't include session number to make it easier to check for previous session's data
         details_filename = ['participant_details/participant', number];
 
         
         % check for existing datafile
         if exist([data_filename, session, '.mat'], 'file') == 2
             
-            disp(['Session ', session, ' data for participant ', ... 
-                number, ' already exists.'])  
+            clc;
+            data_exists = 'Session %c data for participant %c already exists.\n\n';
+            fprintf(data_exists, session, number);
             % data check loop will repeat
             
         else
             
-            if str2double(session) == 1
+            if str2double(session) == 1  % first session
                 
-                % Age Loop
-                while true  % loops until a valid answer is given
+                % age loop
+                while true
 
                     try
-                        % storing this as a string to stop Matlab accepting expressions
-                        % or named variables as inputs
-                        age = input('Participant age --> ', 's');
+                        age = input('Participant age --> ', 's');  % stored as a string to stop Matlab accepting expressions or named variables as inputs
                     catch
                         % do nothing with errors, age loop will repeat
                     end
 
-                    % Validation
+                    % validation
                     if str2double(age) > 0  % only accept positive values
                         details('age') = age;  % add to details Map
                         break  % exit the age loop
@@ -177,20 +175,30 @@ function [] = participant_details(conditions, sessions, bonus)
                 end
 
 
-                % Gender Loop
-                while true  % loops until a valid answer is given
-
+                % gender loop
+                while true
+                    
                     try
-                        gender = input(['Participant gender (use first' ...
-                            ' letter): man/other/woman --> '], 's');
+                        gender = input('Participant gender (use first letter): man/other/woman --> ', 's');  % stored as a string to stop Matlab accepting expressions or named variables as inputs
                     catch
-                        % do nothing with errors, gender loop will repeat
+                        % do nothing with errors, hand loop will repeat
                     end
 
-                    % Validation
+                    % validation
                     if ismember(gender, gender_options)
+                        
+                        % probably a better way to do this
+                        if strcmp(gender, 'M') || strcmp(gender, 'm')
+                            gender = 'man';
+                        elseif strcmp(gender, 'O') || strcmp(gender, 'o')
+                            gender = 'other';
+                        elseif strcmp(gender, 'W') || strcmp(gender, 'w')
+                            gender = 'woman';
+                        end
+                        
                         details('gender') = gender;  % add to details Map
                         break  % exit gender loop
+                        
                     else
                         % do nothing, gender loop will repeat
                     end
@@ -198,28 +206,38 @@ function [] = participant_details(conditions, sessions, bonus)
                 end
 
 
-                % Hand Loop
-                while true  % loops until a valid answer is given
-
+                % hand loop
+                while true
+                    
                     try
-                        hand = input(['Participant dominant hand (use', ...
-                            ' first letter): ambidextrous/left/right ', ...
-                            '--> '], 's');
+                        hand = input('Participant dominant hand (use first letter): ambidextrous/left/right --> ', 's');  % stored as a string to stop Matlab accepting expressions or named variables as inputs
                     catch
                         % do nothing with errors, hand loop will repeat
                     end
 
-                    % Validation
+                    % validation
                     if ismember(hand, hand_options)
+                        
+                        % probably a better way to do this
+                        if strcmp(hand, 'A') || strcmp(hand, 'a')
+                            hand = 'ambidextrous';
+                        elseif strcmp(hand, 'L') || strcmp(hand, 'l')
+                            hand = 'left';
+                        elseif strcmp(hand, 'R') || strcmp(hand, 'r')
+                            hand = 'right';
+                        end
+                        
                         details('hand') = hand;  % add to details Map
+                        
                         break  % exit hand loop
+                        
                     else
                         % do nothing, hand loop will repeat
                     end
 
                 end
                 
-                % save participant details
+                % save participant details and clear data
                 DATA.details = details;
                 save(details_filename, 'DATA');
                 clear('DATA');
@@ -239,15 +257,14 @@ function [] = participant_details(conditions, sessions, bonus)
                         % number is divided by the number of possible
                         % values for that condition. Add 1 to shift floor
                         % up from 0 (if number is perfectly divisible by 1)
-                        counterbalance(1, a) = mod(str2double(number), ...
-                            conditions{a}(end)) + 1;
+                        counterbalance(1, a) = mod(str2double(number), conditions{a}(end)) + 1;
                     end
                     
                     raw_data('counterbalance') = counterbalance;
                     
                 end
                 
-                % Bonus
+                % bonus
                 if bonus 
                     
                     raw_data('bonus_total') = 0;
@@ -261,15 +278,13 @@ function [] = participant_details(conditions, sessions, bonus)
                 break  % exit the data check loop
             
             % check for previous session data
-            else
+            else  % not the first session
                 
-                if exist([data_filename, num2str(str2double(session) - 1), ...
-                        '.mat'], 'file') ~= 2
-                
-                    disp(['Previous session (', ... 
-                        num2str(str2double(session) - 1), ...
-                        ') data does not exist for participant ', ...
-                        number])
+                if exist([data_filename, num2str(str2double(session) - 1), '.mat'], 'file') ~= 2
+
+                    clc;
+                    data_missing = 'Previous session (%c) data does not exist for participant %c.\n\n';
+                    fprintf(data_missing, num2str(str2double(session) -1), number);
                     % data check loop will repeat
 
                 else
@@ -280,33 +295,32 @@ function [] = participant_details(conditions, sessions, bonus)
                     disp('Previous session details:')
                     disp(['Participant:    ', DATA.details('number')])
                     disp(['Age:            ', DATA.details('age')])
-                    disp(['Gender:         ', DATA.details('gender')])
+                    disp(['hand:         ', DATA.details('hand')])
                     disp(['Hand:           ', DATA.details('hand')])
                     
-                    load([data_filename, num2str(str2double(session) - 1), ...
-                        '.mat'], 'DATA');
+                    load([data_filename, num2str(str2double(session) - 1), '.mat'], 'DATA');
+                    
                     disp(['Session:        ', DATA.raw_data('session')])
                     disp(['Start time:     ', DATA.raw_data('start')])
-%                     disp(['Finish time:    ', DATA.raw_data('finish')])
-%                     removed for testing, add back in later (need to save
-%                     it elsewhere before it can load
+                    
+                    if isfield(DATA.raw_data, 'finish')  % for testing, finish won't exist until it's saved at the end of the program
+                        disp(['Finish time:    ', DATA.raw_data('finish')])
+                    end
+                    
                     disp(['Session bonus:  ', num2str(DATA.raw_data('bonus_session'))])
                     disp(['Total bonus:    ', num2str(DATA.raw_data('bonus_total'))])
                     
                     
                     % confirm loop
-                    while true  % loops until a valid answer is given
+                    while true
                         
                         try
-                            confirm = input(['Are these details ', ...
-                                'correct? (y/n) --> '], 's');
+                            confirm = input('Are these details correct? (y/n) --> ', 's');
                         catch
-                            % do nothing with errors, confirm loop will
-                            % repeat
+                            % do nothing with errors, confirm loop will repeat
                         end
                         
-                        if ismember(confirm, accept_options) || ...
-                                ismember(confirm, reject_options)
+                        if ismember(confirm, accept_options) || ismember(confirm, reject_options)
                             break  % exit the confirm loop
                         else
                             % do nothing, confirm loop will repeat
@@ -333,7 +347,10 @@ function [] = participant_details(conditions, sessions, bonus)
                         break  % exit the data check loop
                         
                     else
+                        
+                        clc;
                         % rejected details, data check loop will repeat
+                        
                     end
 
                 end
