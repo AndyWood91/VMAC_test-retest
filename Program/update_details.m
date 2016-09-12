@@ -1,23 +1,36 @@
-function [] = update_details()
+% session_bonus is an optional argument in the format 
 
+% saves finish time, bonus_session, bonus_total to DATA.experiment
 
-    % variable declarations
-    global DATA bonus_session  % need to be in invoking program/function too
+function [] = update_details(experiment, session_bonus)
+      
+
+    % set  missing inputs
+    if nargin < 2
+        session_bonus = 0;  % default, no bonus
+    end
     
     
     % finish
-    DATA.raw_data('finish') = datestr(now, 0);
+    experiment('finish') = datestr(now, 0);
     
     
     % bonus
-    if isKey(DATA.raw_data, 'bonus_session')
-        DATA.raw_data('bonus_session') = bonus_session;  % store session bonus
-        bonus_session = 0;  % reset session bonus
+    if isKey(experiment, 'bonus_session')
+        experiment('bonus_session') = session_bonus;  % store session bonus
     end
     
-    if isKey(DATA.raw_data, 'bonus_total')
-        DATA.raw_data('bonus_total') = DATA.raw_data('bonus_total') + bonus_session;  % add session bonus to total
+    if isKey(experiment, 'bonus_total')
+        experiment('bonus_total') = experiment('bonus_total') + session_bonus;  % add session bonus to total
     end
+    
+    
+    % save
+    if exist('raw_data', 'dir') ~= 7  % check for raw_data directory
+        mkdir('raw_data')  % make it if it doesn't exist
+    end
+    
+    save(experiment('data_filename'), 'experiment');
     
     
 end

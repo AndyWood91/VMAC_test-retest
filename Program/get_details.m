@@ -1,32 +1,18 @@
-%% participant_details
+%% get_details
 
-% conditions is an optional argument if you want to set counterbalancing.
-% Needs to be a cell array containing the range of possible values for each
-% condition, e.g. {[1:3] [1:4]} means there are 2 conditions, the first
-% with 3 possible values and the second with 4.
+% editing code to pass participant and experiment as outputs
+% rather than saving them to DATA and mucking around with it.
 
-% sessions is an optional argument for the number of experimental sessions.
-% Default is 1. 
-
-% bonus is an optional logical if the experiment includes a performance
-% bonus. Default is false.
-
-% needs to have global DATA declared in invoking program, that's what it
-% will save the information to.
-
-% bonus_session, bonus_total, & finish are updated by the update_details
-% function, which needs to be run at the end of the experimental program
 
 %% code
 
-function [] = participant_details(conditions, sessions, bonus)
+function [experiment] = get_details(conditions, sessions, bonus)
+    
 
-%     % variable declarations
-%     global DATA  % needs to be in invoking program/function too
-%     global testing  % for debugging
+    % variable declarations
+    global testing;
     
-    
-    % set any missing inputs
+    % set missing inputs
     if nargin < 3
         bonus = false;  % default, no bonus
     end
@@ -54,21 +40,16 @@ function [] = participant_details(conditions, sessions, bonus)
     end
     
     
-    % data storage    
-    % identifying information stored separately for anonymity
-    if exist('participant_details', 'dir') ~= 7  % check for participant details directory
-        mkdir('participant_details')  % make it if it doesn't exist
-    end
-    
-    if exist('raw_data', 'dir') ~= 7  % check for raw_data directory
-        mkdir('raw_data')  % make it if it doesn't exist
-    end
+    % data storage  
+%     if exist('raw_data', 'dir') ~= 7  % check for raw_data directory
+%         mkdir('raw_data')  % make it if it doesn't exist
+%     end
+
         
-    % details Map - participant details stored here
-    details = containers.Map('UniformValues', false);
-    
-    % experiment Map - experiment data stored here
-    experiment = containers.Map({'start'}, {datestr(now, 0)}, 'UniformValues', false);
+    % Map containers
+    participant = containers.Map('UniformValues', false);  % participant details stored here
+    experiment = containers.Map({'start'}, {datestr(now, 0)}, 'UniformValues', false);  % experiment data stored here
+    % storing these separately so that the experiment data is anonymous
     
     
     % data validation
@@ -95,7 +76,7 @@ function [] = participant_details(conditions, sessions, bonus)
 
             % validation
             if str2double(number) > 0  % only accept positive values
-                details('number') = number;  % add to details Map
+                participant('number') = number;  % add to details Map
                 experiment('number') = number;  % add to experiment Map
                 break  % exit the number loop
             else
@@ -136,9 +117,7 @@ function [] = participant_details(conditions, sessions, bonus)
 
         
         % filenames
-        details_filename = ['participant_details/participant', number];
-        details('details_filename') = details_filename;  % add to details Map
-        
+        participant('details_filename') = ['participant_details/participant', number];
         data_filename = ['raw_data/participant', number, 'session'];  % data_filename doesn't include session number to make it easier to check for previous session's data        
 
         
@@ -167,7 +146,7 @@ function [] = participant_details(conditions, sessions, bonus)
 
                         % validation
                         if str2double(age) > 0  % only accept positive values
-                            details('age') = age;  % add to details Map
+                            participant('age') = age;  % add to details Map
                             break  % exit the age loop
                         else
                             % do nothing, age loop will repeat
@@ -197,7 +176,7 @@ function [] = participant_details(conditions, sessions, bonus)
                                 gender = 'woman';
                             end
 
-                            details('gender') = gender;  % add to details Map
+                            participant('gender') = gender;  % add to details Map
                             break  % exit gender loop
 
                         else
@@ -230,7 +209,7 @@ function [] = participant_details(conditions, sessions, bonus)
                                 hand = 'right';
                             end
 
-                            details('hand') = hand;  % add to details Map
+                            participant('hand') = hand;  % add to details Map
 
                             break  % exit hand loop
 
@@ -244,9 +223,9 @@ function [] = participant_details(conditions, sessions, bonus)
                 
                 elseif testing == 1  % testing version
                     
-                    details('age') = '25';
-                    details('gender') = 'man';
-                    details('hand') = 'right';
+                    participant('age') = '25';
+                    participant('gender') = 'man';
+                    participant('hand') = 'right';
                     % Andy
                 
                 else
@@ -257,7 +236,11 @@ function [] = participant_details(conditions, sessions, bonus)
                 
                 
                 % save participant details
-                save(details_filename, 'details');
+                if exist('participant_details', 'dir') ~= 7  % check for participant details directory
+                    mkdir('participant_details')  % make it if it doesn't exist
+                end
+                
+                save(participant('details_filename'), 'participant');
 
                 
                 % Counterbalance
@@ -289,6 +272,7 @@ function [] = participant_details(conditions, sessions, bonus)
                 
                 break  % exit the data check loop
             
+                                
             % check for previous session data
             else  % not the first session
                 
@@ -303,45 +287,45 @@ function [] = participant_details(conditions, sessions, bonus)
                     
                     clc;
                     
-                    % participant details
-                    load([details_filename, '.mat'], 'details');
-
+                    load(participant('details_filename'), 'participant')
+                    % need to load something here
+                    
                     disp('Previous session details:')
-                    disp(['Participant:      ', details('number')])
-                    disp(['Age:              ', details('age')])
-                    disp(['Gender:           ', details('gender')])
-                    disp(['Hand:             ', details('hand')])
+                    disp(['Participant:      ', participant('number')])
+                    disp(['Age:              ', participant('age')])
+                    disp(['Gender:           ', participant('gender')])
+                    disp(['Hand:             ', participant('hand')])
                     
                     if testing == 1
-                        disp(['Details filename: ', details('details_filename')])
+                        disp(['Details filename: ', participant('details_filename')])
                     end
                     
                     % experiment data
-                    load([data_filename, num2str(str2double(session) - 1), '.mat'], 'DATA');
+                    load([data_filename, num2str(str2double(session) - 1), '.mat'], 'experiment');
                     
-                    disp(['Session:          ', DATA.experiment('session')])
-                    disp(['Start time:       ', DATA.experiment('start')])
+                    disp(['Session:          ', experiment('session')])
+                    disp(['Start time:       ', experiment('start')])
                     
-                    if isKey(DATA.experiment, 'finish')  % for testing, won't throw an error if it doesn't exist
-                        disp(['Finish time:      ', DATA.experiment('finish')])
+                    if isKey(experiment, 'finish')  % for testing, won't throw an error if it doesn't exist
+                        disp(['Finish time:      ', experiment('finish')])
                     end
                     
                     % TODO: calculate duration in update_details
-%                     if isKey(DATA.experiment, 'duration')  % for testing, won't throw an error if it doesn't exist
-%                         disp(['Duration:         ', DATA.experiment('duration')])
+%                     if isKey(experiment, 'duration')  % for testing, won't throw an error if it doesn't exist
+%                         disp(['Duration:         ', experiment('duration')])
 %                     end
                     
-                    if isKey(DATA.experiment, 'bonus_session')  % won't exist for experiments without a bonus
-                        disp(['Session bonus:    ', num2str(DATA.experiment('bonus_session'))])
+                    if isKey(experiment, 'bonus_session')  % won't exist for experiments without a bonus
+                        disp(['Session bonus:    ', num2str(experiment('bonus_session'))])
                     end
                     
-                    if isKey(DATA.experiment, 'bonus_total')  % won't exist for experiments without a bonus
-                        disp(['Total bonus:      ', num2str(DATA.experiment('bonus_total'))])
+                    if isKey(experiment, 'bonus_total')  % won't exist for experiments without a bonus
+                        disp(['Total bonus:      ', num2str(experiment('bonus_total'))])
                     end
                     
                     if testing == 1
-                        disp(['Counterbalance:   ', num2str(DATA.experiment('counterbalance'))])
-                        disp(['Data filename:    ', DATA.experiment('data_filename')])
+                        disp(['Counterbalance:   ', num2str(experiment('counterbalance'))])
+                        disp(['Data filename:    ', experiment('data_filename')])
                     end
                     
                     
@@ -364,27 +348,20 @@ function [] = participant_details(conditions, sessions, bonus)
                     
                     if ismember(confirm, accept_options)
                         
-                        % set values from last session's data
-                        if isKey(DATA.experiment, 'counterbalance')
-                            experiment('counterbalance') = DATA.experiment('counterbalance');
+                        % set values from last session's data                    
+                        if isKey(experiment, 'bonus_session')
+                            experiment('bonus_session') = 0;  % reset
                         end
                         
-                        if isKey(DATA.experiment, 'bonus_session')
-                            experiment('bonus_session') = 0;  % reset to 0
-                        end
-                        
-                        if isKey(DATA.experiment, 'bonus_total')
-                            experiment('bonus_total') = DATA.experiment('bonus_total');
-                        end
-                        
-                        clear DATA;  % get rid of previous session's data
+                        experiment('session') = session;
+                        experiment('data_filename') = ['participant', number, 'session', session];
+                        experiment('finish') = [];
                         
                         break  % exit the data check loop
                         
                     else
                         
                         clc;
-                        clear DATA;
                         % rejected details, data check loop will repeat
                         
                     end  % if confirm
@@ -403,9 +380,9 @@ function [] = participant_details(conditions, sessions, bonus)
     experiment('data_filename') = data_filename;  % add to experiment Map
    
     
-    % save DATA
-    DATA.experiment = experiment;
-    save(data_filename, 'DATA');
+%     % save DATA
+%     DATA.experiment = experiment;
+%     save(data_filename, 'DATA');
     
 
 end  % participant_details

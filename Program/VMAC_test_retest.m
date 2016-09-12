@@ -1,4 +1,4 @@
-clear all;
+clear;
 sca;
 clc;
 KbName('UnifyKeyNames');  % standardise across OSs
