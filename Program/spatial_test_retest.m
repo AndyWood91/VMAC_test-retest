@@ -1,6 +1,6 @@
+addpath('spatialfunctions');  % search the spatialfunctions directory for scripts and functions
 
-addpath('spatialfunctions');
-
+% variable declarations
 global MainWindow scr_centre DATA
 global keyCounterbal starting_total exptSession
 global distract_col colourName
@@ -9,115 +9,144 @@ global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
 global datafilename
 
-% global filename 
 
-% Andy;s additions
-global bonus_session
-
-nf = java.text.DecimalFormat;  % what does this do?
+nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
 
 
-screenNum = 0;
+screenNum = 0;  % use the primary computer screen
 
 
+% set trial values
 zeroPayRT = 1000;       % 1000
 fullPayRT = 500;        % 500
 oneMSvalue = 0.1;
 
-
 bigMultiplier = 10;    % Points multiplier for trials with high-value distractor
 smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
-
 
 starting_total = 0;
 keyCounterbal = 1;
 
 
-
-p_number = DATA.raw_data('number');
-exptSession = DATA.raw_data('session');
-
-inputError = 1;
+% set from get_details
+p_number = participant('number');
+exptSession = participant('session');
 
 
-% DATA will be saved twice - once where Daniel put it and again where I did
-while inputError == 1
-    inputError = 0;
-
-    % checks if there is a folder named 'spatial_data'
-    if exist('spatial_data', 'dir') ~= 7
-        mkdir('spatial_data');  % if not, make it
-    end
-
-    datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
-
-    if exist([datafilename, exptSession, '.mat'], 'file') == 2
-        disp(['Session ', exptSession, ' data for participant ', p_number,' already exist'])
-        inputError = 1;
-    end
-
-    if str2num(exptSession) > 2
-        disp(['Incorrect session number'])
-        inputError = 1;
-    elseif str2num(exptSession) > 1
-        if exist([datafilename, '1.mat'], 'file') == 0
-            disp(['No session 1 data for participant ', p_number])
-            inputError = 1;
-        end
-        if exist([datafilename, '1.mat'], 'file') == 0
-            disp(['No session 1 data for participant ', p_number])
-            inputError = 1;
-        end
-    end
-
+% data 
+% check for 'spatial_data' directory
+if exist('spatial_data', 'dir') ~= 7
+    mkdir('spatial_data');  % make it if it doesn't exist
 end
+
+datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
+
+%% Daniel's data check
+% inputError = 1;
+% 
+% % Daniel's check
+% while inputError == 1
+%     inputError = 0;
+% 
+%     % checks if there is a folder named 'spatial_data'
+%     if exist('spatial_data', 'dir') ~= 7
+%         mkdir('spatial_data');  % if not, make it
+%     end
+% 
+%     datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
+% 
+%     if exist([datafilename, exptSession, '.mat'], 'file') == 2
+%         disp(['Session ', exptSession, ' data for participant ', p_number,' already exist'])
+%         inputError = 1;
+%     end
+% 
+%     if str2num(exptSession) > 2
+%         disp(['Incorrect session number'])
+%         inputError = 1;
+%     elseif str2num(exptSession) > 1
+%         if exist([datafilename, '1.mat'], 'file') == 0
+%             disp(['No session 1 data for participant ', p_number])
+%             inputError = 1;
+%         end
+%         if exist([datafilename, '1.mat'], 'file') == 0
+%             disp(['No session 1 data for participant ', p_number])
+%             inputError = 1;
+%         end
+%     end
+% 
+% end
+%%
    
 test = 0;
 
-if test == 0
-    % First Session
-    if str2num(exptSession) == 1
+if test == 1  % test version
+    
+    colBalance = 1;
+    
+elseif test == 0  % experimental version
+    
+    colBalance = str2double(experiment('counterbalance'));
+    
+    % set some values
+    if strcmp(exptSession, '1')  % first session
         
-        load(['participant_details/participant', p_number], 'details')
+        starting_total = 0;
         
-        colBalance = DATA.raw_data('counterbalance');
-        p_age = details('age');
-        p_sex = details('gender');
-        p_hand = details('hand');
-      
-    % Second Session
-    else
-
-        load([datafilename, '1.mat'])
-        colBalance = DATA.counterbal;
-        p_age = DATA.age;
-        p_sex = DATA.gender;
-        p_hand = DATA.hand;
+    elseif strcmp(exptSession, '2')  % second session
         
+        load([datafilename, '1.mat'])  % load previous session's data
+%         starting_total = ;
+        
+        %TODO: chance this to wherever I store it
         if isfield(DATA, 'bonusSoFar')
             starting_total = DATA.bonusSoFar;
         else
             starting_total = 0;
         end
-
-        disp (['Age:  ', p_age])
-        disp (['Sex:  ', p_sex])
-        disp (['Hand:  ', p_hand])
-
+        
+    else
+        error('variable "exptSession" isn''t set properly')
     end
+    
 else
+    error('variable "test" isn''t set properly')
 end
 
-% clear DATA;
+%% Daniel's participant details
+% if test == 0
+%     % First Session
+%     if str2num(exptSession) == 1
+%                 
+%         colBalance = DATA.raw_data('counterbalance');
+%         p_age = details('age');
+%         p_sex = details('gender');
+%         p_hand = details('hand');
+%       
+%     % Second Session
+%     else
+% 
+%         load([datafilename, '1.mat'])
+%         colBalance = DATA.counterbal;
+%         p_age = DATA.age;
+%         p_sex = DATA.gender;
+%         p_hand = DATA.hand;
+%         
+%         if isfield(DATA, 'bonusSoFar')
+%             starting_total = DATA.bonusSoFar;
+%         else
+%             starting_total = 0;
+%         end
+% 
+%         disp (['Age:  ', p_age])
+%         disp (['Sex:  ', p_sex])
+%         disp (['Hand:  ', p_hand])
+% 
+%     end
+% else
+% end
+%%
 
-DATA.subject = p_number;
-DATA.session = exptSession;
-DATA.counterbal = colBalance;
-DATA.age = p_age;
-DATA.sex = p_sex;
-DATA.hand = p_hand;
-DATA.start_time = datestr(now,0);
-
+% COME BACK HERE
 % generate a random seed using the clock, then use it to seed the random
 % number generator
 rng('shuffle');
