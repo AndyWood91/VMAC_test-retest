@@ -65,7 +65,7 @@ numRewardTrialsCorrect = 0;
 answerscreen = Screen(MainWindow, 'OpenOffscreenWindow', bColour);   % This is currently left blank...
 
 scaleFactor = 0.6;
-arrowImgMatrix=imread('RSVP_images\leftArrow.jpg', 'jpg');
+arrowImgMatrix=imread('RSVP_images/leftArrow.jpg', 'jpg');
 arrowHeight = scaleFactor * size(arrowImgMatrix,1);
 arrowWidth = scaleFactor * size(arrowImgMatrix,2);
 arrowImageTexture = Screen('MakeTexture', MainWindow, arrowImgMatrix);
@@ -358,13 +358,13 @@ for block = 1 : numBlocks
         
         DATA.trialInfo(exptPhase).trialData(trialCounter,:) = trialData(:);
         
-        rsvp('trial_data') = trialData(:);
-        DATA.rsvp = rsvp;
+%         rsvp('trial_data') = trialData(:);
+%         DATA.rsvp = rsvp;
       
         save(datafilename, 'DATA');
         
         % Andy's addition
-        save(DATA.raw_data('data_filename'), 'DATA');
+%         save(DATA.raw_data('data_filename'), 'DATA');
 
     end     % trials
     

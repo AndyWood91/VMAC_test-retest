@@ -43,7 +43,7 @@ if exist('spatial_data', 'dir') ~= 7
     mkdir('spatial_data');  % make it if it doesn't exist
 end
 
-datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
+datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];
 
 %% Daniel's data check
 % inputError = 1;
@@ -311,17 +311,17 @@ bonus_payment = bonus_payment / 100;  % convert to cents
 bonus_payment = 10 * ceil(bonus_payment / 10);  % round up to nearest 10c
 bonus_payment = bonus_payment / 100;  % convert to dollars
 
-update_details(experiment, bonus_payment);
-
 
 % Daniel's data
 DATA.bonusSessionSpatial = bonus_payment;
 DATA.bonusSoFar = bonus_payment + starting_total;
 
-save(['spatial_data\CirclesMultiDataP', p_number, 'S', exptSession], 'DATA');
+save(['spatial_data/CirclesMultiDataP', p_number, 'S', exptSession], 'DATA');
+
 
 % Andy's data
 experiment('spatial') = DATA;
+update_details(experiment, bonus_payment);
 clear DATA; % clear data for RSVP task
 
 

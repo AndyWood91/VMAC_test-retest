@@ -1,5 +1,6 @@
 sca;
 
+% no idea what this does
 PVar = 'DYLD_LIBRARY_PATH';
 PVal = getenv(PVar);
 nVal = [ '/opt/X11/lib:', PVal ];
@@ -15,7 +16,7 @@ global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
 % Andy's additions
-global rsvp bonus_session  % bonus_session should be 0 here
+global testing
 
 exptName = 'RSVP_test_retest';
 
@@ -40,7 +41,7 @@ InitializePsychSound;
 winSoundArray = [winSoundArrayMono, winSoundArrayMono];
 loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
 
-testVersion = 0;
+testVersion = testing;
 
 if testVersion == 1     % Parameters for development / debugging
     Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
@@ -105,13 +106,16 @@ if exist(datafoldername, 'dir') == 0
     mkdir(datafoldername);
 end
 
-load(['participant_details/participant', DATA.raw_data('number')], 'details');
+% load(['participant_details/participant', DATA.raw_data('number')], 'details');
   
-p_number = DATA.raw_data('number');
-session = DATA.raw_data('session');
-cueBalance = DATA.raw_data('counterbalance');
-p_age = details('age');
-p_sex = details('gender');
+p_number = experiment('number');
+session = experiment('session');
+cueBalance = experiment('counterbalance');
+% p_age = details('age');
+% p_sex = details('gender');
+
+datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), '.mat'];
+
     
 %% original data check from Mike
 %     inputError = 1;
@@ -121,7 +125,7 @@ p_sex = details('gender');
 %         
 %         p_number = input('Participant number  ---> ');
 %         
-        datafilename = [datafoldername, '\', exptName, '_dataP', num2str(p_number), '.mat'];
+%         datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), '.mat'];
 %         
 %         if exist(datafilename, 'file') == 2
 %             disp(['Data for participant ', num2str(p_number),' already exist'])
@@ -145,23 +149,17 @@ p_sex = details('gender');
 %     
 %     p_age = input('Participant age ---> ');
 % 
-% DATA.subject = p_number;
-% DATA.cueBal = cueBalance;
+DATA.subject = p_number;
+DATA.cueBal = cueBalance;
 % DATA.age = p_age;
 % DATA.sex = p_sex;
-% DATA.start_time = datestr(now,0);
+DATA.start_time = datestr(now,0);
 
 
-% storing experimental data here, then saving it to DATA later
-rsvp = containers.Map({'start', 'session_bonus', 'session_points', ...
-    'actualBonusSession', 'totalBonus'}, {datestr(now, 0), 0, 0, 0, 0}, ...
-    'UniformValues', false);
-
-
-% DATA.session_bonus = 0;
-% DATA.session_points = 0;
-% DATA.actualBonusSession = 0;
-% DATA.totalBonus = 0;
+DATA.session_bonus = 0;
+DATA.session_points = 0;
+DATA.actualBonusSession = 0;
+DATA.totalBonus = 0;
 
     
 % generate a random seed using the clock, then use it to seed the random
@@ -169,7 +167,7 @@ rsvp = containers.Map({'start', 'session_bonus', 'session_points', ...
 rng('shuffle');
 randSeed = randi(30000);
 rsvp('random_seed') = randSeed;
-% DATA.rSeed = randSeed;
+DATA.rSeed = randSeed;
 rng(randSeed);
 
 
@@ -178,8 +176,7 @@ rng(randSeed);
 
 MainWindow = Screen(screenNum, 'OpenWindow', bColour);
 
-rsvp('frame_rate') = round(Screen(MainWindow, 'FrameRate'));
-% DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
+DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
 Screen('TextFont' , MainWindow ,'Segoe UI' );
 Screen('TextSize', MainWindow, 46);
@@ -208,11 +205,11 @@ if session == '1'  % birds and bikes
 %     [imageTexture, numImages, targetRotation] function == readinImages(inputFoldername, readingTargetImages);
     
     if cueBalance == 1 || cueBalance == 3
-        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '/BIRDPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/BICYCLEPICS'], 0);
     elseif cueBalance == 2 || cueBalance == 4
-        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\BICYCLEPICS'], 0);
-        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\BIRDPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '/BICYCLEPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/BIRDPICS'], 0);
     else
         error('cueBalance isn''t set properly');
     end
@@ -220,11 +217,11 @@ if session == '1'  % birds and bikes
 elseif session == '2'  % cars and chairs
     
     if cueBalance == 1 || cueBalance == 2
-        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
-        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\CARPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '/CHAIRPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/CARPICS'], 0);
     elseif cueBalance == 3 || cueBalance == 4
-        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '\CARPICS'], 0);
-        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '\CHAIRPICS'], 0);
+        [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '/CARPICS'], 0);
+        [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/CHAIRPICS'], 0);
     else
         error('cueBalance isn''t set properly');
     end
@@ -243,38 +240,41 @@ end
 %     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
 % end
 
-[baselineImages, numBaselineImages, targetRotation] = readInImages([imageFoldername, '\ColourScenes'], 0);
-[targetImages, numTargetImages, targetRotation] = readInImages([imageFoldername, '\EBY_Targets'], 1);
+[baselineImages, numBaselineImages, targetRotation] = readInImages([imageFoldername, '/ColourScenes'], 0);
+[targetImages, numTargetImages, targetRotation] = readInImages([imageFoldername, '/EBY_Targets'], 1);
 
-% DATA.numRewardImages = numRewardImages;
-% DATA.numNeutImages = numNeutImages;
-% DATA.numBaselineImages = numBaselineImages;
-% DATA.numTargetImages = numTargetImages; 
-rsvp('numRewardImages') = numRewardImages;
-rsvp('numNeutImages') = numNeutImages;
-rsvp('numBaselineImages') = numBaselineImages;
-rsvp('numTargetImages') = numTargetImages;
-
-
+DATA.numRewardImages = numRewardImages;
+DATA.numNeutImages = numNeutImages;
+DATA.numBaselineImages = numBaselineImages;
+DATA.numTargetImages = numTargetImages; 
 
 
 %% Run experiment
+if testing == 0  % experimental version
+    startSecs = GetSecs;
 
-startSecs = GetSecs;
+    % add a session check
+    showInstructions1;
 
-% add a session check
-showInstructions1;
- 
-[~, ~] = runTrials(1);    % Practice with no salient distractors
-
-
-% add a session check
-showInstructions2;
-[rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts
+    [~, ~] = runTrials(1);    % Practice with no salient distractors
 
 
-% change this across the whole experiment
-amountEarned = rewardPropCorrect * 6;  % Amount earned in dollars (0.5 correct gives $3, 1 correct gives $6)
+    % add a session check
+    showInstructions2;
+    [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts
+
+elseif testing == 1  % experimental version
+    startSecs = GetSecs;
+    
+    [~, ~] = runTrials(1);
+    rewardPropCorrect = 1;  % not sure about the type
+    runningTotalPoints = 100;  % idk if this is even close to a real value
+    
+else 
+    error('variable "rewardPropCorrect" isn''t set properly')
+end
+    
+amountEarned = rewardPropCorrect * 7.5;  % Amount earned in dollars (0.5 correct gives $3, 1 correct gives $6)
 
 amountEarned = amountEarned * 100;  % change to cents
 amountEarned = 10 * ceil(amountEarned/10);  % round this value UP to nearest 10 cents
@@ -282,32 +282,25 @@ amountEarned = amountEarned / 100;  % then convert back to dollars
 
 
 % change this across the whole experiment
-if amountEarned > 6    % This shouldn't be possible, but you never know
-    amountEarned = 6;
+if amountEarned > 6.25    % This shouldn't be possible, but you never know
+    amountEarned = 6.25;
 elseif amountEarned < 3     % This is here in case there are any very unlucky dolts
     amountEarned = 3;
 end
 
-% Andy's addition
-amountEarned = bonus_session;
-update_details;
-
-fid1 = fopen([datafoldername,'\_TotalBonus_summary.csv'], 'a');
+fid1 = fopen([datafoldername,'/_TotalBonus_summary.csv'], 'a');
 fprintf(fid1,'%d,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
 fclose(fid1);
 
 PsychPortAudio('Close', soundPAhandle);
-
-rsvp('finish') = datestr(now, 0);
-rsvp('duration') = GetSecs - startSecs;
 
 % Mike data
 DATA.end_time = datestr(now,0);
 DATA.exptDuration = GetSecs - startSecs;
 
 % Andy data
-DATA.rsvp = rsvp;
-save(DATA.raw_data('data_filename'), 'DATA');
+experiment('rsvp') = DATA;
+update_details(experiment, amountEarned);
 
 Screen('Flip',MainWindow);
 [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned in this task = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);
