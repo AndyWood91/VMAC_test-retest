@@ -1,13 +1,37 @@
-% session_bonus is an optional argument in the format 
+%% update_details
 
-% saves finish time, bonus_session, bonus_total to DATA.experiment
+% input arguments
 
-function [] = update_details(experiment, session_bonus)
-      
+    % experiment: Map container created by the get_details function
+    
+    % bonus_session: optional float for performance bonus. Default is 0.
+    
+% outputs
+
+    % saves experiment Map to raw_data directory
+
+%% code
+
+function [] = update_details(experiment, bonus_session)
+    
+
+    % variable declarations
+    global testing;
+    
 
     % set  missing inputs
     if nargin < 2
-        session_bonus = 0;  % default, no bonus
+        bonus_session = 0;  % default, no bonus
+    end
+    
+    
+    % check input types
+    if ~isa(bonus_session, 'double')
+        error('bonus_session input must be a double')
+    end
+    
+    if ~isa(experiment, 'containers.Map')
+        error('experiment input must be containers.Map')
     end
     
     
@@ -17,11 +41,11 @@ function [] = update_details(experiment, session_bonus)
     
     % bonus
     if isKey(experiment, 'bonus_session')
-        experiment('bonus_session') = session_bonus;  % store session bonus
+        experiment('bonus_session') = bonus_session;  % store session bonus
     end
     
     if isKey(experiment, 'bonus_total')
-        experiment('bonus_total') = experiment('bonus_total') + session_bonus;  % add session bonus to total
+        experiment('bonus_total') = experiment('bonus_total') + bonus_session;  % add session bonus to total
     end
     
     
@@ -29,6 +53,7 @@ function [] = update_details(experiment, session_bonus)
     if exist('raw_data', 'dir') ~= 7  % check for raw_data directory
         mkdir('raw_data')  % make it if it doesn't exist
     end
+    
     
     save(experiment('data_filename'), 'experiment');
     

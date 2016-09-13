@@ -2,6 +2,8 @@ clear;
 sca;
 clc;
 KbName('UnifyKeyNames');  % standardise across OSs
+Screen('Preference','TextRenderer', 0);  % use old text renderer
+% instructions won't display zzz
 
 
 % variable declarations
@@ -15,7 +17,7 @@ testing = 1;  % testing version
 [experiment] = get_details({1:4}, 2, true);
 
 
-spatial_test_retest;
+spatial_test_retest;  % run update_details at the end
 
 
-RSVP_test_retest;
+RSVP_test_retest;  % run update_details at the end

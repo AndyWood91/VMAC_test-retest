@@ -9,6 +9,10 @@ global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
 global datafilename
 
+% Andy
+% spatial = containers.Map('UniformValues', false);  % storing spatial data here
+global testing
+
 
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
 
@@ -29,8 +33,8 @@ keyCounterbal = 1;
 
 
 % set from get_details
-p_number = participant('number');
-exptSession = participant('session');
+p_number = experiment('number');
+exptSession = experiment('session');
 
 
 % data 
@@ -77,7 +81,7 @@ datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
 % end
 %%
    
-test = 0;
+test = testing;
 
 if test == 1  % test version
     
@@ -85,7 +89,7 @@ if test == 1  % test version
     
 elseif test == 0  % experimental version
     
-    colBalance = str2double(experiment('counterbalance'));
+    colBalance = experiment('counterbalance');
     
     % set some values
     if strcmp(exptSession, '1')  % first session
@@ -93,6 +97,8 @@ elseif test == 0  % experimental version
         starting_total = 0;
         
     elseif strcmp(exptSession, '2')  % second session
+        
+        % TODO: restructure this along with the data set
         
         load([datafilename, '1.mat'])  % load previous session's data
 %         starting_total = ;
@@ -105,11 +111,15 @@ elseif test == 0  % experimental version
         end
         
     else
+        
         error('variable "exptSession" isn''t set properly')
+        
     end
     
 else
+    
     error('variable "test" isn''t set properly')
+    
 end
 
 %% Daniel's participant details
@@ -146,7 +156,6 @@ end
 % end
 %%
 
-% COME BACK HERE
 % generate a random seed using the clock, then use it to seed the random
 % number generator
 rng('shuffle');
@@ -155,6 +164,13 @@ DATA.rSeed = randSeed;
 rng(randSeed);
 
 datafilename = [datafilename, exptSession,'.mat'];
+
+
+% Andy's additions
+% spatial('random') = randSeed;
+% spatial('datafilename') = datafilename;
+% spatial('framerate') = round(Screen(MainWindow, 'FrameRate'));
+
 
 
 % Get screen resolution, and find location of centre of screen
@@ -240,7 +256,9 @@ for i = 1 : 2
     end
 end
 
-if test == 0
+commandwindow;
+
+if test == 0  % experimental version
 
     initialInstructionsSpatial;
 
@@ -263,32 +281,48 @@ if test == 0
     awareInstructionsSpatial;
     awareTestSpatial;
     
-else
-    % do nothing
+elseif test == 1  % test version
+    
+    [~] = runTrialsSpatial(0);
+    
 end
 
 %% THIS NEEDS TO CHANGE
 
-bonus_payment = bonus_payment/100;    % 10 000 points = $1
-bonus_payment = 6 * ceil(bonus_payment/10);        % ... round this value UP to nearest 10 cents
-bonus_payment = bonus_payment / 100;    % ... then convert back to dollars
+% bonus
 
-if test == 1
-    bonus_payment = 6;
+% maximum possible points:
+
+% 24 trials per block * 12 blocks = 288 trials
+% max points per trial = 
+% trialPay = (1000 - roundRT) * 0.1 * winMultiplier(distractType);
+% 4 raredistractors per block of 24
+
+
+if test == 1  % test version
+    bonus_payment = 75000;  % theoretical maximum session points
+elseif test == 0  % experimental version
+    % bonus_payment set above
+else
+    error('variable "test" isn''t set properly')
 end
 
+bonus_payment = bonus_payment / 100;  % convert to cents
+bonus_payment = 10 * ceil(bonus_payment / 10);  % round up to nearest 10c
+bonus_payment = bonus_payment / 100;  % convert to dollars
+
+update_details(experiment, bonus_payment);
+
+
+% Daniel's data
 DATA.bonusSessionSpatial = bonus_payment;
 DATA.bonusSoFar = bonus_payment + starting_total;
 
-% Andy's addition
-bonus_payment = bonus_session;
-update_details;
-
 save(['spatial_data\CirclesMultiDataP', p_number, 'S', exptSession], 'DATA');
 
-% Andy's addition
-DATA.spatial = DATA;  % going to duplicate a lot of things, but saves everything from this program to DATA.spatial
-save(DATA.raw_data('data_filename'), 'DATA');  % save Andy's data file
+% Andy's data
+experiment('spatial') = DATA;
+clear DATA; % clear data for RSVP task
 
 
 DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);

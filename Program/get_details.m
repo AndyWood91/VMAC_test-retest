@@ -1,7 +1,23 @@
 %% get_details
 
-% editing code to pass participant and experiment as outputs
-% rather than saving them to DATA and mucking around with it.
+% input arguments
+
+    % conditions: an optional cell array to set counterbalancing. Each cell
+    % needs to contain the range of possible values for that condition. E.g.
+    % {1:4 1:3} is an experiment with two conditions, the first with 4 possible
+    % values and the second with 3. Default is no conditions.
+    
+    % sessions: optional integer if the experiment has more than 1 session. Default is 1.
+    
+    % bonus: optional boolean if the experiment has a bonus payment
+    % (performance or SONA-P). Default is false.
+    
+% outputs
+
+    % experiment: Map container containing anonymised experimental data.
+    
+    % participant_details: identifying information (age, gender, hand) is
+    % stored separately as a Map container 'participant' in a .mat file
 
 
 %% code
@@ -11,6 +27,7 @@ function [experiment] = get_details(conditions, sessions, bonus)
 
     % variable declarations
     global testing;
+    
     
     % set missing inputs
     if nargin < 3
