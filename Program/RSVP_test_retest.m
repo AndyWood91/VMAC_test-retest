@@ -114,7 +114,7 @@ cueBalance = experiment('counterbalance');
 % p_age = details('age');
 % p_sex = details('gender');
 
-datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), '.mat'];
+datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), 'S', session, '.mat'];
 
     
 %% original data check from Mike

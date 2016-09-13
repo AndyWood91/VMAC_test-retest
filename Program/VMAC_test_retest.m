@@ -18,7 +18,7 @@ testing = 1;  % testing version
 [experiment] = get_details({1:4}, 2, true);
 
 
-spatial_test_retest;  % run update_details at the end
+spatial_test_retest;
 
 
-RSVP_test_retest;  % run update_details at the end
+RSVP_test_retest;
