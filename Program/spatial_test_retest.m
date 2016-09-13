@@ -17,12 +17,12 @@ global testing
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
 
 
-screenNum = 0;  % use the primary computer screen
+screenNum = 0;  % use the primary screen
 
 
 % set trial values
 zeroPayRT = 1000;       % 1000
-fullPayRT = 500;        % 500
+fullPayRT = 500;        % 500, I think this is unused
 oneMSvalue = 0.1;
 
 bigMultiplier = 10;    % Points multiplier for trials with high-value distractor
@@ -45,41 +45,6 @@ end
 
 datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];
 
-%% Daniel's data check
-% inputError = 1;
-% 
-% % Daniel's check
-% while inputError == 1
-%     inputError = 0;
-% 
-%     % checks if there is a folder named 'spatial_data'
-%     if exist('spatial_data', 'dir') ~= 7
-%         mkdir('spatial_data');  % if not, make it
-%     end
-% 
-%     datafilename = ['spatial_data\CirclesMultiDataP', p_number, 'S'];
-% 
-%     if exist([datafilename, exptSession, '.mat'], 'file') == 2
-%         disp(['Session ', exptSession, ' data for participant ', p_number,' already exist'])
-%         inputError = 1;
-%     end
-% 
-%     if str2num(exptSession) > 2
-%         disp(['Incorrect session number'])
-%         inputError = 1;
-%     elseif str2num(exptSession) > 1
-%         if exist([datafilename, '1.mat'], 'file') == 0
-%             disp(['No session 1 data for participant ', p_number])
-%             inputError = 1;
-%         end
-%         if exist([datafilename, '1.mat'], 'file') == 0
-%             disp(['No session 1 data for participant ', p_number])
-%             inputError = 1;
-%         end
-%     end
-% 
-% end
-%%
    
 test = testing;
 

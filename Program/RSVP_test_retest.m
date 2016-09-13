@@ -1,10 +1,10 @@
 sca;
 
 % no idea what this does
-PVar = 'DYLD_LIBRARY_PATH';
-PVal = getenv(PVar);
-nVal = [ '/opt/X11/lib:', PVal ];
-setenv(PVar, nVal);
+% PVar = 'DYLD_LIBRARY_PATH';
+% PVal = getenv(PVar);
+% nVal = [ '/opt/X11/lib:', PVal ];
+% setenv(PVar, nVal);
 
 commandwindow;  % for testing, can type sca to exit
 

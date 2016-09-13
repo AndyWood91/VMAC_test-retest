@@ -54,6 +54,7 @@ fixationSize = 20;  % Side length of fixation cross
 
 leftResponseName = KbName('LeftArrow');
 rightResponseName = KbName('RightArrow');
+escape = KbName('Escape');
 
 numRewardTrials = 0;
 numRewardTrialsCorrect = 0;
@@ -218,7 +219,7 @@ for block = 1 : numBlocks
         
         trialCounter = trialCounter + 1;    % This records the number of the trial WITHIN THE CURRENT PHASE (doesn't reset each block)
         
-        RestrictKeysForKbCheck([leftResponseName, rightResponseName]);   % Only accept keypresses from the response keys
+        RestrictKeysForKbCheck([leftResponseName, rightResponseName, escape]);   % Only accept keypresses from the response keys
         
         Screen('Flip', MainWindow);     % blank screen
         WaitSecs(itiDuration);
@@ -310,6 +311,11 @@ for block = 1 : numBlocks
         [keyCode, rtEnd, ~] = accKbWait();
         
         keyCodePressed = find(keyCode, 1, 'first');
+        
+        % esc to exit
+        if keyCodePressed == 41
+            sca;
+        end
         
         rt = rtEnd - rtStart;      % Response time
         

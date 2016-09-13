@@ -3,7 +3,7 @@ sca;
 clc;
 KbName('UnifyKeyNames');  % standardise across OSs
 % Screen('Preference','TextRenderer', 1);  % use new text renderer
-Screen('Preference','TextRenderer', 0);  % use old text renderer
+% Screen('Preference','TextRenderer', 0);  % use old text renderer
 % instructions won't display zzz
 
 
