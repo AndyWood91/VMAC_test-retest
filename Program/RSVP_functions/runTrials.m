@@ -11,7 +11,7 @@ global baselineImages numBaselineImages
 global targetImages numTargetImages targetRotation
 
 % Andy's additions
-global rsvp filename
+global testing
 
 
 %% Set parameters
@@ -54,7 +54,8 @@ fixationSize = 20;  % Side length of fixation cross
 
 leftResponseName = KbName('LeftArrow');
 rightResponseName = KbName('RightArrow');
-escape = KbName('Escape');
+escape = KbName('Escape');  % test version only
+p = KbName('p');  % test version only
 
 numRewardTrials = 0;
 numRewardTrialsCorrect = 0;
@@ -219,7 +220,13 @@ for block = 1 : numBlocks
         
         trialCounter = trialCounter + 1;    % This records the number of the trial WITHIN THE CURRENT PHASE (doesn't reset each block)
         
-        RestrictKeysForKbCheck([leftResponseName, rightResponseName, escape]);   % Only accept keypresses from the response keys
+        if testing == 1  % test version
+            RestrictKeysForKbCheck([leftResponseName, rightResponseName, escape, p]);   % contains skips
+        elseif testing == 0  % experimental version
+            RestrictKeysForKbCheck([leftResponseName, rightResponseName]);   % Only accept keypresses from the response keys
+        else
+            error('variable "testing" isn''t set properly')
+        end
         
         Screen('Flip', MainWindow);     % blank screen
         WaitSecs(itiDuration);
@@ -313,8 +320,11 @@ for block = 1 : numBlocks
         keyCodePressed = find(keyCode, 1, 'first');
         
         % esc to exit
-        if keyCodePressed == 41
+        if keyCodePressed == 41  % escape
             sca;
+            error('user terminated the program')
+        elseif keyCodePressed == 19  % p
+            break
         end
         
         rt = rtEnd - rtStart;      % Response time

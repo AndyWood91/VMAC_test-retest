@@ -248,6 +248,8 @@ if test == 0  % experimental version
     
 elseif test == 1  % test version
     
+    initialInstructionsSpatial;
+
     [~] = runTrialsSpatial(0);
     
 end

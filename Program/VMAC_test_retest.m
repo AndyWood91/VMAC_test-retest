@@ -15,6 +15,15 @@ global testing
 testing = 1;  % testing version
 
 
+if testing == 1
+    % skip PTB calibration
+elseif testing == 0
+    % run PTB calibration
+else
+    error('variable "testing" isn''t set properly')
+end
+
+
 [experiment] = get_details({1:4}, 2, true);
 
 

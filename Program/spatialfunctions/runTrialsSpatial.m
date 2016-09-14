@@ -9,6 +9,9 @@ global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue
 global stim_size stim_pen nf
 
+% Andy's additions
+global testing
+
 
 
 timeoutDuration = 2;     % 2 timeout duration
@@ -155,8 +158,15 @@ trialCounter = 0;
 block = 1;
 trials_since_break = 0;
 
-% build skip here
-RestrictKeysForKbCheck([KbName('c'), KbName('m')]);   % Only accept keypresses from keys C and M
+if testing == 1  % test version, contains skips
+    RestrictKeysForKbCheck([KbName('c'), KbName('m'), KbName('escape'), KbName('p')])
+    % c and m are responses, escape will exit the program, p will skip to
+    % the end of the block
+elseif testing == 0  % experimental version, no skip
+    RestrictKeysForKbCheck([KbName('c'), KbName('m')]);   % Only accept keypresses from keys C and M
+else
+    error('variable "testing" isn''t set properly')
+end
 
 WaitSecs(initialPause);
 
@@ -226,6 +236,17 @@ for trial = 1 : numTrials
     correct = 0;
     timeout = 0;
     
+    % these can only be pressed in the test version
+    if keyPressed == 'p' % skip to end of phase
+
+        break  % exit trial loop
+
+    elseif keyPressed == 'ESCAPE'
+        sca;
+        error('user terminated the program');
+        
+    end
+    
     
     if isempty(keyPressed)      % No key pressed (i.e. timeout)
         timeout = 1;
@@ -248,7 +269,7 @@ for trial = 1 : numTrials
                 correct = 1;
                 fbStr = 'correct';
             end
-            
+        
         end
         
         if exptPhase == 1       % If this is NOT practice
