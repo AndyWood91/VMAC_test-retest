@@ -8,7 +8,7 @@ KbName('UnifyKeyNames');  % standardise across OSs
 
 
 % variable declarations
-global testing
+global testing experiment
 
 
 % testing = 0;  % experimental version

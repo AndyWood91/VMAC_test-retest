@@ -45,7 +45,7 @@ testVersion = testing;
 
 if testVersion == 1     % Parameters for development / debugging
     Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
-    Screen('Preference', 'SkipSyncTests', 1);
+%     Screen('Preference', 'SkipSyncTests', 1);
     screenNum = 0;
     soundLatency = 0;
 else     % Parameters for running the real experiment

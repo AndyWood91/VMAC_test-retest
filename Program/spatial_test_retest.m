@@ -11,7 +11,7 @@ global datafilename
 
 % Andy
 % spatial = containers.Map('UniformValues', false);  % storing spatial data here
-global testing
+global testing experiment
 
 
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
@@ -51,6 +51,17 @@ test = testing;
 if test == 1  % test version
     
     colBalance = 1;
+    
+    load([datafilename, '1.mat'])  % load previous session's data
+%         starting_total = ;
+
+    %TODO: chance this to wherever I store it
+    if isfield(DATA, 'bonusSoFar')
+        starting_total = DATA.bonusSoFar;
+    else
+        starting_total = 0;
+    end
+    clear DATA;
     
 elseif test == 0  % experimental version
     
@@ -252,6 +263,16 @@ elseif test == 1  % test version
 
     [~] = runTrialsSpatial(0);
     
+    exptInstructionsSpatial;
+    
+    bonus_payment = 67500;
+    
+    
+%     bonus_payment = runTrialsSpatial(1);
+% 
+%     awareInstructionsSpatial;
+%     awareTestSpatial;
+    
 end
 
 %% THIS NEEDS TO CHANGE
@@ -265,14 +286,6 @@ end
 % trialPay = (1000 - roundRT) * 0.1 * winMultiplier(distractType);
 % 4 raredistractors per block of 24
 
-
-if test == 1  % test version
-    bonus_payment = 75000;  % theoretical maximum session points
-elseif test == 0  % experimental version
-    % bonus_payment set above
-else
-    error('variable "test" isn''t set properly')
-end
 
 bonus_payment = bonus_payment / 100;  % convert to cents
 bonus_payment = 10 * ceil(bonus_payment / 10);  % round up to nearest 10c
@@ -292,7 +305,7 @@ update_details(experiment, bonus_payment);
 clear DATA; % clear data for RSVP task
 
 
-DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
+DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus (on this task) so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
 
 RestrictKeysForKbCheck(KbName('q'));   % Only accept Q key to quit

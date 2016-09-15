@@ -7,15 +7,28 @@ global centOrCents
 global instrCondition
 global softTimeoutDurationLate
 
+% Andy
+% for session check
+global experiment starting_total
+
+
 instructStr1 = 'The rest of this experiment is similar to the trials you have just completed. On each trial, you should respond to the line that is contained inside the DIAMOND shape.\n\nIf the line is HORIZONTAL, you should press the C key. If the line is VERTICAL, you should press the M key.';
 
-instructStr2 = ['From now on, you will be able to earn money for correct responses, depending on how fast you respond. \n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nThese points will eventually be converted into a cash reward, so the faster you make correct responses, the more you will earn. \n\nHowever, if you make an error you will LOSE the corresponding amount.'];
+% Andy
+% session check
+if strcmp(experiment('session'), '1')
+    instructStr2 = ['From now on, you will be able to earn money for correct responses, depending on how fast you respond. \n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nThese points will eventually be converted into a cash reward, so the faster you make correct responses, the more you will earn. \n\nHowever, if you make an error you will LOSE the corresponding amount.'];
+elseif strcmp(experiment('session'), '2')
+    instructStr2 = ['You will again be able to earn money for correct responses, depending on how fast you respond. \n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nHowever, if you make an error you will LOSE the corresponding amount. \n\nIn the first session, you earned $', num2str(starting_total), ' on this task.'];
+else
+    error('variable "session" isn''t set properly')
+end
 
 instructStr3 = ['IMPORTANT: Some of the trials will be BONUS trials! On these trials the amount that you win or lose will be multiplied by ', num2str(bigMultiplier),'.\n\n']; 
     
 instructStr4 = 'After each response you will be told how many points you won or lost, and your total points earned so far in this experiment.';
 
-instructStr5 = 'At the end of the session the number of points that you have earned will be used to calculate your total reward payment. \n\nMost participants are able to earn between $7 and $15 across both sessions of the experiment.';
+instructStr5 = 'At the end of the session the number of points that you have earned will be used to calculate your total reward payment. \n\nMost participants are able to earn between $15 and $25 across both sessions and tasks of the experiment.';
 
 show_Instructions(1, instructStr1, .1);
 show_Instructions(2, instructStr2, .1);

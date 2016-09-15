@@ -241,10 +241,11 @@ for trial = 1 : numTrials
 
         break  % exit trial loop
 
-    elseif keyPressed == 'ESCAPE'
+    elseif strcmp(keyPressed, 'escape')
         sca;
         error('user terminated the program');
-        
+    else
+        % do nothing
     end
     
     
