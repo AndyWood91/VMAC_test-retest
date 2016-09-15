@@ -16,7 +16,7 @@ global soundPAhandle winSoundArray loseSoundArray
 global datafilename
 
 % Andy's additions
-global testing
+global testing startingTotal
 
 exptName = 'RSVP_test_retest';
 
@@ -44,8 +44,8 @@ loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
 testVersion = testing;
 
 if testVersion == 1     % Parameters for development / debugging
-    Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
-%     Screen('Preference', 'SkipSyncTests', 1);
+%     Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
+    Screen('Preference', 'SkipSyncTests', 1);
     screenNum = 0;
     soundLatency = 0;
 else     % Parameters for running the real experiment
@@ -105,16 +105,23 @@ datafoldername = ['SubjData_', exptName];
 if exist(datafoldername, 'dir') == 0
     mkdir(datafoldername);
 end
-
-% load(['participant_details/participant', DATA.raw_data('number')], 'details');
   
 p_number = experiment('number');
 session = experiment('session');
 cueBalance = experiment('counterbalance');
-% p_age = details('age');
-% p_sex = details('gender');
 
 datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), 'S', session, '.mat'];
+
+% startingTotal
+if strcmp(session, '1')  % first session
+    startingTotal = 0;
+elseif strcmp(session, '2')  % second session
+    load(['SubjData_RSVP_test_retest/RSVP_test_retest_dataP', p_number, 'S1'], 'DATA')  % doesn't scale but that's ok
+    startingTotal = DATA.amountTotal; % set startingTotal from previous session
+    clear DATA;
+else
+    error('variable "session" isn''t set properly')
+end
 
     
 %% original data check from Mike
@@ -274,7 +281,7 @@ elseif testing == 1  % experimental version
 %     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
     
     rewardPropCorrect = 1;  % not sure about the type
-    runningTotalPoints = 100;  % idk if this is even close to a real value
+    runningTotalPoints = 1000;  % idk if this is even close to a real value
     
 else 
     error('variable "rewardPropCorrect" isn''t set properly')
@@ -304,12 +311,18 @@ PsychPortAudio('Close', soundPAhandle);
 DATA.end_time = datestr(now,0);
 DATA.exptDuration = GetSecs - startSecs;
 
+% Andy
+DATA.amountSession = amountEarned;  % check this
+DATA.amountTotal = startingTotal + amountEarned;  % check this
+
+save(datafilename, 'DATA');
+
 % Andy data
 experiment('rsvp') = DATA;
 update_details(experiment, amountEarned);
 
 Screen('Flip',MainWindow);
-[~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned in this task = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus for this task = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);
+[~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus = $', num2str(amountEarned, '%0.2f'), '\n\nTotal cash bonus for this task = $', num2str(DATA.amountTotal, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);
 Screen('Flip',MainWindow);
 
 rmpath(genpath(functionFoldername));       % remove path to this folder and all subfolders
