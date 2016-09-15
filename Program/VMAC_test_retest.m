@@ -30,7 +30,7 @@ end
 [experiment] = get_details({1:4}, 2, true);
 
 
-spatial_test_retest;
+% spatial_test_retest;
 
 
 RSVP_test_retest;
