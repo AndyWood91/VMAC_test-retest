@@ -28,7 +28,7 @@ oneMSvalue = 0.1;
 bigMultiplier = 10;    % Points multiplier for trials with high-value distractor
 smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
 
-starting_total = 0;
+% starting_total = 0;
 keyCounterbal = 1;
 
 
@@ -45,61 +45,19 @@ end
 
 datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];
 
-   
 test = testing;
 
-if test == 1  % test version
-    
-    colBalance = 1;
-    
-    if strcmp(experiment('session'), '2')
-        
-        load([datafilename, '1.mat'])  % load previous session's data
-    %         starting_total = ;
-    else
-    end
+colBalance = experiment('counterbalance');
 
-    %TODO: chance this to wherever I store it
-    if isfield(DATA, 'bonusSoFar')
-        starting_total = DATA.bonusSoFar;
-    else
-        starting_total = 0;
-    end
+% starting total
+if strcmp(experiment('session'), '1')  % first session
+    starting_total = 0;
+elseif strcmp(experiment('session'), '2')
+    load([datafilename, '1.mat'])  % load previous session's data
+    starting_total = DATA.bonusSoFar;
     clear DATA;
-    
-elseif test == 0  % experimental version
-    
-    colBalance = experiment('counterbalance');
-    
-    % set some values
-    if strcmp(exptSession, '1')  % first session
-        
-        starting_total = 0;
-        
-    elseif strcmp(exptSession, '2')  % second session
-        
-        % TODO: restructure this along with the data set
-        
-        load([datafilename, '1.mat'])  % load previous session's data
-%         starting_total = ;
-        
-        %TODO: chance this to wherever I store it
-        if isfield(DATA, 'bonusSoFar')
-            starting_total = DATA.bonusSoFar;
-        else
-            starting_total = 0;
-        end
-        
-    else
-        
-        error('variable "exptSession" isn''t set properly')
-        
-    end
-    
 else
-    
-    error('variable "test" isn''t set properly')
-    
+    error('variable "experiment(''session'')" isn''t set properly')
 end
 
 %% Daniel's participant details
