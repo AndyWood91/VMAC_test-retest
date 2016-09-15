@@ -16,8 +16,12 @@ testing = 1;  % testing version
 
 if testing == 1
     % skip PTB calibration
+%     Screen('Preference','TextRenderer', 0);  % use old text renderer
+    Screen('Preference','TextRenderer', 1);  % use new text renderer
 elseif testing == 0
     % run PTB calibration
+%     Screen('Preference','TextRenderer', 0);  % use old text renderer
+    Screen('Preference','TextRenderer', 1);  % use new text renderer
 else
     error('variable "testing" isn''t set properly')
 end

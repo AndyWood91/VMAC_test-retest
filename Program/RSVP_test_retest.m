@@ -266,7 +266,13 @@ if testing == 0  % experimental version
 elseif testing == 1  % experimental version
     startSecs = GetSecs;
     
+    showInstructions1;
+    
     [~, ~] = runTrials(1);
+    
+    showInstructions2;
+%     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
+    
     rewardPropCorrect = 1;  % not sure about the type
     runningTotalPoints = 100;  % idk if this is even close to a real value
     
@@ -303,7 +309,7 @@ experiment('rsvp') = DATA;
 update_details(experiment, amountEarned);
 
 Screen('Flip',MainWindow);
-[~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned in this task = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);
+[~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned in this task = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus for this task = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);
 Screen('Flip',MainWindow);
 
 rmpath(genpath(functionFoldername));       % remove path to this folder and all subfolders
