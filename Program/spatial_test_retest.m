@@ -52,8 +52,12 @@ if test == 1  % test version
     
     colBalance = 1;
     
-    load([datafilename, '1.mat'])  % load previous session's data
-%         starting_total = ;
+    if strcmp(experiment('session'), '2')
+        
+        load([datafilename, '1.mat'])  % load previous session's data
+    %         starting_total = ;
+    else
+    end
 
     %TODO: chance this to wherever I store it
     if isfield(DATA, 'bonusSoFar')
