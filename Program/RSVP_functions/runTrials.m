@@ -16,6 +16,8 @@ global testing
 
 %% Set parameters
 
+standardPriority = Priority; %DANIEL - updated in line with Mike's recommendations. Increasing priority for PTB allows for more accurate timings.
+
 itemsPerStream = 18;
 
 lagType1 = 2;
@@ -293,7 +295,7 @@ for block = 1 : numBlocks
         end
         rsvpDuration(trialDistractPosition) = distractDuration;
         
-        
+        Priority(1); %DANIEL - increase priority of PTB.
         
         % Start showing the items
         
@@ -307,15 +309,17 @@ for block = 1 : numBlocks
         
         for ii = 2 : itemsPerStream
             Screen('DrawTexture', MainWindow, rsvpStimulus(ii));
-            stimStartTime = Screen('Flip', MainWindow, stimStartTime + rsvpDuration(ii-1));
+            stimStartTime = Screen('Flip', MainWindow, stimStartTime + rsvpDuration(ii-1) - .002); %DANIEL - Updated inline with Mike's recommendation. "When" flip uses next screen *after* requested time, this should do a better job for timing.
         end
         
         Screen('DrawTexture', MainWindow, answerscreen);
-        rtStart = Screen('Flip', MainWindow, stimStartTime + rsvpDuration(itemsPerStream));
+        rtStart = Screen('Flip', MainWindow, stimStartTime + rsvpDuration(itemsPerStream) - .002); %DANIEL - updated as above
         
         rsvpStreamTime = rtStart - rsvpStartTime;   % Gives duration of all RSVP items; use this to check presentation timing is accurate.
         
         [keyCode, rtEnd, ~] = accKbWait();
+        
+        Priority(standardPriority); %DANIEL - return priority of PTB to standard level
         
         keyCodePressed = find(keyCode, 1, 'first');
         
