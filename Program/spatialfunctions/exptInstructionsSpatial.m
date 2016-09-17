@@ -61,6 +61,7 @@ exImageRect = [scr_centre(1) - x/2    scr_centre(2)-50    scr_centre(1) + x/2   
 instrWin = Screen('OpenOffscreenWindow', MainWindow, black);
 Screen('TextSize', instrWin, 34);
 Screen('TextStyle', instrWin, 1);
+Screen('TextFont', instrWin, 'Courier New');
 
 textColour = white;
 if instrTrial == 3

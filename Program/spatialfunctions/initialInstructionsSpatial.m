@@ -13,7 +13,7 @@ show_Instructions(3, instructStr3);
 
 Screen('TextSize', MainWindow, 32);
 Screen('TextStyle', MainWindow, 1);
-Screen('TextFont', MainWindow, 'Courier');
+Screen('TextFont', MainWindow, 'Courier New');
 
 DrawFormattedText(MainWindow, 'Tell the experimenter when you are ready to begin', 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
@@ -38,6 +38,7 @@ RestrictKeysForKbCheck(KbName('Space'));   % Only accept spacebar
 
 
 instrWin = Screen('OpenOffscreenWindow', MainWindow, black);
+Screen('TextFont', instrWin, 'Courier New');
 Screen('TextSize', instrWin, 32);
 Screen('TextStyle', instrWin, 1);
 
