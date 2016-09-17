@@ -123,7 +123,7 @@ DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
 HideCursor;
 
-Screen('Preference', 'DefaultFontName', 'Courier New');
+Screen('TextFont', MainWindow, 'Courier New');
 
 Screen('TextSize', MainWindow, 34);
 
