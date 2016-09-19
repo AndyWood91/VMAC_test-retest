@@ -1,7 +1,7 @@
 
 function totalPay = runTrials(exptPhase)
 
-global MainWindow scr_centre DATA datafilename
+global MainWindow scrCentre DATA datafilename
 global keyCounterbal starting_total exptSession
 global distract_col
 global white black gray yellow
@@ -83,7 +83,7 @@ Screen('DrawLine', fixationTex, white, fix_size/2, 0, fix_size/2, fix_size, 2);
 
 
 % Create a rect for the fixation cross
-fixRect = [scr_centre(1) - fix_size/2    scr_centre(2) - fix_size/2   scr_centre(1) + fix_size/2   scr_centre(2) + fix_size/2];
+fixRect = [scrCentre(1) - fix_size/2    scrCentre(2) - fix_size/2   scrCentre(1) + fix_size/2   scrCentre(2) + fix_size/2];
 
 % The oblique line segments need to have the same length as the vertical /
 % horizontal target lines. Use Pythagoras to work out vertical and
@@ -106,7 +106,7 @@ lineHorz = zeros(stimLocs,4);
 lineOrientation = zeros(1,stimLocs);   % Used below; preallocating for speed
 
 for i = 0 : stimLocs - 1    % Define rects for stimuli and line segments
-    stimRect(i+1,:) = [scr_centre(1) - circ_diam * sin(i*2*pi/stimLocs) - stim_size / 2   scr_centre(2) - circ_diam * cos(i*2*pi/stimLocs) - stim_size / 2   scr_centre(1) - circ_diam * sin(i*2*pi/stimLocs) + stim_size / 2   scr_centre(2) - circ_diam * cos(i*2*pi/stimLocs) + stim_size / 2];
+    stimRect(i+1,:) = [scrCentre(1) - circ_diam * sin(i*2*pi/stimLocs) - stim_size / 2   scrCentre(2) - circ_diam * cos(i*2*pi/stimLocs) - stim_size / 2   scrCentre(1) - circ_diam * sin(i*2*pi/stimLocs) + stim_size / 2   scrCentre(2) - circ_diam * cos(i*2*pi/stimLocs) + stim_size / 2];
     
     lineVert(i+1,:) = [stimRect(i+1,1) + stim_size/2   stimRect(i+1,2) + (stim_size-lineLength)/2    stimRect(i+1,1) + stim_size/2    stimRect(i+1,2) + stim_size/2 + lineLength/2];
     lineHorz(i+1,:) = [stimRect(i+1,1) + (stim_size-lineLength)/2   stimRect(i+1,2) + stim_size/2    stimRect(i+1,1) + stim_size/2 + lineLength/2    stimRect(i+1,2) + stim_size/2];
@@ -285,7 +285,7 @@ for trial = 1 : numTrials
             end
             
             if winMultiplier(distractType) == bigMultiplier
-                Screen('DrawTexture', MainWindow, bonusTex, [], [scr_centre(1)-bonusWindowWidth/2   bonusWindowTop   scr_centre(1)+bonusWindowWidth/2    bonusWindowTop+bonusWindowHeight]);
+                Screen('DrawTexture', MainWindow, bonusTex, [], [scrCentre(1)-bonusWindowWidth/2   bonusWindowTop   scrCentre(1)+bonusWindowWidth/2    bonusWindowTop+bonusWindowHeight]);
             end
             
 %             rtStr = ['RT = ', num2str(roundRT), ' milliseconds'];

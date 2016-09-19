@@ -10,17 +10,23 @@ global distract_col colourName
 global white black gray yellow
 global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
-global datafilename
+global datafilename screenNum
 
 global testing experiment  % Andy
 global scrRes scrCentre  % Andy - debugging instructions
 
+testing = 1;
 
-% participant information set from get_details
-p_number = experiment('number');
-exptSession = experiment('session');
-colBalance = experiment('counterbalance');
-
+if testing == 0  % participant information set from get_details
+    p_number = experiment('number');
+    exptSession = session;
+    colBalance = experiment('counterbalance');
+elseif testing == 1
+    p_number = '1';
+    exptSession = '1';
+    session = exptSession;
+    colBalance = 1;
+end
 
 % data storage
 if exist('spatial_data', 'dir') ~= 7  % check for 'spatial_data' directory
@@ -31,7 +37,7 @@ datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];  % doesn't inc
 
 % variable declarations
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
-% screenNum = 0;  % use the primary screen
+screenNum = 0;  % use the primary screen
 test = testing;
 
 
@@ -45,9 +51,9 @@ keyCounterbal = 1;
 
 
 % starting total
-if strcmp(experiment('session'), '1')  % first session
+if strcmp(session, '1')  % first session
     starting_total = 0;
-elseif strcmp(experiment('session'), '2')
+elseif strcmp(session, '2')
     load([datafilename, '1.mat'])  % load first session's data
     starting_total = DATA.bonusSoFar;
     clear DATA;
@@ -65,31 +71,31 @@ DATA.rSeed = randSeed;
 rng(randSeed);
 
 
-% % Get screen resolution, and find location of centre of screen
-% [scrWidth, scrHeight] = Screen('WindowSize',screenNum);
-% scrRes = [scrWidth scrHeight];
-% scrCentre = scrRes / 2;
+% Get screen resolution, and find location of centre of screen
+[scrWidth, scrHeight] = Screen('WindowSize',screenNum);
+scrRes = [scrWidth scrHeight];
+scrCentre = scrRes / 2;
 
 
 
-% MainWindow = Screen(screenNum, 'OpenWindow');
-% DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
+MainWindow = Screen(screenNum, 'OpenWindow');
+DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
-% HideCursor;
-% 
-% Screen('TextFont', MainWindow, 'Courier New');
-% Screen('TextSize', MainWindow, 34);
+HideCursor;
+
+Screen('TextFont', MainWindow, 'Courier New');
+Screen('TextSize', MainWindow, 34);
 
 % set colors
-% white = WhiteIndex(MainWindow);
-% black = BlackIndex(MainWindow);
+white = WhiteIndex(MainWindow);
+black = BlackIndex(MainWindow);
 gray = [70 70 70];
 orange = [193 95 30];
 green = [54 145 65];
 blue = [37 141 165];
 pink = [193 87 135];
 yellow = [255 255 0];
-% Screen('FillRect',MainWindow, black);  % fill black screen
+Screen('FillRect',MainWindow, black);  % fill black screen
 
 distract_col = zeros(5,3);
 
@@ -147,13 +153,12 @@ for i = 1 : 2
     end
 end
 
-% commandwindow;  % move cursor to command window
+commandwindow;  % move cursor to command window
 
 % task
 if test == 0  % experimental version
 
     initialInstructionsSpatial;
-%     showInstructions1;
 
     [~] = runTrialsSpatial(0);  % Practice phase
 
@@ -172,9 +177,8 @@ if test == 0  % experimental version
 elseif test == 1  % test version
     
     initialInstructionsSpatial;
-%     showInstructions1;
-
-    [~] = runTrialsSpatial(0);
+% 
+%     [~] = runTrialsSpatial(0);
     
 %     DrawFormattedText(MainWindow, 'Please fetch the experimenter', 'center', 'center' , white);
 %     Screen(MainWindow, 'Flip');
@@ -214,6 +218,10 @@ DATA.bonusSoFar = bonus_payment + starting_total;
 save(datafilename, 'DATA');
 
 % Andy's data
+if testing == 1
+    experiment = containers.Map('UniformValues', false);
+    experiment('data_filename') = 'raw_data/participant1session1.mat';
+end
 experiment('spatial') = DATA;
 update_details(experiment, bonus_payment);  % data is saved in this
 clear DATA; % clear data for RSVP task

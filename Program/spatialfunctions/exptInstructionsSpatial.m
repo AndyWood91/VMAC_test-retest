@@ -2,18 +2,48 @@ function exptInstructionsSpatial()
 
 global MainWindow white
 global oneMSvalue zeroPayRT
-global bigMultiplier smallMultiplier
-global centOrCents
-global instrCondition
-global softTimeoutDurationLate
+global bigMultiplier
 
-global experiment starting_total  % Andy
 
+global starting_total scrCentre testing % Andy
+
+testing = 1;
+if testing == 1
+    
+    % this would usually be set by the invoking script but they're declared
+    % here so that I can debug it.
+
+    % PTB Preferences
+    Screen('Preference','TextRenderer', 1);  % use new text renderer
+    Screen('Preference', 'VisualDebuglevel', 3); % hide PTB startup screen
+
+    % set up main window
+    screenNum = 0;
+    MainWindow = Screen(screenNum, 'OpenWindow');
+    Screen('TextFont', MainWindow, 'Courier New');
+    Screen('TextSize', MainWindow, 34);
+
+    % colours
+    black = BlackIndex(MainWindow);
+    white = WhiteIndex(MainWindow);
+
+    % get screen dimensions
+    [scrWidth, scrHeight] = Screen('WindowSize', screenNum);
+    scrRes = [scrWidth, scrHeight];
+    scrCentre = scrRes / 2;
+    
+    starting_total = 6.25;
+    exptSession = '1';
+    colBalance = 1;
+
+end
+
+commandwindow;
 
 instructStr1 = 'The rest of this experiment is similar to the trials you have just completed. On each trial, you should respond to the line that is contained inside the DIAMOND shape.\n\nIf the line is HORIZONTAL, you should press the C key. If the line is VERTICAL, you should press the M key.';
-if strcmp(experiment('session'), '1')  % first session
+if strcmp(exptSession, '1')  % first session
     instructStr2 = ['From now on, you will be able to earn money for correct responses, depending on how fast you respond.\n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nThese points will eventually be converted into a cash reward, so the faster you make correct responses, the more you will earn. \n\nHowever, if you make an error you will LOSE the corresponding amount.'];
-elseif strcmp(experiment('session'), '2')  % second session
+elseif strcmp(exptSession, '2')  % second session
     instructStr2 = ['You will again be able to earn money for correct responses, depending on how fast you respond.\n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nHowever, if you make an error you will LOSE the corresponding amount. \n\nIn the first session, you earned $', num2str(starting_total), ' on this task.'];
 else
     error('variable "session" isn''t set properly')
@@ -34,20 +64,21 @@ Screen(MainWindow, 'Flip');
 
 RestrictKeysForKbCheck([]); % Re-enable all keys
 
-
 end
 
 
-function show_Instructions(instrTrial, insStr, instrPause)
+function show_Instructions(instrTrial, insStr, ~)
 
-global MainWindow scr_centre black white yellow
-global exptSession distract_col bigMultiplier
-global starting_total colourName
+global MainWindow scrCentre black white yellow
+global distract_col bigMultiplier
+global colourName
 
-x = 649;
-y = 547;
+global testing
 
-exImageRect = [scr_centre(1) - x/2    scr_centre(2)-50    scr_centre(1) + x/2   scr_centre(2) + y - 50];
+% hide cursor and create black screen, wait for spacebar
+HideCursor;
+Screen('FillRect', MainWindow, black);
+RestrictKeysForKbCheck(KbName('Space'));   % Only accept spacebar
 
 % set up instructions window
 instructions_window = Screen('OpenOffscreenWindow', MainWindow, black);
@@ -60,27 +91,43 @@ if instrTrial == 3
     textColour = yellow;
 end
 
-[~, ny, instrBox] = DrawFormattedText(instructions_window, insStr, 'left', 100 , textColour, 60, [], [], 1.5);
+% [~, ~, instrBox] = DrawFormattedText(instructions_window, insStr, 'left', 100 , textColour, 60, [], [], 1.5);
+% instrBox_width = instrBox(3) - instrBox(1);
+% instrBox_height = instrBox(4) - instrBox(2);
+% textTop = 150;
+% destInstrBox = [(scrCentre(1) - instrBox_width / 2), textTop, (scrCentre(1) + instrBox_width / 2), (textTop + instrBox_height)];
+% 
+% Screen('DrawTexture', MainWindow, instructions_window, instrBox, destInstrBox);
+
+% from Initial, testing
+[~, ~, instrBox] = DrawFormattedText(instructions_window, insStr, 10, 'center', textColour, 60, [], [], 1.5);
 instrBox_width = instrBox(3) - instrBox(1);
 instrBox_height = instrBox(4) - instrBox(2);
-textTop = 150;
-destInstrBox = [scr_centre(1) - instrBox_width / 2   textTop   scr_centre(1) + instrBox_width / 2   textTop + instrBox_height];
-
+textTop = 100;
+destInstrBox = [scrCentre(1) - instrBox_width / 2   textTop   scrCentre(1) + instrBox_width / 2   textTop +  instrBox_height];
 Screen('DrawTexture', MainWindow, instructions_window, instrBox, destInstrBox);
 
 if instrTrial == 3
     textColour = white;
-     extraStr = ['So you will earn much more for correct responses on \n"',num2str(bigMultiplier), ' x bonus" trials than on standard trials.'];
-    [~, ny, ~] = DrawFormattedText(MainWindow, extraStr, scr_centre(1) - instrBox_width / 2, destInstrBox(4), textColour, 60, [], [], 1.5);
+    extraStr = ['So you will earn much more for correct responses on \n"',num2str(bigMultiplier), ' x bonus" trials than on standard trials.'];
+    [~, ny, ~] = DrawFormattedText(MainWindow, extraStr, scrCentre(1) - instrBox_width / 2, destInstrBox(4), textColour, 60, [], [], 1.5);
     
     circSize = 150;
     lineLength = 60;
     obliqueDisp = round(sqrt(lineLength * lineLength / 2));
-    circleRect(1,:) = [scr_centre(1) - instrBox_width/2    scr_centre(2)    scr_centre(1) - instrBox_width/2 + circSize    scr_centre(2) + circSize];
-    circleRect(2,:) = [scr_centre(1) + instrBox_width/2 - circSize scr_centre(2) scr_centre(1) + instrBox_width/2 scr_centre(2) + circSize];
+    circleRect(1,:) = [scrCentre(1) - instrBox_width/2    scrCentre(2)    scrCentre(1) - instrBox_width/2 + circSize    scrCentre(2) + circSize];
+    circleRect(2,:) = [scrCentre(1) + instrBox_width/2 - circSize scrCentre(2) scrCentre(1) + instrBox_width/2 scrCentre(2) + circSize];
+    
+    if testing == 1;
+        sca;
+    end
+    
+    % I think this throws an error because my Mac screen is smaller than
+    % the lab computers
     for i = 1:2
         lineRect(i,:) = [circleRect(i,1) + (circSize-obliqueDisp)/2 circleRect(i,2) + circSize/2 + obliqueDisp/2 circleRect(i,1) + circSize/2 + obliqueDisp/2 circleRect(i,2) + (circSize-obliqueDisp)/2];
     end
+    
     highCentre = (circleRect(1,1)+circleRect(1,3))/2;
     lowCentre = (circleRect(2,1)+circleRect(2,3))/2;  
     

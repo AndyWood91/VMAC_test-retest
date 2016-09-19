@@ -7,24 +7,31 @@ global scrRes scrCentre
 
 % global testing  % Andy
 
-% PTB Preferences
-Screen('Preference','TextRenderer', 1);  % use new text renderer
-Screen('Preference', 'VisualDebuglevel', 3); % hide PTB startup screen
+testing = 1;
+debugging = 1;
 
-% set up main window
-screenNum = 0;
-MainWindow = Screen(screenNum, 'OpenWindow');
-Screen('TextFont', MainWindow, 'Courier New');
-Screen('TextSize', MainWindow, 34);
+if testing == 1
 
-% colours
-black = BlackIndex(MainWindow);
-white = WhiteIndex(MainWindow);
+    % PTB Preferences
+    Screen('Preference','TextRenderer', 1);  % use new text renderer
+    Screen('Preference', 'VisualDebuglevel', 3); % hide PTB startup screen
 
-% get screen dimensions
-[scrWidth, scrHeight] = Screen('WindowSize', screenNum);
-scrRes = [scrWidth, scrHeight];
-scrCentre = scrRes / 2;
+    % set up main window
+    screenNum = 0;
+    MainWindow = Screen(screenNum, 'OpenWindow');
+    Screen('TextFont', MainWindow, 'Courier New');
+    Screen('TextSize', MainWindow, 34);
+
+    % colours
+    black = BlackIndex(MainWindow);
+    white = WhiteIndex(MainWindow);
+
+    % get screen dimensions
+    [scrWidth, scrHeight] = Screen('WindowSize', screenNum);
+    scrRes = [scrWidth, scrHeight];
+    scrCentre = scrRes / 2;
+
+end
     
 
 instructStr1 = 'On each trial a cross will appear, to warn you that the trial is about to start. Then a set of shapes will appear; an example is shown below.';
@@ -44,6 +51,7 @@ example_rectangle = [(scrCentre(1) - example_dimensions(1) / 2), scrCentre(2), .
     (scrCentre(1) + example_dimensions(1) / 2), (scrCentre(2) + example_dimensions(2))];
 
 HideCursor;
+commandwindow;
 Screen('FillRect', MainWindow, black);
 
 % display instructions
@@ -58,6 +66,11 @@ KbWait([], 2);
 Screen(MainWindow, 'Flip');
 RestrictKeysForKbCheck([]); % Re-enable all keys
 
+if debugging == 1;
+    ShowCursor;
+    sca;
+end
+
 end
 
 function show_Instructions(instrTrial, insStr)
@@ -69,11 +82,12 @@ global scrRes scrCentre
 example_dimensions = [368, 368];
 exImageRect = [scrCentre(1) - example_dimensions(1)/2    scrCentre(2)    scrCentre(1) + example_dimensions(1)/2   scrCentre(2) + example_dimensions(2)];
 
+% hide cursor and create black screen, wait for spacebar
 HideCursor;
 Screen('FillRect', MainWindow, black);
 RestrictKeysForKbCheck(KbName('Space'));   % Only accept spacebar
 
-
+% set up instructions window
 instrWin = Screen('OpenOffscreenWindow', MainWindow, black);
 Screen('TextFont', instrWin, 'Courier New');
 Screen('TextSize', instrWin, 32);
