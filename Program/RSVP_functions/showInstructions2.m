@@ -45,7 +45,7 @@ end
 if strcmp(session, '1')
     instrString = 'Great job!\n\nFrom now on you can win points for correct responses.\n\nThis is important because you will receive money at the end of the experiment, based on how many points you have earned.';
 elseif strcmp(session, '2')
-    instrString = ['Great job!\n\nYou will again be able to win points for correct responses\n\nIn the first session, you earned $', num2str(startingTotal), ' on this task'];  % this will throw an error, need to find value for amountEarned
+    instrString = ['Great job!\n\nYou will again be able to win points for correct responses.\n\nIn the first session, you earned $', num2str(startingTotal), ' on this task.'];
 else
     error('variable "session" isn''t set properly')
 end

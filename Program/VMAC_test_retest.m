@@ -18,8 +18,8 @@ Screen('Preference', 'VisualDebuglevel', 3); %DANIEL - this should hide the PTB 
 
 if testing == 1
     % skip PTB calibration
-    Screen('Preference','TextRenderer', 1);  % use old text renderer
-%     Screen('Preference','TextRenderer', 1);  % use new text renderer
+%     Screen('Preference','TextRenderer', 0);  % use old text renderer
+    Screen('Preference','TextRenderer', 1);  % use new text renderer
 elseif testing == 0
     % run PTB calibration
 %     Screen('Preference','TextRenderer', 0);  % use old text renderer
@@ -32,7 +32,7 @@ end
 [experiment] = get_details({1:4}, 2, true);
 
 
-spatial_test_retest;
+% spatial_test_retest;
 
 
 RSVP_test_retest;

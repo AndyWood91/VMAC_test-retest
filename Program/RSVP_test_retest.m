@@ -1,12 +1,5 @@
 sca;
 
-% no idea what this does
-% PVar = 'DYLD_LIBRARY_PATH';
-% PVal = getenv(PVar);
-% nVal = [ '/opt/X11/lib:', PVal ];
-% setenv(PVar, nVal);
-
-commandwindow;  % for testing, can type sca to exit
 
 % variable declarations
 global DATA exptName MainWindow
@@ -48,6 +41,7 @@ if testVersion == 1     % Parameters for development / debugging
     Screen('Preference', 'SkipSyncTests', 1);
     screenNum = 0;
     soundLatency = 0;
+    commandwindow;  % can type sca to exit
 else     % Parameters for running the real experiment
     Screen('Preference', 'SkipSyncTests', 0);
     screenNum = 0;
@@ -83,23 +77,7 @@ while true  % loops until a break statement is encountered
     
 end
 
-% % original sound check from Mike
-% keyResponse = 'a';
-% while keyResponse ~= 'y' && keyResponse ~= 'Y' && keyResponse ~= 'n' && keyResponse ~= 'N' 
-%     PsychPortAudio('FillBuffer', soundPAhandle, winSoundArray');
-%     PsychPortAudio('Start', soundPAhandle);
-%     keyResponse = input('Is volume OK? (y / n / blank to hear again) ---> ', 's');
-%     if isempty(keyResponse); keyResponse = 'a'; end
-% end
-% 
-% if keyResponse == 'n' || keyResponse == 'N'
-%     fprintf(1, '\nQuitting script. Change volume and then run the script again.\n\n');
-%     PsychPortAudio('Close', soundPAhandle);
-%     clear all;
-%     return
-% end
 
-% % original data dir from Mike
 % Check to see if subject data folder exists; if not, create it.
 datafoldername = ['SubjData_', exptName];
 if exist(datafoldername, 'dir') == 0
@@ -280,27 +258,26 @@ elseif testing == 1  % experimental version
     showInstructions2;
 %     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
     
-    rewardPropCorrect = 1;  % not sure about the type
-    runningTotalPoints = 1000;  % idk if this is even close to a real value
+    rewardPropCorrect = 1;
+    runningTotalPoints = 62500;
     
 else 
     error('variable "rewardPropCorrect" isn''t set properly')
 end
     
-amountEarned = rewardPropCorrect * 7.5;  % Amount earned in dollars (0.5 correct gives $3, 1 correct gives $6)
-
+amountEarned = rewardPropCorrect * 6.25;  % Amount earned in dollars (0.5 correct gives $3, 1 correct gives $6.25)
 amountEarned = amountEarned * 100;  % change to cents
-amountEarned = 10 * ceil(amountEarned/10);  % round this value UP to nearest 10 cents
+amountEarned = ceil(amountEarned /20) * 20;  % round this value UP to nearest 5 cents
 amountEarned = amountEarned / 100;  % then convert back to dollars
 
-
-% change this across the whole experiment
+% set floor and ceiling
 if amountEarned > 6.25    % This shouldn't be possible, but you never know
     amountEarned = 6.25;
 elseif amountEarned < 3     % This is here in case there are any very unlucky dolts
     amountEarned = 3;
 end
 
+% store bonus in .csv file
 fid1 = fopen([datafoldername,'/_TotalBonus_summary.csv'], 'a');
 fprintf(fid1,'%d,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
 fclose(fid1);
@@ -312,17 +289,25 @@ DATA.end_time = datestr(now,0);
 DATA.exptDuration = GetSecs - startSecs;
 
 % Andy
-DATA.amountSession = amountEarned;  % check this
-DATA.amountTotal = startingTotal + amountEarned;  % check this
+DATA.amountSession = amountEarned;
+DATA.amountTotal = startingTotal + amountEarned;
 
 save(datafilename, 'DATA');
 
 % Andy data
 experiment('rsvp') = DATA;
-update_details(experiment, amountEarned);
+update_details(experiment, amountEarned);  % datafile is saved here
 
+% final screen
 Screen('Flip',MainWindow);
-[~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(runningTotalPoints, ','), '\n\nCash bonus = $', num2str(amountEarned, '%0.2f'), '\n\nTotal cash bonus for this task = $', num2str(DATA.amountTotal, '%0.2f'), '\n\nPlease fetch the experimenter'], 'center', 'center' , white, [], [], [], 1.3);
+% session check
+if strcmp(session, '1')  % first session
+    [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(runningTotalPoints, ','), '\n\nBonus = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white, [], [], [], 1.3);
+elseif strcmp(session, '2')  % second session, include total
+    [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(runningTotalPoints, ','), '\n\nBonus = $', num2str(amountEarned, '%0.2f'), '\n\nTotal bonus for this task = $', num2str(DATA.amountTotal, '%0.2f'), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white, [], [], [], 1.3);
+else
+    error('variable "session" isn''t set properly')
+end
 Screen('Flip',MainWindow);
 
 rmpath(genpath(functionFoldername));       % remove path to this folder and all subfolders

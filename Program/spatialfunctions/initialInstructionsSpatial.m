@@ -1,5 +1,6 @@
+% spatial, doesn't run as full screen
 
-function initialInstructions()
+function initialInstructionsSpatial()
 
 global MainWindow white
 
@@ -7,6 +8,18 @@ instructStr1 = 'On each trial a cross will appear, to warn you that the trial is
 instructStr2 = 'Each of these shapes contains a line. Your task is to respond to the line that is contained inside the DIAMOND shape.\n\nIf the line inside the diamond is HORIZONTAL, you should press the C key. If the line is VERTICAL, you should press the M key.';
 instructStr3 = 'You should respond as fast as you can, but you should try to avoid making errors.';
 
+% read in example display - this image will be drawn to the bottom half of 
+% the screen:
+    % left border - vertical middle minus half of the example width
+    % top border - horizontal middle
+    % right border - vertical middle plus half of the example width
+    % bottom border - horizontal middle plus the image height
+example_image = imread('spatialfunctions/spatialExample.jpg');  % 368 x 368
+example_dimensions = [368, 368];
+example_rectangle = [(scrCentre(1) - example_dimensions(1) / 2), scrCentre(2), ...
+    (scrCentre(1) + example_dimensions(1) / 2), (scrCentre(2) + example_dimensions(2))];
+
+% display instructions
 show_Instructions(1, instructStr1);
 show_Instructions(2, instructStr2);
 show_Instructions(3, instructStr3);

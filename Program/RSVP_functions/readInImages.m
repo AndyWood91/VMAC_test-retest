@@ -51,7 +51,7 @@ numImages = length(jpgFilenameArray);
 imageTexture = [];
 
 for ii = 1 : numImages
-    imgMatrix=imread([inputFoldername, '/', jpgFilenameArray(ii).name], 'jpg');
+    imgMatrix = imread([inputFoldername, '/', jpgFilenameArray(ii).name], 'jpg');
 %        imageHeight = size(imgMatrix,1);
 %        imageWidth = size(imgMatrix,2);
     imageTexture(ii) = Screen('MakeTexture', MainWindow, imgMatrix);
