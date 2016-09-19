@@ -1,3 +1,5 @@
+% turning off anything screen related to try and fix the text rendering
+
 addpath('spatialfunctions');  % search the spatialfunctions directory for scripts and functions
 
 
@@ -29,7 +31,7 @@ datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];  % doesn't inc
 
 % variable declarations
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
-screenNum = 0;  % use the primary screen
+% screenNum = 0;  % use the primary screen
 test = testing;
 
 
@@ -63,32 +65,31 @@ DATA.rSeed = randSeed;
 rng(randSeed);
 
 
-% Get screen resolution, and find location of centre of screen
-[scrWidth, scrHeight] = Screen('WindowSize',screenNum);
-scrRes = [scrWidth scrHeight];
-scrCentre = scrRes / 2;
+% % Get screen resolution, and find location of centre of screen
+% [scrWidth, scrHeight] = Screen('WindowSize',screenNum);
+% scrRes = [scrWidth scrHeight];
+% scrCentre = scrRes / 2;
 
 
 
-MainWindow = Screen(screenNum, 'OpenWindow', [], [], 32);
+% MainWindow = Screen(screenNum, 'OpenWindow');
+% DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
-DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
+% HideCursor;
+% 
+% Screen('TextFont', MainWindow, 'Courier New');
+% Screen('TextSize', MainWindow, 34);
 
-HideCursor;
-
-Screen('TextFont', MainWindow, 'Courier New');
-Screen('TextSize', MainWindow, 34);
-
-% now set colors
-white = WhiteIndex(MainWindow);
-black = BlackIndex(MainWindow);
+% set colors
+% white = WhiteIndex(MainWindow);
+% black = BlackIndex(MainWindow);
 gray = [70 70 70];
 orange = [193 95 30];
 green = [54 145 65];
 blue = [37 141 165];
 pink = [193 87 135];
 yellow = [255 255 0];
-Screen('FillRect',MainWindow, black);  % fill black screen
+% Screen('FillRect',MainWindow, black);  % fill black screen
 
 distract_col = zeros(5,3);
 
@@ -146,13 +147,13 @@ for i = 1 : 2
     end
 end
 
-commandwindow;  % move cursor to command window
+% commandwindow;  % move cursor to command window
 
 % task
 if test == 0  % experimental version
 
-%     initialInstructionsSpatial;
-    showInstructions1;
+    initialInstructionsSpatial;
+%     showInstructions1;
 
     [~] = runTrialsSpatial(0);  % Practice phase
 
@@ -170,8 +171,8 @@ if test == 0  % experimental version
     
 elseif test == 1  % test version
     
-%     initialInstructionsSpatial;
-    showInstructions1;
+    initialInstructionsSpatial;
+%     showInstructions1;
 
     [~] = runTrialsSpatial(0);
     

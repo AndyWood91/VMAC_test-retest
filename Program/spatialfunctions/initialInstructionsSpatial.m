@@ -1,12 +1,36 @@
-% spatial, doesn't run as full screen
+% spatial, doesn't run as full screen (or at all currently)
 
 function initialInstructionsSpatial()
 
-global MainWindow white
+global MainWindow white black
+global scrRes scrCentre
+
+% global testing  % Andy
+
+% PTB Preferences
+Screen('Preference','TextRenderer', 1);  % use new text renderer
+Screen('Preference', 'VisualDebuglevel', 3); % hide PTB startup screen
+
+% set up main window
+screenNum = 0;
+MainWindow = Screen(screenNum, 'OpenWindow');
+Screen('TextFont', MainWindow, 'Courier New');
+Screen('TextSize', MainWindow, 34);
+
+% colours
+black = BlackIndex(MainWindow);
+white = WhiteIndex(MainWindow);
+
+% get screen dimensions
+[scrWidth, scrHeight] = Screen('WindowSize', screenNum);
+scrRes = [scrWidth, scrHeight];
+scrCentre = scrRes / 2;
+    
 
 instructStr1 = 'On each trial a cross will appear, to warn you that the trial is about to start. Then a set of shapes will appear; an example is shown below.';
 instructStr2 = 'Each of these shapes contains a line. Your task is to respond to the line that is contained inside the DIAMOND shape.\n\nIf the line inside the diamond is HORIZONTAL, you should press the C key. If the line is VERTICAL, you should press the M key.';
 instructStr3 = 'You should respond as fast as you can, but you should try to avoid making errors.';
+instructStr4 = 'You will now do some practice trials.\n\nPlease tell the experimenter when you are ready to begin.';
 
 % read in example display - this image will be drawn to the bottom half of 
 % the screen:
@@ -19,19 +43,17 @@ example_dimensions = [368, 368];
 example_rectangle = [(scrCentre(1) - example_dimensions(1) / 2), scrCentre(2), ...
     (scrCentre(1) + example_dimensions(1) / 2), (scrCentre(2) + example_dimensions(2))];
 
+HideCursor;
+Screen('FillRect', MainWindow, black);
+
 % display instructions
 show_Instructions(1, instructStr1);
 show_Instructions(2, instructStr2);
 show_Instructions(3, instructStr3);
+show_Instructions(4, instructStr4);
 
-Screen('TextSize', MainWindow, 32);
-Screen('TextStyle', MainWindow, 1);
-Screen('TextFont', MainWindow, 'Courier New');
 
-DrawFormattedText(MainWindow, 'Tell the experimenter when you are ready to begin', 'center', 'center' , white);
-Screen(MainWindow, 'Flip');
-
-RestrictKeysForKbCheck(KbName('t'));   % Only accept c key
+RestrictKeysForKbCheck(KbName('t'));   % Only accept 't' key
 KbWait([], 2);
 Screen(MainWindow, 'Flip');
 RestrictKeysForKbCheck([]); % Re-enable all keys
@@ -40,13 +62,15 @@ end
 
 function show_Instructions(instrTrial, insStr)
 
-global MainWindow scr_centre black white
+global MainWindow white black
+global scrRes scrCentre
 
-x = 368;
-y = 368;
 
-exImageRect = [scr_centre(1) - x/2    scr_centre(2)    scr_centre(1) + x/2   scr_centre(2) + y];
+example_dimensions = [368, 368];
+exImageRect = [scrCentre(1) - example_dimensions(1)/2    scrCentre(2)    scrCentre(1) + example_dimensions(1)/2   scrCentre(2) + example_dimensions(2)];
 
+HideCursor;
+Screen('FillRect', MainWindow, black);
 RestrictKeysForKbCheck(KbName('Space'));   % Only accept spacebar
 
 
@@ -59,7 +83,7 @@ Screen('TextStyle', instrWin, 1);
 instrBox_width = instrBox(3) - instrBox(1);
 instrBox_height = instrBox(4) - instrBox(2);
 textTop = 100;
-destInstrBox = [scr_centre(1) - instrBox_width / 2   textTop   scr_centre(1) + instrBox_width / 2   textTop +  instrBox_height];
+destInstrBox = [scrCentre(1) - instrBox_width / 2   textTop   scrCentre(1) + instrBox_width / 2   textTop +  instrBox_height];
 Screen('DrawTexture', MainWindow, instrWin, instrBox, destInstrBox);
 
 ima=imread('spatialExample.jpg', 'jpg');
