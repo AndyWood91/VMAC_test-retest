@@ -83,10 +83,18 @@ datafoldername = ['SubjData_', exptName];
 if exist(datafoldername, 'dir') == 0
     mkdir(datafoldername);
 end
-  
-p_number = experiment('number');
-session = experiment('session');
-cueBalance = experiment('counterbalance');
+
+if testVersion == 0  % experimental version
+    p_number = experiment('number');
+    session = experiment('session');
+    cueBalance = experiment('counterbalance');
+elseif testVersion == 1  % test version
+    p_number = '1';
+    session = '1';
+    cueBalance = 4;
+else
+    % error
+end
 
 datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), 'S', session, '.mat'];
 
@@ -101,39 +109,7 @@ else
     error('variable "session" isn''t set properly')
 end
 
-    
-%% original data check from Mike
-%     inputError = 1;
-%     
-%     while inputError == 1
-%         inputError = 0;
-%         
-%         p_number = input('Participant number  ---> ');
-%         
-%         datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), '.mat'];
-%         
-%         if exist(datafilename, 'file') == 2
-%             disp(['Data for participant ', num2str(p_number),' already exist'])
-%             inputError = 1;
-%         end
-%         
-%     end
-%     
-%     cueBalance = 0;
-%     while cueBalance < 1 || cueBalance > 2
-%         cueBalance = input('Cue counterbalance (1-2) ---> ');      % 1 = birds rewarded, 2 = cars rewarded
-%         if isempty(cueBalance); cueBalance = 0; end
-%     end
-%     
-%     
-%     p_sex = 'a';
-%     while p_sex ~= 'm' && p_sex ~= 'f' && p_sex ~= 'M' && p_sex ~= 'F'
-%         p_sex = input('Participant gender (M/F) ---> ', 's');
-%         if isempty(p_sex); p_sex = 'a'; end
-%     end
-%     
-%     p_age = input('Participant age ---> ');
-% 
+ 
 DATA.subject = p_number;
 DATA.cueBal = cueBalance;
 % DATA.age = p_age;
@@ -171,11 +147,11 @@ Screen('TextStyle', MainWindow, 0);
 [screenWidth, screenHeight] = Screen('WindowSize', MainWindow);
 
 HideCursor;
-
-instrWindow = Screen('OpenOffscreenWindow', MainWindow, bColour);
-Screen('TextFont', instrWindow, 'Segoe UI');
-Screen('TextStyle', instrWindow, 0);
-Screen('TextSize', instrWindow, 40);
+% 
+% instrWindow = Screen('OpenOffscreenWindow', MainWindow, bColour);
+% Screen('TextFont', instrWindow, 'Segoe UI');
+% Screen('TextStyle', instrWindow, 0);
+% Screen('TextSize', instrWindow, 40);
 
 %% Read in images
 
@@ -215,15 +191,6 @@ else
     error('session isn''t set properly');
 end
 
-
-% % original counterbalancing
-% if cueBalance == 1
-%     [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-%     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
-% else
-%     [rewardImages, numRewardImages, ~] = readInImages([imageFoldername, '\CARPICS'], 0);
-%     [neutImages, numNeutImages, ~] = readInImages([imageFoldername, '\BIRDPICS'], 0);
-% end
 
 [baselineImages, numBaselineImages, targetRotation] = readInImages([imageFoldername, '/ColourScenes'], 0);
 [targetImages, numTargetImages, targetRotation] = readInImages([imageFoldername, '/EBY_Targets'], 1);

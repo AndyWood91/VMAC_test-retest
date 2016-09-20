@@ -18,7 +18,6 @@ switch nargin
 end
 
 
-
 keyIsDown = 0;
 timeout = 0;
     

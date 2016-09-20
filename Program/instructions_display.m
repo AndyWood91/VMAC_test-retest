@@ -1,35 +1,69 @@
-function show_Instructions(instrTrial, insStr)
+%% instructions_display  %%
 
-global MainWindow scr_centre black white
+Screen('CloseAll');
+KbName('UnifyKeyNames');  % standardises key mappings across OSs
 
-% global ScreenWidth  % Andy
+% colours
+black = [0, 0, 0];
+white = [255, 255, 255];
+yellow = [255, 255, 0];
 
-x = 368;
-y = 368;
+% random number generator
+rng('shuffle');  % seed rng based on the clock
+random_seed = randi(30000);  % return a pseudorandom number between 1 and 30,000
+rng(random_seed);  % then seed rng based on this number
 
-exImageRect = [scr_centre(1) - x/2    scr_centre(2)    scr_centre(1) + x/2   scr_centre(2) + y];
 
-RestrictKeysForKbCheck(KbName('Space'));   % Only accept spacebar
+%% PTB PREFERENCES %%
 
-Screen('FillRect',MainWindow, black);  % fill black screen
-instrWin = Screen('OpenOffscreenWindow', MainWindow, black);
-Screen('TextFont', instrWin, 'Courier New');
-Screen('TextSize', instrWin, 32);
-Screen('TextStyle', instrWin, 1);
+% debug screen
+Screen('Preference', 'VisualDebuglevel', 3);  % hide PTB debug screen
 
-[~, ~, instrBox] = DrawFormattedText(instrWin, insStr, 10, 'center' , white, 60, [], [], 1.5);
-instrBox_width = instrBox(3) - instrBox(1);
-instrBox_height = instrBox(4) - instrBox(2);
-textTop = 100;
-destInstrBox = [scr_centre(1) - instrBox_width / 2   textTop   scr_centre(1) + instrBox_width / 2   textTop +  instrBox_height];
-Screen('DrawTexture', MainWindow, instrWin, instrBox, destInstrBox);
+% text renderer
+Screen('Preference','TextRenderer', 0);  % use legacy text renderer (OS-specific)
+Screen('Preference','TextRenderer', 1);  % use HighQ text renderer (OS-specific)
 
-ima=imread('spatialExample.jpg', 'jpg');
-Screen('PutImage', MainWindow, ima, exImageRect); % put image on screen
-Screen(MainWindow, 'Flip');
 
-KbWait([], 2);  % turning this off will let the experiment run but skips the initial instructions
+%% main_window %%
+% this is the actual display on screen
+screen_number = 0;  % display on primary monitor
+[main_window, ~] = Screen('OpenWindow', screen_number, black);  % default full screen
+frame_rate = round(Screen('FrameRate', main_window));
 
-Screen('Close', instrWin);
+% dimensions
+[screen_width, screen_height] = Screen('WindowSize', main_window);
+% screen_resolution = [screen_width, screen_height];
+screen_centre = [screen_width, screen_height] / 2;
 
-end
+% rectangles: left, top, right, bottom borders
+top_rectangle = [0, 0, screen_width, screen_height / 2];
+bottom_rectangle = [0, screen_height / 2, screen_width, screen_height];
+
+% text
+Screen('TextFont' , main_window ,'Segoe UI' );
+Screen('TextSize', main_window, 46);
+Screen('TextStyle', main_window, 0);
+
+
+%% instruction_window %%
+% this is used to set up instruction screens before they're displayed
+[instruction_window, ~] = Screen('OpenOffscreenWindow', main_window, black);
+
+% text
+Screen('TextFont' , instruction_window ,'Segoe UI' );
+Screen('TextSize', instruction_window, 40);
+Screen('TextStyle', instruction_window, 0);
+
+
+%% sequence %%
+% turn this into a loop or function - show_instructions below
+HideCursor;
+Screen('FillRect', instruction_window, yellow, top_rectangle);  % fill top half with yellow rectangle
+Screen('DrawTexture', main_window, instruction_window);  % draw instruction_window to main_window
+Screen('Flip', main_window)  % update main_window
+
+
+RestrictKeysForKbCheck(KbName('space'));
+ShowCursor;
+sca;
+

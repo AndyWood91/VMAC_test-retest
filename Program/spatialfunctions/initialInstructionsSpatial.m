@@ -104,7 +104,7 @@ ima=imread('spatialExample.jpg', 'jpg');
 Screen('PutImage', MainWindow, ima, exImageRect); % put image on screen
 Screen(MainWindow, 'Flip');
 
-KbWait([], 2);  % turning this off will let the experiment run but skips the initial instructions
+KbWait([], 2);
 
 Screen('Close', instrWin);
 
