@@ -18,17 +18,17 @@ global testing
 
 standardPriority = Priority; %DANIEL - updated in line with Mike's recommendations. Increasing priority for PTB allows for more accurate timings.
 
-itemsPerStream = 18;
+itemsPerStream = 12;    % MIKE - reduced since we no longer have lag 10 trials, so we no longer need as many items in the RSVP stream
 
 lagType1 = 2;
-lagType2 = 4;
-lagType3 = 10;
+lagType2 = 4;   % Removed lag 10 since it's not very interesting.
 
-exptBlocks = 6;    % 6 change this if you want fewer blocks in the experiment
-numTrialsInMainExpt = 45;       % 45
+
+exptBlocks = 7;    % 7: MIKE - increased since we now have 40 trials per block (instead of 45), and each trial is shorter
+numTrialsInMainExpt = 40;       % 40:  MIKE - 40 trials per block now that we don't have lag 10
 
 finalDistractDuration = 0.1;    % 0.1     100 ms distractor duration
-finalStandardDuration = 0.06;    % 0.06     60 ms standard duration
+finalStandardDuration = 0.1;    % 0.1     100 ms standard duration (MIKE: changed to 100ms, which is standard for our tasks - the previous value of 60ms was for an unusual experiment)
 
 initialPauseDuration = 1;   % 1 Pause at start of each block
 itiDuration = 0.5;          % 0.5
@@ -155,16 +155,15 @@ DrawFormattedText(bonusTexLoss, ['ERROR\nLOSE ', num2str(largeamount), ' POINTS'
 
 if exptPhase == 1      % Initial practice
     numBlocks = 1;
-    numTrials = 8;
+    numTrials = 6;    % MIKE - reduced since standard distractor time is now longer (100ms), so we don't need to take so many trials in practice to reduce it to this level
     
     distractType = zeros(numTrials, 1);
     lag = zeros(numTrials, 1);
     
     distractType(:) = 3;     % All baseline trials
     
-    lag(1:2) = lagType1;
-    lag(3:4) = lagType2;
-    lag(5:8) = lagType3;
+    lag(1:3) = lagType1;
+    lag(4:6) = lagType2;
     
 elseif exptPhase == 2     % Main expt
     
@@ -185,10 +184,9 @@ elseif exptPhase == 2     % Main expt
     
     lag(1:5) = lagType1;
     lag(6:10) = lagType2;
-    lag(11:15) = lagType3;
     
-    for ii = 16 : numTrials
-        lag(ii) = lag(ii-15);
+    for ii = 11 : numTrials
+        lag(ii) = lag(ii-10);
     end
     
 end
@@ -276,10 +274,7 @@ for block = 1 : numBlocks
             elseif trial > 2 && trial <= 4
                 standardDuration = 0.15;
                 distractDuration = 0.15;
-            elseif trial > 4 && trial <= 6
-                standardDuration = 0.1;
-                distractDuration = 0.1;
-            elseif trial > 6
+            elseif trial > 4
                 standardDuration = finalStandardDuration;
                 distractDuration = finalDistractDuration;
             end
