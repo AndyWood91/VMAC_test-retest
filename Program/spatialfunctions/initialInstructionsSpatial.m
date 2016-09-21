@@ -2,6 +2,7 @@
 function initialInstructions()
 
 global MainWindow white
+global scrWidth scrHeigh scrCentre  % Andy
 
 instructStr1 = 'On each trial a cross will appear, to warn you that the trial is about to start. Then a set of shapes will appear; an example is shown below.';
 instructStr2 = 'Each of these shapes contains a line. Your task is to respond to the line that is contained inside the DIAMOND shape.\n\nIf the line inside the diamond is HORIZONTAL, you should press the C key. If the line is VERTICAL, you should press the M key.';

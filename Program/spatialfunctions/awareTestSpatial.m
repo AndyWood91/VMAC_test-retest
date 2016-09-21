@@ -1,6 +1,6 @@
 function awareTest()
 
-global MainWindow scr_centre DATA datafilename
+global MainWindow scrCentre DATA datafilename
 global distract_col colourName
 global white black gray yellow
 global bigMultiplier
@@ -46,8 +46,8 @@ DrawFormattedText(valButtonWin(1), 'No bonus', 'center', 'center', yellow);
 DrawFormattedText(valButtonWin(2), [num2str(bigMultiplier), ' x bonus trial!'], 'center', 'center', yellow);
 
 valButtonRect = zeros(2,4);
-valButtonRect(1,:) = [scr_centre(1) - valButtonWidth/2 - valButtonDisplacement   valButtonTop   scr_centre(1) + valButtonWidth/2 - valButtonDisplacement  valButtonTop + valButtonHeight];
-valButtonRect(2,:) = [scr_centre(1) - valButtonWidth/2 + valButtonDisplacement   valButtonTop   scr_centre(1) + valButtonWidth/2 + valButtonDisplacement  valButtonTop + valButtonHeight];
+valButtonRect(1,:) = [scrCentre(1) - valButtonWidth/2 - valButtonDisplacement   valButtonTop   scrCentre(1) + valButtonWidth/2 - valButtonDisplacement  valButtonTop + valButtonHeight];
+valButtonRect(2,:) = [scrCentre(1) - valButtonWidth/2 + valButtonDisplacement   valButtonTop   scrCentre(1) + valButtonWidth/2 + valButtonDisplacement  valButtonTop + valButtonHeight];
 
 
 confButtonWin = zeros(confButtons,1);
@@ -59,7 +59,7 @@ for i = 1 : confButtons
     Screen('TextSize', confButtonWin(i), 34);
     DrawFormattedText(confButtonWin(i), num2str(i), 'center', 'center', white);
     
-    confButtonRect(i,:) = [scr_centre(1) + confButtonWidth * (i - 1 - confButtons/2) + confButtonBetween * (i-1 - (confButtons - 1)/2)    confButtonTop    scr_centre(1) + confButtonWidth * (i - 1 - confButtons/2) + confButtonBetween * (i-1 - (confButtons - 1)/2) + confButtonWidth    confButtonTop + confButtonHeight];
+    confButtonRect(i,:) = [scrCentre(1) + confButtonWidth * (i - 1 - confButtons/2) + confButtonBetween * (i-1 - (confButtons - 1)/2)    confButtonTop    scrCentre(1) + confButtonWidth * (i - 1 - confButtons/2) + confButtonBetween * (i-1 - (confButtons - 1)/2) + confButtonWidth    confButtonTop + confButtonHeight];
     
 end
 
@@ -109,7 +109,7 @@ for trial = 1 : testColours
     Screen('TextSize', MainWindow, oldTextSize);
     
     circle_top = 200;	% Position of top of sample circle
-    Screen('FrameOval', MainWindow, distract_col(trialOrder(trial),:), [scr_centre(1) - stim_size / 2    circle_top   scr_centre(1) + stim_size / 2    circle_top + stim_size], stim_pen, stim_pen);      % Draw circle
+    Screen('FrameOval', MainWindow, distract_col(trialOrder(trial),:), [scrCentre(1) - stim_size / 2    circle_top   scrCentre(1) + stim_size / 2    circle_top + stim_size], stim_pen, stim_pen);      % Draw circle
     
     for i = 1 : 2
         Screen('DrawTexture', MainWindow, valButtonWin(i), [], valButtonRect(i,:));

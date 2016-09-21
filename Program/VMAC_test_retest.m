@@ -34,4 +34,4 @@ end
 spatial_test_retest;
 
 
-% RSVP_test_retest;
+RSVP_test_retest;

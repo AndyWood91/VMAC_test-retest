@@ -7,9 +7,8 @@ global centOrCents
 global instrCondition
 global softTimeoutDurationLate
 
-% Andy
-% for session check
-global experiment starting_total
+global experiment starting_total  % Andy
+global scrWidth scrHeight scrCentre  % Andy
 
 
 instructStr1 = 'The rest of this experiment is similar to the trials you have just completed. On each trial, you should respond to the line that is contained inside the DIAMOND shape.\n\nIf the line is HORIZONTAL, you should press the C key. If the line is VERTICAL, you should press the M key.';
@@ -53,14 +52,14 @@ end
 
 function show_Instructions(instrTrial, insStr, instrPause)
 
-global MainWindow scr_centre black white yellow
+global MainWindow scrCentre black white yellow
 global exptSession distract_col bigMultiplier
 global starting_total colourName
 
 x = 649;
 y = 547;
 
-exImageRect = [scr_centre(1) - x/2    scr_centre(2)-50    scr_centre(1) + x/2   scr_centre(2) + y - 50];
+exImageRect = [scrCentre(1) - x/2    scrCentre(2)-50    scrCentre(1) + x/2   scrCentre(2) + y - 50];
 
 
 instrWin = Screen('OpenOffscreenWindow', MainWindow, black);
@@ -77,22 +76,22 @@ end
 instrBox_width = instrBox(3) - instrBox(1);
 instrBox_height = instrBox(4) - instrBox(2);
 textTop = 150;
-destInstrBox = [scr_centre(1) - instrBox_width / 2   textTop   scr_centre(1) + instrBox_width / 2   textTop + instrBox_height];
+destInstrBox = [scrCentre(1) - instrBox_width / 2   textTop   scrCentre(1) + instrBox_width / 2   textTop + instrBox_height];
 
 Screen('DrawTexture', MainWindow, instrWin, instrBox, destInstrBox);
 
 if instrTrial == 3
     textColour = white;
      extraStr = ['So you will earn much more for correct responses on \n"',num2str(bigMultiplier), ' x bonus" trials than on standard trials.'];
-    [~, ny, ~] = DrawFormattedText(MainWindow, extraStr, scr_centre(1) - instrBox_width / 2, destInstrBox(4), textColour, 60, [], [], 1.5);
+    [~, ny, ~] = DrawFormattedText(MainWindow, extraStr, scrCentre(1) - instrBox_width / 2, destInstrBox(4), textColour, 60, [], [], 1.5);
     
     
     
     circSize = 150;
     lineLength = 60;
     obliqueDisp = round(sqrt(lineLength * lineLength / 2));
-    circleRect(1,:) = [scr_centre(1) - instrBox_width/2    scr_centre(2)    scr_centre(1) - instrBox_width/2 + circSize    scr_centre(2) + circSize];
-    circleRect(2,:) = [scr_centre(1) + instrBox_width/2 - circSize scr_centre(2) scr_centre(1) + instrBox_width/2 scr_centre(2) + circSize];
+    circleRect(1,:) = [scrCentre(1) - instrBox_width/2    scrCentre(2)    scrCentre(1) - instrBox_width/2 + circSize    scrCentre(2) + circSize];
+    circleRect(2,:) = [scrCentre(1) + instrBox_width/2 - circSize scrCentre(2) scrCentre(1) + instrBox_width/2 scrCentre(2) + circSize];
     for i = 1:2
         lineRect(i,:) = [circleRect(i,1) + (circSize-obliqueDisp)/2 circleRect(i,2) + circSize/2 + obliqueDisp/2 circleRect(i,1) + circSize/2 + obliqueDisp/2 circleRect(i,2) + (circSize-obliqueDisp)/2];
     end
@@ -125,7 +124,7 @@ end
     
     % if instrTrial == 6 && exptSession > 1
 %      totalStr = ['In the previous session, you earned $', num2str(starting_total, '%0.2f'), '.\n\nThis will be added to whatever you earn in this session.'];
-%      DrawFormattedText(MainWindow, totalStr, scr_centre(1) - instrBox_width / 2, textTop + instrBox_height + 100, yellow, [], [], [], 1.5);
+%      DrawFormattedText(MainWindow, totalStr, scrCentre(1) - instrBox_width / 2, textTop + instrBox_height + 100, yellow, [], [], [], 1.5);
 % end
 
 Screen('Flip', MainWindow, []);
@@ -133,7 +132,7 @@ Screen('Flip', MainWindow, []);
 % WaitSecs(instrPause);
 % 
 % Screen('TextSize', MainWindow, 26);
-% DrawFormattedText(MainWindow, 'PRESS SPACEBAR WHEN YOU HAVE READ\nAND UNDERSTOOD THESE INSTRUCTIONS', 'center', (scr_centre(2) * 2 - 200), cyan, [], [], [], 1.5);
+% DrawFormattedText(MainWindow, 'PRESS SPACEBAR WHEN YOU HAVE READ\nAND UNDERSTOOD THESE INSTRUCTIONS', 'center', (scrCentre(2) * 2 - 200), cyan, [], [], [], 1.5);
 % Screen('Flip', MainWindow);
 
 Screen('TextSize', MainWindow, 34);

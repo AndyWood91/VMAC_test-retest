@@ -1,7 +1,7 @@
 addpath('spatialfunctions');  % search the spatialfunctions directory for scripts and functions
 
 % variable declarations
-global MainWindow scr_centre DATA
+global MainWindow DATA
 global keyCounterbal starting_total exptSession
 global distract_col colourName
 global white black gray yellow
@@ -9,6 +9,7 @@ global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
 global datafilename
 global testing experiment  % Andy
+global scrWidth scrHeight scrCentre  % Andy
 
 
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
@@ -66,7 +67,7 @@ datafilename = [datafilename, exptSession,'.mat'];  % include session now
 % Get screen resolution, and find location of centre of screen
 [scrWidth, scrHeight] = Screen('WindowSize',screenNum);
 res = [scrWidth scrHeight];
-scr_centre = res / 2;
+scrCentre = res / 2;
 
 
 MainWindow = Screen(screenNum, 'OpenWindow', [], [], 32);
