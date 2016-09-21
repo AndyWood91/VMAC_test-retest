@@ -91,21 +91,21 @@ if instrTrial == 3
     textColour = yellow;
 end
 
-% [~, ~, instrBox] = DrawFormattedText(instructions_window, insStr, 'left', 100 , textColour, 60, [], [], 1.5);
-% instrBox_width = instrBox(3) - instrBox(1);
-% instrBox_height = instrBox(4) - instrBox(2);
-% textTop = 150;
-% destInstrBox = [(scrCentre(1) - instrBox_width / 2), textTop, (scrCentre(1) + instrBox_width / 2), (textTop + instrBox_height)];
-% 
-% Screen('DrawTexture', MainWindow, instructions_window, instrBox, destInstrBox);
-
-% from Initial, testing
-[~, ~, instrBox] = DrawFormattedText(instructions_window, insStr, 10, 'center', textColour, 60, [], [], 1.5);
+[~, ~, instrBox] = DrawFormattedText(instructions_window, insStr, 'left', 100 , textColour, 60, [], [], 1.5);
 instrBox_width = instrBox(3) - instrBox(1);
 instrBox_height = instrBox(4) - instrBox(2);
-textTop = 100;
-destInstrBox = [scrCentre(1) - instrBox_width / 2   textTop   scrCentre(1) + instrBox_width / 2   textTop +  instrBox_height];
+textTop = 150;
+destInstrBox = [(scrCentre(1) - instrBox_width / 2), textTop, (scrCentre(1) + instrBox_width / 2), (textTop + instrBox_height)];
+
 Screen('DrawTexture', MainWindow, instructions_window, instrBox, destInstrBox);
+
+% % from Initial, testing
+% [~, ~, instrBox] = DrawFormattedText(instructions_window, insStr, 10, 'center', textColour, 60, [], [], 1.5);
+% instrBox_width = instrBox(3) - instrBox(1);
+% instrBox_height = instrBox(4) - instrBox(2);
+% textTop = 100;
+% destInstrBox = [scrCentre(1) - instrBox_width / 2   textTop   scrCentre(1) + instrBox_width / 2   textTop +  instrBox_height];
+% Screen('DrawTexture', MainWindow, instructions_window, instrBox, destInstrBox);
 
 if instrTrial == 3
     textColour = white;

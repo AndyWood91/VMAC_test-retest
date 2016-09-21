@@ -77,7 +77,6 @@ scrRes = [scrWidth scrHeight];
 scrCentre = scrRes / 2;
 
 
-
 MainWindow = Screen(screenNum, 'OpenWindow');
 DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
@@ -178,7 +177,7 @@ elseif test == 1  % test version
     
     initialInstructionsSpatial;
 % 
-%     [~] = runTrialsSpatial(0);
+    [~] = runTrialsSpatial(0);
     
 %     DrawFormattedText(MainWindow, 'Please fetch the experimenter', 'center', 'center' , white);
 %     Screen(MainWindow, 'Flip');
@@ -186,14 +185,12 @@ elseif test == 1  % test version
 %     KbWait([], 2);
     
     exptInstructionsSpatial;
-    
-    bonus_payment = 62500;
 
-    
 %     bonus_payment = runTrialsSpatial(1);
-% 
 %     awareInstructionsSpatial;
 %     awareTestSpatial;
+
+    bonus_payment = 62500;
     
 end
 
