@@ -1,91 +1,133 @@
-% turning off anything screen related to try and fix the text rendering
-
 addpath('spatialfunctions');  % search the spatialfunctions directory for scripts and functions
 
-
-% global variables
+% variable declarations
 global MainWindow scr_centre DATA
 global keyCounterbal starting_total exptSession
 global distract_col colourName
 global white black gray yellow
 global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
-global datafilename screenNum
+global datafilename
 
-global testing experiment  % Andy
-global scrRes scrCentre  % Andy - debugging instructions
-
-testing = 1;
-
-if testing == 0  % participant information set from get_details
-    p_number = experiment('number');
-    exptSession = session;
-    colBalance = experiment('counterbalance');
-elseif testing == 1
-    p_number = '1';
-    exptSession = '1';
-    session = exptSession;
-    colBalance = 1;
-end
-
-% data storage
-if exist('spatial_data', 'dir') ~= 7  % check for 'spatial_data' directory
-    mkdir('spatial_data');  % make it if it doesn't exist
-end
-datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];  % doesn't include session number yet to make it easier to load previous data
+% Andy
+% spatial = containers.Map('UniformValues', false);  % storing spatial data here
+global testing experiment
 
 
-% variable declarations
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
+
+
 screenNum = 0;  % use the primary screen
-test = testing;
 
 
 % set trial values
 zeroPayRT = 1000;       % 1000
-% fullPayRT = 500;        % 500
+fullPayRT = 500;        % 500, I think this is unused
 oneMSvalue = 0.1;
+
 bigMultiplier = 10;    % Points multiplier for trials with high-value distractor
 smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
+
+% starting_total = 0;
 keyCounterbal = 1;
 
 
+% set from get_details
+p_number = experiment('number');
+exptSession = experiment('session');
+
+
+% data 
+% check for 'spatial_data' directory
+if exist('spatial_data', 'dir') ~= 7
+    mkdir('spatial_data');  % make it if it doesn't exist
+end
+
+datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];
+
+test = testing;
+
+colBalance = experiment('counterbalance');
+
 % starting total
-if strcmp(session, '1')  % first session
+if strcmp(experiment('session'), '1')  % first session
     starting_total = 0;
-elseif strcmp(session, '2')
-    load([datafilename, '1.mat'])  % load first session's data
+elseif strcmp(experiment('session'), '2')
+    load([datafilename, '1.mat'])  % load previous session's data
     starting_total = DATA.bonusSoFar;
     clear DATA;
 else
     error('variable "experiment(''session'')" isn''t set properly')
 end
 
-datafilename = [datafilename, exptSession,'.mat'];  % include session now
+%% Daniel's participant details
+% if test == 0
+%     % First Session
+%     if str2num(exptSession) == 1
+%                 
+%         colBalance = DATA.raw_data('counterbalance');
+%         p_age = details('age');
+%         p_sex = details('gender');
+%         p_hand = details('hand');
+%       
+%     % Second Session
+%     else
+% 
+%         load([datafilename, '1.mat'])
+%         colBalance = DATA.counterbal;
+%         p_age = DATA.age;
+%         p_sex = DATA.gender;
+%         p_hand = DATA.hand;
+%         
+%         if isfield(DATA, 'bonusSoFar')
+%             starting_total = DATA.bonusSoFar;
+%         else
+%             starting_total = 0;
+%         end
+% 
+%         disp (['Age:  ', p_age])
+%         disp (['Sex:  ', p_sex])
+%         disp (['Hand:  ', p_hand])
+% 
+%     end
+% else
+% end
+%%
 
-
-% generate a random seed using the clock, then use it to seed the random number generator
+% generate a random seed using the clock, then use it to seed the random
+% number generator
 rng('shuffle');
 randSeed = randi(30000);
 DATA.rSeed = randSeed;
 rng(randSeed);
 
+datafilename = [datafilename, exptSession,'.mat'];
+
+
+% Andy's additions
+% spatial('random') = randSeed;
+% spatial('datafilename') = datafilename;
+% spatial('framerate') = round(Screen(MainWindow, 'FrameRate'));
+
+
 
 % Get screen resolution, and find location of centre of screen
 [scrWidth, scrHeight] = Screen('WindowSize',screenNum);
-scrRes = [scrWidth scrHeight];
-scrCentre = scrRes / 2;
+res = [scrWidth scrHeight];
+scr_centre = res / 2;
 
 
-MainWindow = Screen(screenNum, 'OpenWindow');
+MainWindow = Screen(screenNum, 'OpenWindow', [], [], 32);
+
 DATA.frameRate = round(Screen(MainWindow, 'FrameRate'));
 
 HideCursor;
 
 Screen('TextFont', MainWindow, 'Courier New');
+
 Screen('TextSize', MainWindow, 34);
 
-% set colors
+% now set colors
 white = WhiteIndex(MainWindow);
 black = BlackIndex(MainWindow);
 gray = [70 70 70];
@@ -94,12 +136,12 @@ green = [54 145 65];
 blue = [37 141 165];
 pink = [193 87 135];
 yellow = [255 255 0];
-Screen('FillRect',MainWindow, black);  % fill black screen
+Screen('FillRect',MainWindow, black);
 
 distract_col = zeros(5,3);
 
 distract_col(5,:) = yellow;       % Practice colour
-if str2double(exptSession) == 1
+if str2num(exptSession) == 1
     if colBalance == 1
         distract_col(1,:) = orange;      % High-value distractor colour
         distract_col(2,:) = blue;      % Low-value distractor colour
@@ -113,7 +155,7 @@ if str2double(exptSession) == 1
         distract_col(1,:) = pink;
         distract_col(2,:) = green;
     end
-elseif str2double(exptSession) == 2
+elseif str2num(exptSession) == 2
     if colBalance == 1
         distract_col(1,:) = green;      % High-value distractor colour
         distract_col(2,:) = pink;      % Low-value distractor colour
@@ -152,19 +194,23 @@ for i = 1 : 2
     end
 end
 
-commandwindow;  % move cursor to command window
+commandwindow;
 
-% task
 if test == 0  % experimental version
 
     initialInstructionsSpatial;
 
-    [~] = runTrialsSpatial(0);  % Practice phase
+    [~] = runTrialsSpatial(0);     % Practice phase
 
-%     DrawFormattedText(MainWindow, 'Please fetch the experimenter', 'center', 'center' , white);
-%     Screen(MainWindow, 'Flip');
-%     RestrictKeysForKbCheck(KbName('t'));   % Only accept T key to continue
-%     KbWait([], 2);
+    save(datafilename, 'DATA');
+
+    if exptSession == 1
+        DrawFormattedText(MainWindow, 'Please fetch the experimenter', 'center', 'center' , white);
+        Screen(MainWindow, 'Flip');
+
+        RestrictKeysForKbCheck(KbName('t'));   % Only accept T key to continue
+        KbWait([], 2);
+    end
 
     exptInstructionsSpatial;
 
@@ -176,69 +222,61 @@ if test == 0  % experimental version
 elseif test == 1  % test version
     
     initialInstructionsSpatial;
-% 
+
     [~] = runTrialsSpatial(0);
     
-%     DrawFormattedText(MainWindow, 'Please fetch the experimenter', 'center', 'center' , white);
-%     Screen(MainWindow, 'Flip');
-%     RestrictKeysForKbCheck(KbName('t'));   % Only accept T key to continue
-%     KbWait([], 2);
-    
     exptInstructionsSpatial;
-
+    
+    bonus_payment = 63000;
+    
+    
 %     bonus_payment = runTrialsSpatial(1);
+% 
 %     awareInstructionsSpatial;
 %     awareTestSpatial;
-
-    bonus_payment = 62500;
     
 end
 
-total_points = bonus_payment;
+%% THIS NEEDS TO CHANGE
 
 % bonus
-bonus_payment = bonus_payment / 100;  % convert to cents
-bonus_payment = ceil(bonus_payment * 20) / 20;  % round up to nearest 5c
-bonus_payment = bonus_payment / 100;  % convert to dollars
 
-% set floor and ceiling
-if bonus_payment > 6.25  % maximum
-    bonus_payment = 6.25;
-elseif bonus_payment < 3  % minimum
-    bonus_payment = 3;
-end
+% maximum possible points:
+
+% 24 trials per block * 12 blocks = 288 trials
+% max points per trial = 
+% trialPay = (1000 - roundRT) * 0.1 * winMultiplier(distractType);
+% 4 raredistractors per block of 24
+
+
+bonus_payment = bonus_payment / 100;  % convert to cents
+bonus_payment = 10 * ceil(bonus_payment / 10);  % round up to nearest 10c
+bonus_payment = bonus_payment / 100;  % convert to dollars
 
 
 % Daniel's data
 DATA.bonusSessionSpatial = bonus_payment;
 DATA.bonusSoFar = bonus_payment + starting_total;
-save(datafilename, 'DATA');
+
+save(['spatial_data/CirclesMultiDataP', p_number, 'S', exptSession], 'DATA');
+
 
 % Andy's data
-if testing == 1
-    experiment = containers.Map('UniformValues', false);
-    experiment('data_filename') = 'raw_data/participant1session1.mat';
-end
 experiment('spatial') = DATA;
-update_details(experiment, bonus_payment);  % data is saved in this
+update_details(experiment, bonus_payment);
 clear DATA; % clear data for RSVP task
 
 
-% final screen
-% session check
-if strcmp(exptSession, '1')  % first session
-    DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\nPoints earned = ', separatethousands(total_points, ','), '\n\nBonus = $', num2str(bonus_payment), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white);
-elseif strcmp(exptSession, '2')  % second session, include task total
-    DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\nPoints earned = ', separatethousands(total_points, ','), '\n\nBonus = $', num2str(bonus_payment), '\n\nTotal bonus for this task = $', num2str(bonus_payment + starting_total , '%0.2f'), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white);
-else
-    error('variable "exptSession" isn''t set properly')
-end
+DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus (on this task) so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
+
 RestrictKeysForKbCheck(KbName('q'));   % Only accept Q key to quit
 KbWait([], 2);
 
 
-% cleanup
 rmpath('spatialfunctions');
 Snd('Close');
+
+%Screen('Preference', 'SkipSyncTests',0);
+
 Screen('CloseAll');
