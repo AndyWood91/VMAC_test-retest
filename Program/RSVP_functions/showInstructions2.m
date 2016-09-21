@@ -51,7 +51,7 @@ else
 end
 
 instrString3 = ['If the stream of images includes a picture of a ', rewardString,', you will be able to WIN 50 POINTS on that trial if you respond correctly to the target. However, if you make an incorrect response, you will LOSE 50 POINTS.\n\nHowever, note that the ', rewardString,' will never be the target stimulus, so you will do better at the task if you try to ignore it.\n\nOn all other trials (when the stream doesn''t contain a picture of a ', rewardString,'), you will not receive any points for making a correct response, or lose any points for making an incorrect response.'];
-instrString4 = 'Remember, at the end of the experiment, the number of points that you have earned will be used to calculate how much you get paid. So you should try to respond as accurately as you can, in order to earn as many points as possible.\n\nPlease let the experimenter know when you are ready to begin the task.';
+instrString4 = 'Remember, at the end of the experiment, the number of points that you have earned will be used to calculate how much you get paid. So you should try to respond as accurately as you can, in order to earn as many points as possible.\n\n\nMost participants are able to earn between $6 and $13 across both sessions on this task.\n\nPlease let the experimenter know when you are ready to begin the task.';
 
 
 Screen('TextSize', instrWindow, 40);

@@ -8,15 +8,10 @@ global white black gray yellow
 global bigMultiplier smallMultiplier
 global zeroPayRT oneMSvalue nf
 global datafilename
-
-% Andy
-% spatial = containers.Map('UniformValues', false);  % storing spatial data here
-global testing experiment
+global testing experiment  % Andy
 
 
 nf = java.text.DecimalFormat;  % this displays the thousands separator and decimals according the the computers' Locale settings 
-
-
 screenNum = 0;  % use the primary screen
 
 
@@ -24,75 +19,39 @@ screenNum = 0;  % use the primary screen
 zeroPayRT = 1000;       % 1000
 fullPayRT = 500;        % 500, I think this is unused
 oneMSvalue = 0.1;
-
 bigMultiplier = 10;    % Points multiplier for trials with high-value distractor
 smallMultiplier = 1;   % Points multiplier for trials with low-value distractor
 
 % starting_total = 0;
 keyCounterbal = 1;
 
-
 % set from get_details
 p_number = experiment('number');
 exptSession = experiment('session');
 
-
-% data 
-% check for 'spatial_data' directory
-if exist('spatial_data', 'dir') ~= 7
-    mkdir('spatial_data');  % make it if it doesn't exist
+% data folder
+datafoldername = 'spatial_data';
+if exist(datafoldername, 'dir') ~= 7  % check for 'spatial_data' directory
+    mkdir(datafoldername);  % make it if it doesn't exist
 end
 
-datafilename = ['spatial_data/CirclesMultiDataP', p_number, 'S'];
-
-test = testing;
-
+datafilename = [datafoldername '/CirclesMultiDataP', p_number, 'S'];  % no session number, easier to check for previous data
+test = testing;  % set from main program
 colBalance = experiment('counterbalance');
 
-% starting total
+% starting totals
 if strcmp(experiment('session'), '1')  % first session
     starting_total = 0;
-elseif strcmp(experiment('session'), '2')
+    points_starting = 0;
+elseif strcmp(experiment('session'), '2')  % second session
     load([datafilename, '1.mat'])  % load previous session's data
-    starting_total = DATA.bonusSoFar;
+    starting_total = DATA.bonusSoFar;  % $$$
+    points_starting = DATA.points_total;  % points
     clear DATA;
 else
     error('variable "experiment(''session'')" isn''t set properly')
 end
 
-%% Daniel's participant details
-% if test == 0
-%     % First Session
-%     if str2num(exptSession) == 1
-%                 
-%         colBalance = DATA.raw_data('counterbalance');
-%         p_age = details('age');
-%         p_sex = details('gender');
-%         p_hand = details('hand');
-%       
-%     % Second Session
-%     else
-% 
-%         load([datafilename, '1.mat'])
-%         colBalance = DATA.counterbal;
-%         p_age = DATA.age;
-%         p_sex = DATA.gender;
-%         p_hand = DATA.hand;
-%         
-%         if isfield(DATA, 'bonusSoFar')
-%             starting_total = DATA.bonusSoFar;
-%         else
-%             starting_total = 0;
-%         end
-% 
-%         disp (['Age:  ', p_age])
-%         disp (['Sex:  ', p_sex])
-%         disp (['Hand:  ', p_hand])
-% 
-%     end
-% else
-% end
-%%
 
 % generate a random seed using the clock, then use it to seed the random
 % number generator
@@ -101,14 +60,7 @@ randSeed = randi(30000);
 DATA.rSeed = randSeed;
 rng(randSeed);
 
-datafilename = [datafilename, exptSession,'.mat'];
-
-
-% Andy's additions
-% spatial('random') = randSeed;
-% spatial('datafilename') = datafilename;
-% spatial('framerate') = round(Screen(MainWindow, 'FrameRate'));
-
+datafilename = [datafilename, exptSession,'.mat'];  % include session now
 
 
 % Get screen resolution, and find location of centre of screen
@@ -199,75 +151,72 @@ commandwindow;
 if test == 0  % experimental version
 
     initialInstructionsSpatial;
-
     [~] = runTrialsSpatial(0);     % Practice phase
-
     save(datafilename, 'DATA');
-
-    if exptSession == 1
-        DrawFormattedText(MainWindow, 'Please fetch the experimenter', 'center', 'center' , white);
-        Screen(MainWindow, 'Flip');
-
-        RestrictKeysForKbCheck(KbName('t'));   % Only accept T key to continue
-        KbWait([], 2);
-    end
-
     exptInstructionsSpatial;
-
     bonus_payment = runTrialsSpatial(1);
-
     awareInstructionsSpatial;
     awareTestSpatial;
     
 elseif test == 1  % test version
     
     initialInstructionsSpatial;
-
     [~] = runTrialsSpatial(0);
-    
     exptInstructionsSpatial;
-    
-    bonus_payment = 63000;
-    
-    
 %     bonus_payment = runTrialsSpatial(1);
-% 
+    bonus_payment = 63000;
 %     awareInstructionsSpatial;
 %     awareTestSpatial;
     
 end
 
-%% THIS NEEDS TO CHANGE
+% points
+points_session = bonus_payment;
+points_total = points_starting + points_session;
 
 % bonus
 
 % maximum possible points:
 
-% 24 trials per block * 12 blocks = 288 trials
-% max points per trial = 
-% trialPay = (1000 - roundRT) * 0.1 * winMultiplier(distractType);
-% 4 raredistractors per block of 24
-
 
 bonus_payment = bonus_payment / 100;  % convert to cents
-bonus_payment = 10 * ceil(bonus_payment / 10);  % round up to nearest 10c
+bonus_payment = ceil(bonus_payment /20) * 20;  % round up to nearest 5c
 bonus_payment = bonus_payment / 100;  % convert to dollars
 
+% set floor and ceiling
+if bonus_payment > 6.25
+    bonus_payment = 6.25;
+elseif bonus_payment < 3     % This is here in case there are any very unlucky dolts
+    bonus_payment = 3;
+end
+
+bonusSoFar = starting_total + bonus_payment;
 
 % Daniel's data
+DATA.points_total = points_total;
 DATA.bonusSessionSpatial = bonus_payment;
-DATA.bonusSoFar = bonus_payment + starting_total;
+DATA.bonusSoFar = bonusSoFar;
+save(datafilename, 'DATA');
 
-save(['spatial_data/CirclesMultiDataP', p_number, 'S', exptSession], 'DATA');
-
+% store bonus in .csv file
+fid1 = fopen([datafoldername,'/_TotalBonus_summary.csv'], 'a');
+fprintf(fid1,'%c,%d,%f\n', p_number, points_total, bonusSoFar);
+fclose(fid1);
 
 % Andy's data
 experiment('spatial') = DATA;
-update_details(experiment, bonus_payment);
+update_details(experiment, bonus_payment);  % DATA is saved here
 clear DATA; % clear data for RSVP task
 
-
-DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus (on this task) so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
+% final screen
+if strcmp(exptSession, '1')  % first session
+    [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(points_session, ','), '\n\nBonus = $', num2str(bonus_payment, '%0.2f'), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white, [], [], [], 1.3);
+elseif strcmp(exptSession, '2')  % second session, include total
+    [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(points_session, ','), '\n\nBonus = $', num2str(bonus_payment, '%0.2f'), '\n\nTotal bonus for this task = $', num2str(bonusSoFar, '%0.2f'), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white, [], [], [], 1.3);
+else
+    error('variable "session" isn''t set properly')
+end
+% DrawFormattedText(MainWindow, ['Experiment complete - Please fetch the experimenter\n\n\nTotal bonus (on this task) so far = $', num2str(bonus_payment + starting_total , '%0.2f')], 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
 
 RestrictKeysForKbCheck(KbName('q'));   % Only accept Q key to quit

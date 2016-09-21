@@ -19,7 +19,7 @@ instructStr1 = 'The rest of this experiment is similar to the trials you have ju
 if strcmp(experiment('session'), '1')
     instructStr2 = ['From now on, you will be able to earn money for correct responses, depending on how fast you respond. \n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nThese points will eventually be converted into a cash reward, so the faster you make correct responses, the more you will earn. \n\nHowever, if you make an error you will LOSE the corresponding amount.'];
 elseif strcmp(experiment('session'), '2')
-    instructStr2 = ['You will again be able to earn money for correct responses, depending on how fast you respond. \n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nHowever, if you make an error you will LOSE the corresponding amount. \n\nIn the first session, you earned $', num2str(starting_total), ' on this task.'];
+    instructStr2 = ['You will again be able to earn money for correct responses, depending on how fast you respond. \n\nFor every 100ms that your response time (RT) is faster than ', num2str(zeroPayRT), 'ms, you will earn ', num2str(100*oneMSvalue), ' points. \n\nHowever, if you make an error you will LOSE the corresponding amount.'];
 else
     error('variable "session" isn''t set properly')
 end
@@ -27,8 +27,13 @@ end
 instructStr3 = ['IMPORTANT: Some of the trials will be BONUS trials! On these trials the amount that you win or lose will be multiplied by ', num2str(bigMultiplier),'.\n\n']; 
     
 instructStr4 = 'After each response you will be told how many points you won or lost, and your total points earned so far in this experiment.';
-
-instructStr5 = 'At the end of the session the number of points that you have earned will be used to calculate your total reward payment. \n\nMost participants are able to earn between $15 and $25 across both sessions and tasks of the experiment.';
+if strcmp(experiment('session'), '1')  % first session
+    instructStr5 = 'At the end of the session the number of points that you have earned will be used to calculate your total reward payment.\n\nMost participants are able to earn between $6 and $13 across both sessions on this task.';
+elseif strcmp(experiment('session'), '2')  % second session
+    instructStr5 = ['At the end of the session the number of points that you have earned will be used to calculate your total reward payment.\n\nIn the first session, you earned $', num2str(starting_total), ' on this task.\n\nMost participants are able to earn between $6 and $13 across both sessions on this task.'];
+else
+    error('variable "session" isn''t set properly')
+end
 
 show_Instructions(1, instructStr1, .1);
 show_Instructions(2, instructStr2, .1);
@@ -37,7 +42,7 @@ show_Instructions(4, instructStr4, .1);
 show_Instructions(5, instructStr5, .1);
 
 
-DrawFormattedText(MainWindow, 'Please tell the experimenter when you are ready to begin', 'center', 'center' , white);
+DrawFormattedText(MainWindow, 'Please tell the experimenter when you are ready to begin.', 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
 
 RestrictKeysForKbCheck([]); % Re-enable all keys

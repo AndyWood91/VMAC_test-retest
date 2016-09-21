@@ -15,7 +15,7 @@ Screen('TextSize', MainWindow, 32);
 Screen('TextStyle', MainWindow, 1);
 Screen('TextFont', MainWindow, 'Courier New');
 
-DrawFormattedText(MainWindow, 'Tell the experimenter when you are ready to begin', 'center', 'center' , white);
+DrawFormattedText(MainWindow, 'You will now do some practice trials.\n\nPlease tell the experimenter when you are ready to begin.', 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
 
 RestrictKeysForKbCheck(KbName('t'));   % Only accept c key

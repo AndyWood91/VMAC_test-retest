@@ -1,22 +1,17 @@
 sca;
 
-
 % variable declarations
 global DATA exptName MainWindow
 global bColour white screenWidth screenHeight
 global cueBalance
 global soundPAhandle winSoundArray loseSoundArray
 global datafilename
-
-% Andy's additions
-global testing startingTotal
+global testing startingTotal  % Andy
 
 exptName = 'RSVP_test_retest';
-
 bColour = [0 0 0];  % black
 white = [255, 255, 255];
-
-KbName('UnifyKeyNames');    % Supposedly important to standardise keyboard input across platforms / OSs.
+KbName('UnifyKeyNames');    % standardise keyboard input across platforms / OSs.
 
 %% Back to more sensible things
 
@@ -34,7 +29,7 @@ InitializePsychSound;
 winSoundArray = [winSoundArrayMono, winSoundArrayMono];
 loseSoundArray = [loseSoundArrayMono, loseSoundArrayMono];
 
-testVersion = testing;
+testVersion = testing;  % set from main program
 
 if testVersion == 1     % Parameters for development / debugging
 %     Screen('Preference', 'SkipSyncTests', 2);      % Skips the Psychtoolbox calibrations
@@ -48,17 +43,11 @@ else     % Parameters for running the real experiment
     soundLatency = 1;
 end    
 
-
 soundPAhandle = PsychPortAudio('Open', [], 1, soundLatency, sndFreq);
 
 
-% confirm options
-accept_options = 'Yy';
-reject_optins = 'Nn';
-
 % confirm loop
 while true  % loops until a break statement is encountered
-    
     % check sound volume
     PsychPortAudio('FillBuffer', soundPAhandle, winSoundArray');
     PsychPortAudio('Start', soundPAhandle);
@@ -69,13 +58,12 @@ while true  % loops until a break statement is encountered
         % do nothng with errors, confirm loop will repeat
     end
     
-    if ismember(confirm, accept_options)
+    if strcmpi(confirm, 'y')
         break  % exit the confirm loop
     else
         % do nothing, confirm loop will repeat
     end
-    
-end
+ end
 
 
 % Check to see if subject data folder exists; if not, create it.
@@ -96,7 +84,7 @@ else
     % error
 end
 
-datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), 'S', session, '.mat'];
+datafilename = [datafoldername, '/', exptName, '_dataP', num2str(p_number), 'S', session, '.mat'];  % include session now
 
 % startingTotal
 if strcmp(session, '1')  % first session
@@ -112,11 +100,7 @@ end
  
 DATA.subject = p_number;
 DATA.cueBal = cueBalance;
-% DATA.age = p_age;
-% DATA.sex = p_sex;
 DATA.start_time = datestr(now,0);
-
-
 DATA.session_bonus = 0;
 DATA.session_points = 0;
 DATA.actualBonusSession = 0;
@@ -130,7 +114,6 @@ randSeed = randi(30000);
 rsvp('random_seed') = randSeed;
 DATA.rSeed = randSeed;
 rng(randSeed);
-
 
 
 %% Set up screens
@@ -147,11 +130,6 @@ Screen('TextStyle', MainWindow, 0);
 [screenWidth, screenHeight] = Screen('WindowSize', MainWindow);
 
 HideCursor;
-% 
-% instrWindow = Screen('OpenOffscreenWindow', MainWindow, bColour);
-% Screen('TextFont', instrWindow, 'Segoe UI');
-% Screen('TextStyle', instrWindow, 0);
-% Screen('TextSize', instrWindow, 40);
 
 %% Read in images
 
@@ -160,11 +138,8 @@ global neutImages numNeutImages
 global baselineImages numBaselineImages
 global targetImages numTargetImages targetRotation
 
-% TODO: check the counterbalancing grid here
 if session == '1'  % birds and bikes
-    
 %     [imageTexture, numImages, targetRotation] function == readinImages(inputFoldername, readingTargetImages);
-    
     if cueBalance == 1 || cueBalance == 3
         [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '/BIRDPICS'], 0);
         [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/BICYCLEPICS'], 0);
@@ -173,10 +148,8 @@ if session == '1'  % birds and bikes
         [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/BIRDPICS'], 0);
     else
         error('cueBalance isn''t set properly');
-    end
-    
-elseif session == '2'  % cars and chairs
-    
+    end   
+elseif session == '2'  % cars and chairs   
     if cueBalance == 1 || cueBalance == 2
         [rewardImages, numRewardImages, targetRotation] = readInImages([imageFoldername, '/CHAIRPICS'], 0);
         [neutImages, numNeutImages, targetRotation] = readInImages([imageFoldername, '/CARPICS'], 0);
@@ -186,7 +159,6 @@ elseif session == '2'  % cars and chairs
     else
         error('cueBalance isn''t set properly');
     end
-    
 else
     error('session isn''t set properly');
 end
@@ -202,34 +174,24 @@ DATA.numTargetImages = numTargetImages;
 
 
 %% Run experiment
-if testing == 0  % experimental version
+if testVersion == 0  % experimental version
     startSecs = GetSecs;
-
-    % add a session check
     showInstructions1;
-
     [~, ~] = runTrials(1);    % Practice with no salient distractors
-
-
-    % add a session check
     showInstructions2;
     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts
 
-elseif testing == 1  % experimental version
+elseif testVersion == 1  % experimental version
     startSecs = GetSecs;
-    
     showInstructions1;
-    
     [~, ~] = runTrials(1);
-    
     showInstructions2;
-    [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
-    
-%     rewardPropCorrect = 1;
-%     runningTotalPoints = 62500;
+%     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
+    rewardPropCorrect = 1;
+    runningTotalPoints = 62500;
     
 else 
-    error('variable "rewardPropCorrect" isn''t set properly')
+    error('variable "testVersion" isn''t set properly')
 end
     
 amountEarned = rewardPropCorrect * 6.25;  % Amount earned in dollars (0.5 correct gives $3, 1 correct gives $6.25)
@@ -251,23 +213,19 @@ fclose(fid1);
 
 PsychPortAudio('Close', soundPAhandle);
 
-% Mike data
 DATA.end_time = datestr(now,0);
 DATA.exptDuration = GetSecs - startSecs;
-
-% Andy
 DATA.amountSession = amountEarned;
 DATA.amountTotal = startingTotal + amountEarned;
-
 save(datafilename, 'DATA');
 
-% Andy data
-experiment('rsvp') = DATA;
+experiment('rsvp') = DATA;  % Andy
 update_details(experiment, amountEarned);  % datafile is saved here
 
 % final screen
 Screen('Flip',MainWindow);
-% session check
+
+% final display
 if strcmp(session, '1')  % first session
     [~, ny, ~] = DrawFormattedText(MainWindow, ['TASK COMPLETE\n\nPoints earned = ', separatethousands(runningTotalPoints, ','), '\n\nBonus = $', num2str(amountEarned, '%0.2f'), '\n\nPlease fetch the experimenter.'], 'center', 'center' , white, [], [], [], 1.3);
 elseif strcmp(session, '2')  % second session, include total
@@ -284,13 +242,8 @@ RestrictKeysForKbCheck(KbName('ESCAPE'));   % Only accept escape key to quit
 KbWait([], 2);
 RestrictKeysForKbCheck([]); % Re-enable all keys
 
-
 Screen('Preference', 'SkipSyncTests',0);
 
 ShowCursor;
-
-% Close all windows.
 Screen('ClearAll');
 Screen('CloseAll');
-
-% clear all;
