@@ -223,10 +223,10 @@ elseif testing == 1  % experimental version
     [~, ~] = runTrials(1);
     
     showInstructions2;
-%     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
+    [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
     
-    rewardPropCorrect = 1;
-    runningTotalPoints = 62500;
+%     rewardPropCorrect = 1;
+%     runningTotalPoints = 62500;
     
 else 
     error('variable "rewardPropCorrect" isn''t set properly')
