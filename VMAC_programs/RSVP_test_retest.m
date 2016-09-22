@@ -184,7 +184,7 @@ if testVersion == 0  % experimental version
 elseif testVersion == 1  % experimental version
     startSecs = GetSecs;
     showInstructions1;
-    [~, ~] = runTrials(1);
+    [~, ~] = runTrials(1);  % Practice with no salient distractors
     showInstructions2;
 %     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
     rewardPropCorrect = 1;

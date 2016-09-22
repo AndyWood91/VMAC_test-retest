@@ -166,8 +166,8 @@ elseif test == 1  % test version
     exptInstructionsSpatial;
 %     bonus_payment = runTrialsSpatial(1);
     bonus_payment = 63000;
-%     awareInstructionsSpatial;
-%     awareTestSpatial;
+    awareInstructionsSpatial;
+    awareTestSpatial;
     
 end
 

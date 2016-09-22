@@ -14,17 +14,18 @@ end
 
 function show_Instructions(~, insStr, instrPause)
 
-global MainWindow scr_centre black white gray
+global MainWindow scrCentre black white gray
 
 instrWin = Screen('OpenOffscreenWindow', MainWindow, black);
-Screen('TextSize', instrWin, 34);
+Screen('TextFont', instrWin, 'Courier New');
+Screen('TextSize', instrWin, 32);
 Screen('TextStyle', instrWin, 1);
 
 [~, ~, instrBox] = DrawFormattedText(instrWin, insStr, 'left' , 'center' , white, 60, [], [], 1.5);
 instrBox_width = instrBox(3) - instrBox(1);
 instrBox_height = instrBox(4) - instrBox(2);
 textTop = 150;
-destInstrBox = [scr_centre(1) - instrBox_width / 2   textTop   scr_centre(1) + instrBox_width / 2   textTop + instrBox_height];
+destInstrBox = [scrCentre(1) - instrBox_width / 2   textTop   scrCentre(1) + instrBox_width / 2   textTop + instrBox_height];
 Screen('DrawTexture', MainWindow, instrWin, instrBox, destInstrBox);
 
 Screen('Flip', MainWindow, [], 1);
@@ -38,7 +39,7 @@ Screen('TextSize', contButtonWin, 28);
 Screen('TextFont', contButtonWin, 'Arial');
 DrawFormattedText(contButtonWin, 'Click here using the mouse to continue', 'center', 'center', white);
 
-contButtonRect = [scr_centre(1) - contButtonWidth/2   contButtonTop  scr_centre(1) + contButtonWidth/2  contButtonTop + contButtonHeight];
+contButtonRect = [scrCentre(1) - contButtonWidth/2   contButtonTop  scrCentre(1) + contButtonWidth/2  contButtonTop + contButtonHeight];
 Screen('DrawTexture', MainWindow, contButtonWin, [], contButtonRect);
 
 
