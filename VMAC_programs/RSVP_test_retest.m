@@ -208,7 +208,7 @@ end
 
 % store bonus in .csv file
 fid1 = fopen([datafoldername,'/_TotalBonus_summary.csv'], 'a');
-fprintf(fid1,'%d,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
+fprintf(fid1,'%c,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
 fclose(fid1);
 
 PsychPortAudio('Close', soundPAhandle);
