@@ -20,7 +20,7 @@ Screen('TextFont', MainWindow, 'Courier New');
 DrawFormattedText(MainWindow, 'You will now do some practice trials.\n\nPlease tell the experimenter when you are ready to begin.', 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
 
-RestrictKeysForKbCheck(KbName('t'));   % Only accept c key
+RestrictKeysForKbCheck(KbName('t'));   % Only accept t key
 KbWait([], 2);
 Screen(MainWindow, 'Flip');
 RestrictKeysForKbCheck([]); % Re-enable all keys

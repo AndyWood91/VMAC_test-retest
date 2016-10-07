@@ -44,8 +44,10 @@ show_Instructions(5, instructStr5, .1);
 DrawFormattedText(MainWindow, 'Please tell the experimenter when you are ready to begin.', 'center', 'center' , white);
 Screen(MainWindow, 'Flip');
 
+RestrictKeysForKbCheck(KbName('t'));   % Only accept t key
+KbWait([], 2);
+Screen(MainWindow, 'Flip');
 RestrictKeysForKbCheck([]); % Re-enable all keys
-
 
 end
 

@@ -9,8 +9,8 @@ KbName('UnifyKeyNames');  % standardise across OSs
 global testing experiment
 
 
-% testing = 0;  % experimental version
-testing = 1;  % testing version
+testing = 0;  % experimental version
+% testing = 1;  % testing version
 
 Screen('Preference', 'VisualDebuglevel', 3); %DANIEL - this should hide the PTB startup screen so it looks a little bit smoother for the participant.
 

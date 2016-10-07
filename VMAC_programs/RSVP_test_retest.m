@@ -184,7 +184,7 @@ if testVersion == 0  % experimental version
 elseif testVersion == 1  % experimental version
     startSecs = GetSecs;
     showInstructions1;
-    [~, ~] = runTrials(1);
+    [~, ~] = runTrials(1);  % Practice with no salient distractors
     showInstructions2;
 %     [rewardPropCorrect, runningTotalPoints] = runTrials(2);    % Main expt starts    
     rewardPropCorrect = 1;
@@ -208,7 +208,7 @@ end
 
 % store bonus in .csv file
 fid1 = fopen([datafoldername,'/_TotalBonus_summary.csv'], 'a');
-fprintf(fid1,'%d,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
+fprintf(fid1,'%c,%d,%f,%f\n', p_number, runningTotalPoints, rewardPropCorrect, amountEarned);
 fclose(fid1);
 
 PsychPortAudio('Close', soundPAhandle);
